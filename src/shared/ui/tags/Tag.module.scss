@@ -1,0 +1,29 @@
+.tagBlock
+{
+    display: flex;
+    min-width: 0;
+    border-radius: var(--fontSizeSmall);
+    margin: 2px;
+    box-sizing: border-box;
+    background: var(--checkBoxColor);
+    font-size: var(--fontSizeSmall);
+    padding: 0 8px 0 8px;
+    color: white;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.tagBlock__label
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 2px;
+    color: white;
+    font-size: 85%;
+    padding: 3px;
+    padding-left: 6px;
+    box-sizing: border-box;
+    text-wrap: nowrap;
+    font-weight: bold;
+}

@@ -1,0 +1,59 @@
+.searchBarContainer
+{
+    // display: flex;
+    // justify-content: flex-end;
+    position: relative;
+    width: 100%;
+    height: var(--fontSizeLarge);
+}
+
+.searchBar
+{
+    height: var(--fontSizeLarge);
+    border-radius: calc(var(--fontSizeLarge) / 2);
+    // background: white;
+    display: flex;
+    // flex-wrap: wrap;
+    justify-content: flex-end;
+    position: absolute;
+    right: 0;
+
+    transition: all 0.5s ease;
+    // transition: background 1s;
+    background: white;
+    // flex: 1 1 0;
+}
+
+.searchBar_collapsed
+{
+    background: inherit;
+    // flex: 0.000001 0.000001 0;
+    width: 1%;
+}
+
+.searchBar_expanded
+{
+    background: white;
+    // flex: 1 1 0;
+    width: 100%;
+    min-width: min-content;
+}
+
+.searchBar__input
+{
+    font-size: var(--fontSizeMedium);
+    margin-left: 1rem;
+    width: 100%;
+    min-width: 0;
+}
+
+.searchBar__input_collapsed
+{
+    // flex: 0 0 0;
+    display: none;
+}
+
+.searchBar__input_expanded
+{
+    // flex: 1 1 0;
+}

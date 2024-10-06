@@ -1,0 +1,231 @@
+@import "../../../shared/consts/styles.scss";
+
+.albumsListPage
+{
+    height: 100%;
+    display: flex;
+    flex-basis: 5px;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s;
+
+    // @media all and (max-width: 700px)
+    // {
+    //     width: 100%;
+    //     padding: 0;
+    // }
+}
+
+.scrollBox
+{
+    width: 100%;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 0;
+    padding-bottom: var(--fontSizeLargest);
+}
+
+.searchBlock
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inputWrapper
+{
+    margin: var(--fontSizeMedium) 0 var(--fontSizeMedium) 0;
+    width: 100%;
+}
+
+.scrollBox_itemWrapper
+{
+    width: 60%;
+    @media all and (max-width: 1000px)
+    {
+        width: 80%;
+    }
+    @media all and (max-width: 700px)
+    {
+        width: 90%;
+    }
+    margin: var(--fontSizeLargest) auto 0 auto;
+}
+
+.albumBlock
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    // background: inherit;
+    transition: background 1s;
+    opacity: 1;
+    font-size: var(--fontSizeMedium);
+    min-height: calc(2 * var(--fontSizeMedium));
+}
+
+.navLink
+{
+    text-decoration: none;
+}
+
+.albumBlock__picturesSnap
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+    grid-template-rows: 1fr 0 0 0 0 0;
+    overflow: hidden;
+
+    @media all and (max-width: 1000px)
+    {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    @media all and (max-width: 700px)
+    {
+        grid-template-columns: 1fr 1fr 1fr 1fr
+    }
+}
+
+.albumBlock_notLast
+{
+    border-bottom: 1px solid $subColorGrey;
+}
+
+.albumBlock_current
+{
+    // background: $subColorLightGrey;
+}
+
+.albumBlock:hover
+{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.albumBlock__contents
+{
+    flex-grow: 1;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+
+.albumBlock__header
+{
+    font-size: var(--fontSizeSmall);
+    color: var(--fontColorFirm);
+    width: 100%;
+    //height: var(--fontSizeSmall) * 2;
+    margin-top: 3px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.albumBlock__name
+{
+    font-weight: bold;
+    color: var(--fontColorFirm);
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block; //-block
+    //width: 80%;
+}
+
+.albumBlock__name_current
+{
+    color: var(--fontColorGreenInverted);
+}
+
+.albumBlock__time
+{
+    color: var(--fontColorLight);
+    font-weight: lighter;
+    //float: right;
+    display: inline;
+    white-space: nowrap;
+    //text-overflow: ellipsis;
+    margin-right: 3px;
+    margin-left: 3px;
+    //justify-self: end;
+    width: auto;
+}
+
+.albumBlock__tags
+{
+    display: flex;
+    // overflow: hidden;
+    flex-wrap: wrap;
+    margin-top: 3px;
+}
+
+.albumBlock__loader
+{
+    height: 32px;
+    margin: auto;
+    background: inherit;
+    display: block;
+    shape-rendering: auto;
+}
+
+.pagination
+{
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.pagination__label
+{
+    color: var(--fontColorFirm);
+    font-size: var(--fontSizeSmall);
+    max-height: 1.5rem;
+    height: 1.5rem;
+    max-width: 5rem;
+}
+
+.paginationButtonsBlock
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.paginationButtonsBlock__button
+{
+    margin: calc(var(--fontSizeSmall) / 2);
+    font-size: var(--fontSizeMedium);
+    width: var(--fontSizeLargest);
+    height: var(--fontSizeLargest);
+    border-radius: 50%;
+    padding: 0;
+}
+
+.paginationButtonsBlock__button_common
+{
+    color: white;
+    background: $appleGreen;
+}
+
+.paginationButtonsBlock__button_selected
+{
+    color: $darkGreen;
+    background: $subColorGrey;
+}
+
+.albumBlock__tagItem
+{
+    margin: 0 calc(var(--fontSizeSmall) / 2) 3px 0;
+}
+

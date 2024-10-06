@@ -1,0 +1,55 @@
+// @import "../../App.scss";
+
+.dateTimeInput__container
+{
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    // padding: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $subColorGrey;
+}
+
+.dateTimeInput__container_small
+{
+    height: calc(var(--fontSizeSmall) + 10px);
+}
+
+.dateTimeInput__container_medium
+{
+    height: calc(var(--fontSizeMedium) + 16px);
+}
+
+.dateTimeInput__container_big
+{
+    height: calc(var(--fontSizeBig) + 16px);
+}
+
+.dateTimeInput__input
+{
+    width: 100%;
+    flex: 1 1 0;
+    margin: 0 3px 0 3px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.dateTimeInput__input_small
+{
+    height: calc(var(--fontSizeSmall) + 2px);
+    font-size: var(--fontSizeSmall);
+}
+
+.dateTimeInput__input_medium
+{
+    height: calc(var(--fontSizeMedium) + 2px);
+    font-size: var(--fontSizeMedium);
+}
+
+.dateTimeInput__input_big
+{
+    height: calc(var(--fontSizeBig) + 2px);
+    font-size: var(--fontSizeBig);
+}

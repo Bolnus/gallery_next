@@ -1,0 +1,37 @@
+// @import "../../../../app/globals.scss";
+
+.buttonIcon {
+    border-radius: var(--fontSizeSmall);
+    position: relative;
+    display: inline-block;
+    outline: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+}
+
+.buttonIcon_transparent {
+    background: inherit;
+}
+
+.buttonIcon_medium {
+    height: calc(2 * var(--fontSizeMedium));
+    width: calc(2 * var(--fontSizeMedium));
+    font-size: var(--fontSizeMedium);
+}
+
+.buttonIcon_large {
+    width: 40px;
+    height: 40px;
+}
+
+.buttonIcon_small {
+    height: 16px;
+    width: 16px;
+}
+
+.buttonIcon_grey {
+    background-color: rgba(227, 228, 221, 0.5);
+}
