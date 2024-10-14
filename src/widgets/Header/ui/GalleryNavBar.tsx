@@ -7,6 +7,7 @@ import classes from "./header.module.scss";
 import { goBack, onMenuClick } from "../lib/navBarUtils";
 import { MenuItem } from "../lib/types";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
+import { UiSize } from "../../../shared/lib/common/commonTypes";
 
 export function GalleryNavBar(): JSX.Element {
   const pathname = usePathname();
@@ -16,7 +17,11 @@ export function GalleryNavBar(): JSX.Element {
   return (
     <nav className={classes.nav}>
       {pathname?.startsWith("/album") ? (
-        <ButtonIcon onClick={goBack.bind(null, router, false)} iconName={IconName.NavBack} />
+        <ButtonIcon
+          onClick={goBack.bind(null, router, false)}
+          iconName={IconName.NavBack}
+          size={UiSize.SmallAdaptive}
+        />
       ) : (
         <div className={classes.nav__controlledMenu}>
           <input type="checkbox" ref={checkBoxRef} className={classes.nav__checkBox} />

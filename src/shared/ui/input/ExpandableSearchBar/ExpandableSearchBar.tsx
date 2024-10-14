@@ -7,34 +7,75 @@ import classes from "./ExpandableSearchBar.module.scss";
 import { UiSize } from "../../../lib/common/commonTypes";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useAppDispatch } from "../../../../appFSD/lib/redux/reduxStore";
+import { StoreProvider } from "../../../../appFSD/lib/redux/StoreProvider";
+import { useSearchName } from "../../../lib/hooks/useSearchName";
 
-function invertFlag(flag: boolean): boolean {
-  return !flag;
+function setFocus(inputRef: React.RefObject<HTMLInputElement | null>) {
+  inputRef.current?.focus();
+  inputRef.current?.click();
 }
 
-function onSearchClick(setSearchActive: React.Dispatch<React.SetStateAction<boolean>>) {
-  setSearchActive(invertFlag);
+function applySearch(setSearchName: (str: string) => void, router: AppRouterInstance, searchValue: string): string {
+  if (searchValue) {
+    router.push(`/search?name=${searchValue}`);
+    setSearchName(searchValue);
+  }
+  return "";
 }
 
-function onKeyUp(router: AppRouterInstance, localEvent: React.KeyboardEvent<HTMLInputElement>) {
+function invertSearchActive(
+  inputRef: React.RefObject<HTMLInputElement | null>,
+  setSearchName: (str: string) => void,
+  router: AppRouterInstance,
+  setSearchActive: (flag: boolean) => void,
+  prevSearchValue: string
+): string {
+  if (!prevSearchValue) {
+    setSearchActive(true);
+    inputRef.current?.focus();
+    inputRef.current?.click();
+    setTimeout(setFocus.bind(null, inputRef), 550);
+  } else {
+    applySearch(setSearchName, router, prevSearchValue);
+  }
+  return "";
+}
+
+function onSearchClick(
+  inputRef: React.RefObject<HTMLInputElement | null>,
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>,
+  setSearchName: (str: string) => void,
+  router: AppRouterInstance,
+  setSearchActive: (flag: boolean) => void
+) {
+  setSearchValue(invertSearchActive.bind(null, inputRef, setSearchName, router, setSearchActive));
+}
+
+function onKeyUp(
+  router: AppRouterInstance,
+  setSearchName: (str: string) => void,
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>,
+  localEvent: React.KeyboardEvent<HTMLInputElement>
+) {
   if (localEvent.key === "Enter") {
     const { currentTarget } = localEvent;
     currentTarget.blur();
-    // onBlur(setSearchValue, setSearchActive);
-    router.push(`/search?name=${currentTarget.value}`);
+    setSearchValue(applySearch.bind(null, setSearchName, router, currentTarget.value));
   }
 }
 
-function onBlur(setSearchValue: (newStr: string) => void, setSearchActive: (flag: boolean) => void) {
-  setSearchValue("");
+function onBlur(setSearchActive: (flag: boolean) => void) {
   setSearchActive(false);
   resetScrollOnBlur();
 }
 
-export function ExpandableSearchBar() {
+function ExpandableSearchBarInternal() {
   const router = useRouter();
   const [searchActive, setSearchActive] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const [, setSearchName] = useSearchName();
 
   return (
     <div className={classes.searchBarContainer}>
@@ -52,18 +93,28 @@ export function ExpandableSearchBar() {
           ])}
           value={searchValue}
           onChange={onInputChange.bind(null, setSearchValue)}
-          onBlur={onBlur.bind(null, setSearchValue, setSearchActive)}
-          onKeyUp={onKeyUp.bind(null, router)}
+          onBlur={onBlur.bind(null, setSearchActive)}
+          onKeyUp={onKeyUp.bind(null, router, setSearchName, setSearchValue)}
+          ref={inputRef}
         />
         <div>
           <ButtonIcon
             iconName={IconName.Search}
-            onClick={onSearchClick.bind(null, setSearchActive)}
-            size={UiSize.Large}
+            onClick={onSearchClick.bind(null, inputRef, setSearchValue, setSearchName, router, setSearchActive)}
+            size={UiSize.SmallAdaptive}
             color={searchActive ? "var(--inputBgColor)" : "white"}
+            disabled={searchActive && !searchValue}
           />
         </div>
       </div>
     </div>
+  );
+}
+
+export function ExpandableSearchBar(): JSX.Element {
+  return (
+    <StoreProvider>
+      <ExpandableSearchBarInternal />
+    </StoreProvider>
   );
 }

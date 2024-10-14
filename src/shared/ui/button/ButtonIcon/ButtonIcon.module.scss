@@ -17,9 +17,8 @@
 }
 
 .buttonIcon_medium {
-    height: calc(2 * var(--fontSizeMedium));
-    width: calc(2 * var(--fontSizeMedium));
-    font-size: var(--fontSizeMedium);
+    height: 24px;
+    width: 24px;
 }
 
 .buttonIcon_large {
@@ -30,6 +29,21 @@
 .buttonIcon_small {
     height: 16px;
     width: 16px;
+}
+
+.buttonIcon_mediumAdaptive {
+    height: calc(2 * var(--fontSizeMedium));
+    width: calc(2 * var(--fontSizeMedium));
+}
+
+.buttonIcon_smallAdaptive {
+    height: calc(2 * var(--fontSizeSmall));
+    width: calc(2 * var(--fontSizeSmall));
+}
+
+.buttonIcon_largeAdaptive {
+    height: calc(2 * var(--fontSizeLarge));
+    width: calc(2 * var(--fontSizeLarge));
 }
 
 .buttonIcon_grey {

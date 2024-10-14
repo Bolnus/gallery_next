@@ -1,5 +1,8 @@
 export enum UiSize {
   Small = "Small",
   Medium = "Medium",
-  Large = "Large"
+  Large = "Large",
+  SmallAdaptive = "SmallAdaptive",
+  MediumAdaptive = "MediumAdaptive",
+  LargeAdaptive = "LargeAdaptive"
 }

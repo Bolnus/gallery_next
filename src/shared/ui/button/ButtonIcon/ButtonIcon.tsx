@@ -6,7 +6,7 @@ import { UiSize } from "../../../lib/common/commonTypes";
 import { TriangleSVG } from "../../icons/Triangle/TriangleSVG";
 import classes from "./ButtonIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
-import { getBackgroundClass, getButtonIconClass } from "./utils";
+import { getBackgroundClass, getButtonSizeClass } from "./utils";
 import { IconName } from "../../icons/ReactIcon/types";
 import { ReactIcon } from "../../icons/ReactIcon/ReactIcon";
 
@@ -27,7 +27,7 @@ export function ButtonIcon({ iconName, background, onClick, disabled, size, colo
       disabled={disabled}
       className={getUnitedClassnames([
         "pushButton",
-        getButtonIconClass(size),
+        getButtonSizeClass(size),
         getBackgroundClass(background),
         classes.buttonIcon,
         className || ""

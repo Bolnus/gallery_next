@@ -15,7 +15,7 @@ import { TextInput } from "../../../shared/ui/input/TextInput/TextInput";
 import { getAlbumsListTC, getSearchTagsTC, setIsFetching } from "../../../entities/albumsList/model/albumsListSlice";
 import { useRouterSearchParams } from "../../../shared/lib/hooks/useRouterSearchParams";
 import { SkeletonLoader } from "../../../shared/ui/icons/SkeletonLoader/SkeletonLoader";
-import { ReadonlyURLSearchParams } from "next/navigation";
+import { useSearchName } from "../../../shared/lib/hooks/useSearchName";
 
 const halfClientPageSize = 2;
 const PAGE_PARAM = "page";
@@ -48,44 +48,13 @@ function scrollToDiv(divBlock: HTMLDivElement | null, smooth = false) {
   }
 }
 
-// function changeSearchName(
-//   setSearchName: (str: string) => void,
-//   setPageNumber: (newPage: number) => void,
-//   newValue: string
-// ) {
-//   setPageNumber(1);
-//   setSearchName(newValue);
-// }
-
 function changeSearchName(
-  prevSearchParams: ReadonlyURLSearchParams | null,
-  setSearchParams: (newSearchParams: URLSearchParams) => void,
+  setSearchName: (str: string) => void,
+  setPageNumber: (newPage: number) => void,
   newValue: string
 ) {
-  const newSearchParams = new URLSearchParams(prevSearchParams || undefined);
-  if (!newValue) {
-    newSearchParams.delete(NAME_PARAM);
-  } else {
-    newSearchParams.set(NAME_PARAM, newValue);
-  }
-  newSearchParams.set(PAGE_PARAM, "1");
-  setSearchParams(newSearchParams);
-}
-
-function changeSearchTags(
-  prevSearchParams: ReadonlyURLSearchParams | null,
-  setSearchParams: (newSearchParams: URLSearchParams) => void,
-  newValue: MultiValue<SelectOption>
-) {
-  const newSearchParams = new URLSearchParams(prevSearchParams || undefined);
-  if (!newValue.length) {
-    newSearchParams.delete(TAGS_PARAM);
-  } else {
-    const tagsStr = newValue.map(mapOptionToLabel).join(",");
-    newSearchParams.set(TAGS_PARAM, tagsStr);
-  }
-  newSearchParams.set(PAGE_PARAM, "1");
-  setSearchParams(newSearchParams);
+  setPageNumber(1);
+  setSearchName(newValue);
 }
 
 function AlbumsSearchPageInternal() {
@@ -101,11 +70,29 @@ function AlbumsSearchPageInternal() {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(DEFAULT_PAGE_SIZE);
   const [selectedTags, setSelectedTags] = React.useState<readonly SelectOption[]>([]);
-  const debouncedSelectedTags = useDebounce<readonly SelectOption[]>(selectedTags, 1000);
-  const [searchName, setSearchName] = React.useState<string>("");
-  const debouncedSearchName = useDebounce<string>(searchName, 1000);
+  const [globalSearchName, setGlobalSearchName] = useSearchName();
+  const [searchName, setSearchName] = React.useState("");
   const [searchParams, setSearchParams] = useRouterSearchParams();
   const debouncedSearchParams = useDebounce<URLSearchParams | null>(searchParams, 1000);
+
+  React.useEffect(
+    function () {
+      setSearchName(globalSearchName);
+      setSelectedTags([]);
+      setPageNumber(1);
+      listBoxRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [globalSearchName]
+  );
+
+  React.useEffect(
+    function () {
+      return function () {
+        setGlobalSearchName("");
+      };
+    },
+    [setGlobalSearchName]
+  );
 
   /** Selected block number update */
   React.useEffect(
@@ -144,36 +131,33 @@ function AlbumsSearchPageInternal() {
   );
 
   /** Init state hooks with query params */
-  React.useEffect(
-    function () {
-      const newPage = searchParams?.get(PAGE_PARAM);
-      const newPageSize = searchParams?.get(SIZE_PARAM);
-      const tagsStr = searchParams?.get(TAGS_PARAM);
-      const nameStr = searchParams?.get(NAME_PARAM);
-      if (newPage) {
-        setPageNumber(Number(newPage));
-      } else {
-        setPageNumber(1);
-      }
-      if (newPageSize) {
-        setPageSize(Number(newPageSize));
-      } else {
-        setPageSize(DEFAULT_PAGE_SIZE);
-      }
-      if (tagsStr) {
-        const tagsArray = tagsStr.split(",");
-        setSelectedTags(tagsArray.map(mapValueToOption));
-      } else {
-        setSelectedTags([]);
-      }
-      if (nameStr) {
-        setSearchName(nameStr);
-      } else {
-        setSearchName("");
-      }
-    },
-    [searchParams]
-  );
+  React.useEffect(function () {
+    const newPage = searchParams?.get(PAGE_PARAM);
+    const newPageSize = searchParams?.get(SIZE_PARAM);
+    const tagsStr = searchParams?.get(TAGS_PARAM);
+    const nameStr = searchParams?.get(NAME_PARAM);
+    if (newPage) {
+      setPageNumber(Number(newPage));
+    } else {
+      setPageNumber(1);
+    }
+    if (newPageSize) {
+      setPageSize(Number(newPageSize));
+    } else {
+      setPageSize(DEFAULT_PAGE_SIZE);
+    }
+    if (tagsStr) {
+      const tagsArray = tagsStr.split(",");
+      setSelectedTags(tagsArray.map(mapValueToOption));
+    } else {
+      setSelectedTags([]);
+    }
+    if (nameStr) {
+      setSearchName(nameStr);
+    } else {
+      setSearchName("");
+    }
+  }, []);
 
   /** Fetch albums list on query params update */
   React.useEffect(
@@ -199,51 +183,48 @@ function AlbumsSearchPageInternal() {
   React.useEffect(
     function () {
       const newSearchParams = new URLSearchParams();
-      if (!debouncedSelectedTags.length) {
+      if (!selectedTags.length) {
         newSearchParams.delete(TAGS_PARAM);
       } else {
-        const tagsStr = debouncedSelectedTags.map(mapOptionToLabel).join(",");
+        const tagsStr = selectedTags.map(mapOptionToLabel).join(",");
         newSearchParams.set(TAGS_PARAM, tagsStr);
       }
-      if (!debouncedSearchName) {
+      if (!searchName) {
         newSearchParams.delete(NAME_PARAM);
       } else {
-        newSearchParams.set(NAME_PARAM, debouncedSearchName);
+        newSearchParams.set(NAME_PARAM, searchName);
       }
       newSearchParams.set(PAGE_PARAM, String(pageNumber));
       newSearchParams.set(SIZE_PARAM, String(pageSize));
 
       setSearchParams(newSearchParams);
     },
-    [debouncedSelectedTags, setSearchParams, pageNumber, pageSize, debouncedSearchName]
+    [selectedTags, setSearchParams, pageNumber, pageSize, searchName]
   );
 
   /** Set page number */
   const onPageSelect = React.useCallback(
     function (newPage: number) {
-      // setPageNumber(newPage);
-      const newSearchParams = new URLSearchParams();
-      newSearchParams.set(PAGE_PARAM, String(newPage));
+      setPageNumber(newPage);
       if (newPage !== pageNumber) {
         dispatch(setIsFetching(true));
       }
       listBoxRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-      setSearchParams(newSearchParams);
     },
-    [setPageNumber, dispatch, listBoxRef, pageNumber, searchParams, setSearchParams]
+    [setPageNumber, dispatch, listBoxRef, pageNumber]
   );
 
   const albumBlockComponents = albums.map(
     mapAlbumToBlock.bind(null, scrollAlbumBlockRef, currentAlbumId, scrollBlockNumber)
   );
 
-  // const onTagsSelectionChange = React.useCallback(
-  //   function (newValue: MultiValue<SelectOption>) {
-  //     setPageNumber(1);
-  //     setSelectedTags(newValue);
-  //   },
-  //   [setPageNumber, setSelectedTags]
-  // );
+  const onTagsSelectionChange = React.useCallback(
+    function (newValue: MultiValue<SelectOption>) {
+      setPageNumber(1);
+      setSelectedTags(newValue);
+    },
+    [setPageNumber, setSelectedTags]
+  );
 
   return (
     <div className={`${classes.albumsListPage}`}>
@@ -252,7 +233,7 @@ function AlbumsSearchPageInternal() {
           <div className={`${classes.inputWrapper}`}>
             <TextInput
               value={searchName}
-              onChange={changeSearchName.bind(null, searchParams, setSearchParams)}
+              onChange={changeSearchName.bind(null, setSearchName, setPageNumber)}
               isClearable
             />
           </div>
@@ -260,7 +241,7 @@ function AlbumsSearchPageInternal() {
             <MultiSelect
               options={searchTags.map(mapDefinedTagsToOptions)}
               value={selectedTags}
-              onChange={changeSearchTags.bind(null, searchParams, setSearchParams)}
+              onChange={onTagsSelectionChange}
               isClearable
               className="reactSelectTags"
               placeholder="Tags..."
