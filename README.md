@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gallery frontend
 
-## Getting Started
+This is a frontent part of Gallery project. Backend part lives [here](https://github.com/Bolnus/gallery_backend). 
+The app is designed to display albums with images. The albums can be searched through their names and tags. Images can be viewed in full page mode one by one. Albums tags and headers can be edited.
 
-First, run the development server:
+This is a `create-next-app` project written with `typescript`. `React-query` is used as data fetching tool. 
+The app is designed with Feature Sliced Design.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Desktop resolution preview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![Desktop](https://github.com/Bolnus/gallery_rtx/blob/master/public/gallery_desktop_2.gif?raw=true)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Mobile resolution preview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+![Mobile](https://github.com/Bolnus/gallery_rtx/blob/master/public/gallery_mobile.gif?raw=true)
 
-## Learn More
+## Preinst
 
-To learn more about Next.js, take a look at the following resources:
+Software required:
+- npm 10.2.4
+- NodeJS 20.11.0
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Run `npm install` in the root project directory. 
+2. Copy `template.env` file contents to a new `.env` file.
+3. Navigate to `reverse-proxy/` subdirectory and run `npm install` there. 
+4. Copy `template.env` file contents to a new `.env` file
+- change BACKEND_ADDR here in case your backend app is not local or the port number is different.
 
-## Deploy on Vercel
+## Execute
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. In the project directory run reverse proxy with `node reverse-proxy/index.js`.
+2. In the project directory run the main react app with `npm run dev`.
