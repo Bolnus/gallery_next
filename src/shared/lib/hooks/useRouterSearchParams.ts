@@ -10,7 +10,8 @@ export function useRouterSearchParams(): UseSearchParams {
   const pathname = usePathname();
 
   const setSearchParams = React.useCallback(function(newSearchParams: URLSearchParams) {
-    router.push(`${pathname}?${newSearchParams.toString()}`);
+    window.history.pushState(null, "", `${pathname}?${newSearchParams.toString()}`);
+    // router.push(`${pathname}?${newSearchParams.toString()}`);
   }, [pathname]);
 
   return [searchParams, setSearchParams];

@@ -1,0 +1,82 @@
+.scrollBox_itemWrapper
+{
+    width: 60%;
+    @media all and (max-width: 1000px)
+    {
+        width: 80%;
+    }
+    @media all and (max-width: 700px)
+    {
+        width: 90%;
+    }
+    margin: var(--fontSizeLargest) auto 0 auto;
+}
+
+.albumBlock
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.albumBlock__picturesSnap
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+    grid-template-rows: 1fr 0 0 0 0 0;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.albumBlock__contents
+{
+    flex-grow: 1;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.albumBlock__header
+{
+    color: var(--fontColorFirm);
+    width: 100%;
+    margin-top: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.albumBlock__name
+{
+    color: var(--fontColorFirm);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 20%;
+    height: var(--fontSizeSmall);
+    font-size: var(--fontSizeSmall);
+}
+
+.albumBlock__time
+{
+    color: var(--fontColorLight);
+    font-weight: lighter;
+    display: inline;
+    white-space: nowrap;
+    margin-right: 3px;
+    margin-left: 3px;
+    width: 8%;
+    height: var(--fontSizeSmall);
+    font-size: var(--fontSizeSmall);
+}
+
+.albumBlock__tags
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 3px;
+}

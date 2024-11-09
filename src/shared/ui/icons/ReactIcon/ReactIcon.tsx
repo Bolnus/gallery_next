@@ -3,8 +3,12 @@ import { HiQuestionMarkCircle } from "react-icons/hi";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiX } from "react-icons/hi";
 import { HiSearch } from "react-icons/hi";
+import { HiPhotograph } from "react-icons/hi";
 import { IconName } from "./types";
 import { IconBaseProps } from "react-icons";
+import { HiRefresh } from "react-icons/hi";
+import { HiPencil } from "react-icons/hi";
+import { BiSolidSave } from "react-icons/bi";
 import classes from "./ReactIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 
@@ -26,6 +30,14 @@ export function ReactIcon({ iconName, className, ...props }: Props) {
       return <HiX {...props} className={unitedClassnames} />;
     case IconName.Search:
       return <HiSearch {...props} className={unitedClassnames} />;
+    case IconName.Images:
+      return <HiPhotograph {...props} className={unitedClassnames} />;
+    case IconName.Reload:
+      return <HiRefresh {...props} className={unitedClassnames} />;
+    case IconName.Edit:
+      return <HiPencil {...props} className={unitedClassnames} />;
+    case IconName.Save:
+      return <BiSolidSave {...props} className={unitedClassnames} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

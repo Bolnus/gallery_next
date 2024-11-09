@@ -1,7 +1,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import classes from "./Modal.module.scss";
-import { onCallbackExec } from "../../utils/commonUtils";
+import { onCallbackExec } from "../../lib/common/commonUtils";
 
 export enum ModalType {
   DeleteDialog = 0,
@@ -15,41 +15,34 @@ export interface ModalProps {
   onOk?: () => void;
 }
 
-function onBackGroundClicked(onClose: () => void, localEvent: React.FormEvent)
-{
-  if (localEvent.currentTarget !== localEvent.target)
-  {
+function onBackGroundClicked(onClose: () => void, localEvent: React.FormEvent) {
+  if (localEvent.currentTarget !== localEvent.target) {
     return;
   }
   onClose();
 }
 
-function onOkClicked(onOk: () => void, onClose: () => void)
-{
-  if (onOk)
-  {
+function onOkClicked(onOk: () => void, onClose: () => void) {
+  if (onOk) {
     onOk();
   }
   onClose();
 }
 
-export function Modal({ modalType, header, onClose, onOk }: ModalProps) 
-{
+export function Modal({ modalType, header, onClose, onOk }: ModalProps) {
   const domNode = React.useRef<HTMLDivElement>(document.createElement("div"));
 
-  React.useEffect(function ()
-  {
+  React.useEffect(function () {
     const element = domNode.current;
     document.body.appendChild(element);
     element.className = classes.portal;
     return function () {
       document.body.removeChild(element);
     };
-  });
+  }, []);
 
   let modalContent = null;
-  switch (modalType)
-  {
+  switch (modalType) {
     case ModalType.DeleteDialog:
       modalContent = (
         <>

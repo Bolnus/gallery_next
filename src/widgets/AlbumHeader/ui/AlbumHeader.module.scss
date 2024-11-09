@@ -1,0 +1,123 @@
+.galleryHeader
+{
+    width: 70%;
+    min-height: calc(5 * var(--fontSizeLargest));
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 
+    "a c"
+    "b c";
+    // align-items: center;
+    // justify-content: space-between;
+    margin: var(--fontSizeLargest) 15% var(--fontSizeLargest) 15%;
+    background: var(--mainColorDark);
+    border-radius: var(--fontSizeLargest);
+
+    @media all and (max-width: 700px)
+    {
+        width: 90%;
+        margin: var(--fontSizeLargest) 5% var(--fontSizeLargest) 5%;
+    }
+}
+
+.galleryHeader__nameArea
+{
+    grid-area: a;
+    z-index: 2;
+    align-self: end;
+}
+
+.galleryHeader__toolBarArea
+{
+    grid-area: c;
+    z-index: 2;
+}
+
+.galleryHeader__tagsArea
+{
+    grid-area: b;
+    z-index: 2;
+    padding-left: var(--fontSizeLargest);
+    margin-top: 3px;
+}
+
+.galleryHeader__tagsWrapper
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.galleryHeader__backgroundImage
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--fontSizeLargest);
+    object-fit: cover;
+    z-index: 1;
+}
+
+.galleryHeader__backgroundImage_appearence
+{
+    border-radius: var(--fontSizeLargest);
+    object-fit: cover;
+    opacity: 0.5;
+}
+
+.galleryHeader__headerText
+{
+    font-size: var(--fontSizeLargest);
+    font-weight: bold;
+    color: white;
+    word-break: break-word;
+}
+
+.galleryHeader__leftContent
+{
+    z-index: 2;
+    margin-left: var(--fontSizeLargest);
+    flex-grow: 1;
+    @media all and (max-width: 700px)
+    {
+        margin-left: var(--fontSizeSmall);
+    }
+}
+
+.toolBar
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--fontSizeSmall) 5px var(--fontSizeSmall) 5px;
+    align-items: center;
+    margin-right: var(--fontSizeLargest);
+    @media all and (max-width: 700px)
+    {
+        margin-right: var(--fontSizeSmall);
+    }
+}
+
+.toolBar__inputWrapper
+{
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    justify-self: flex-start;
+}
+
+.toolBar__inputWrapper input
+{
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.toolBar__button
+{
+    margin: 4px;
+}

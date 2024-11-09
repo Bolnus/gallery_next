@@ -6,12 +6,13 @@ export interface ApiAlbum {
   albumSize: number;
   changedDate: string;
   tags: ApiTag[];
-  pictureIds: string[];
+  pictureIds?: string[];
 }
 
 export interface ApiResponse<T> {
   rc: number;
   data: T;
+  isOk?: boolean;
 }
 
 export interface ApiMessage {

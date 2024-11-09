@@ -1,7 +1,17 @@
+import { AxiosResponse } from "axios";
 import { DefinedTag } from "../../lib/common/galleryTypes";
 import { ApiResponse, ApiTag } from "../apiTypes";
 import { mapTags } from "../apiUtils";
 import { axiosClient, handleResponseError } from "../galleryApi";
+
+export async function getAllTagsQuery(): Promise<DefinedTag[]> {
+  const response = await axiosClient.get<ApiTag[]>("/tags");
+  return response.data.map(mapTags);
+}
+
+export function getAllTagsError(error: unknown): ApiResponse<null> {
+  return handleResponseError(error, "/tags");
+}
 
 export async function getAllTags(): Promise<ApiResponse<DefinedTag[] | null>> {
   const path = "/tags";
@@ -12,6 +22,6 @@ export async function getAllTags(): Promise<ApiResponse<DefinedTag[] | null>> {
       data: response.data.map(mapTags)
     };
   } catch (error: unknown) {
-    return handleResponseError(error, path);
+    return handleResponseError(error, "/tags");
   }
 }

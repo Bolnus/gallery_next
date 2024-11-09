@@ -12,19 +12,31 @@ import { ReactIcon } from "../../icons/ReactIcon/ReactIcon";
 
 interface Props {
   iconName: IconName;
-  onClick: () => void;
+  onClick?: () => void;
   background?: ButtonIconBackground;
   size?: UiSize;
   disabled?: boolean;
   color?: string;
   className?: string;
+  title?: string;
+  isFetching?: boolean;
 }
 
-export function ButtonIcon({ iconName, background, onClick, disabled, size, color, className }: Props) {
+export function ButtonIcon({
+  iconName,
+  background,
+  onClick,
+  disabled,
+  size,
+  color,
+  className,
+  title,
+  isFetching
+}: Props) {
   return (
     <button
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isFetching}
       className={getUnitedClassnames([
         "pushButton",
         getButtonSizeClass(size),
@@ -32,8 +44,9 @@ export function ButtonIcon({ iconName, background, onClick, disabled, size, colo
         classes.buttonIcon,
         className || ""
       ])}
+      title={title}
     >
-      <ReactIcon iconName={iconName} color={color} />
+      {isFetching ? "•" : <ReactIcon iconName={iconName} color={color} />}
     </button>
   );
 }

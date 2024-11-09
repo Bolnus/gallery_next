@@ -1,7 +1,7 @@
 {
   "plugins": ["prettier"],
   "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
-  "ignorePatterns": [".eslintrc.js"],
+  "ignorePatterns": [".eslintrc.js", "reverse-proxy/"],
   "parserOptions": {
     "project": "tsconfig.json",
     "tsconfigRootDir": "."

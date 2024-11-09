@@ -15,7 +15,7 @@ export function SkeletonLoader({ isSharp }: SkeletonLoaderProps) {
         y="0"
         width="100%"
         height="100%"
-        rx={isSharp ? undefined : "1em"}
+        rx={isSharp ? undefined : "0.5em"}
       />
     </svg>
   );

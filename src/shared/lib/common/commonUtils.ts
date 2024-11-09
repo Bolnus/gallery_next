@@ -82,8 +82,12 @@ export function updateStateValue<T>(setState: (str: T) => void, value: T) {
   setState(value);
 }
 
-export function invertTrigger(flag: boolean, setValue: (newFlag: boolean) => void) {
-  setValue(!flag);
+function inverFlag(flag: boolean) {
+  return !flag;
+}
+
+export function invertTrigger(setValue: React.Dispatch<React.SetStateAction<boolean>>) {
+  setValue(inverFlag);
 }
 
 export function mapOptionToLabel(option: SelectOption): string {
@@ -117,4 +121,16 @@ export function getUnitedClassnames(classNames: string[]): string {
 
 export function onInputChange(onChange: (newStr: string) => void, localEvent: React.ChangeEvent<HTMLInputElement>) {
   onChange(localEvent.target.value);
+}
+
+export function onTagsFocus(setTagsFocused: (flag: boolean) => void) {
+  setTagsFocused(true);
+}
+
+function mapIndexToString(el: unknown, index: number) {
+  return String(index);
+}
+
+export function getIndexesArray(arrayLength: number) {
+  return Array.from({ length: arrayLength }).map(mapIndexToString);
 }

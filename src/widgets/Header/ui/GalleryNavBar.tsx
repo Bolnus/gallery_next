@@ -8,17 +8,19 @@ import { goBack, onMenuClick } from "../lib/navBarUtils";
 import { MenuItem } from "../lib/types";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { UiSize } from "../../../shared/lib/common/commonTypes";
+import { useCurrentAlbumId } from "../../../appFSD/lib/context/useCurrentAlbumId";
 
 export function GalleryNavBar(): JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
   const checkBoxRef = React.useRef<HTMLInputElement>(null);
+  const [currentAlbumId] = useCurrentAlbumId();
 
   return (
     <nav className={classes.nav}>
       {pathname?.startsWith("/album") ? (
         <ButtonIcon
-          onClick={goBack.bind(null, router, false)}
+          onClick={goBack.bind(null, router, !!currentAlbumId)}
           iconName={IconName.NavBack}
           size={UiSize.SmallAdaptive}
         />

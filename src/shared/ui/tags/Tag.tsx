@@ -1,12 +1,15 @@
 "use client";
 import React from "react";
 import classes from "./Tag.module.scss";
+import { DefinedTag } from "../../lib/common/galleryTypes";
 
-interface Props {
-  id: string;
-  tagName: string;
+interface Props extends DefinedTag {
   onClick?: (id: string) => void;
   className?: string;
+}
+
+export function mapTags(tag: DefinedTag): JSX.Element {
+  return <Tag {...tag} key={tag.id} />;
 }
 
 export function Tag({ id, tagName, onClick, className }: Props) {

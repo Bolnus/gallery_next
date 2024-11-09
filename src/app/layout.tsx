@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.scss";
 import { Header } from "../widgets/Header/ui/Header";
-import { SearchNameProvider } from "../shared/lib/hooks/useSearchName";
+import { ReactQueryProvider } from "../appFSD/lib/reactQuery/ReactQueryProvider";
+import { SearchProvider } from "../appFSD/lib/context/searchContext";
 
 export const metadata: Metadata = {
   title: "Gallery Next App",
@@ -22,13 +23,20 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <SearchNameProvider>
-          <div className="rootContent">
-            <Header />
-            <main className="main">{children}</main>
-          </div>
-        </SearchNameProvider>
+        <ReactQueryProvider>
+          <SearchProvider>
+            <div className="rootContent">
+              <Header />
+              <main className="main">{children}</main>
+            </div>
+          </SearchProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
 }
+
+global?.window && window.addEventListener("resize", function () {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+});

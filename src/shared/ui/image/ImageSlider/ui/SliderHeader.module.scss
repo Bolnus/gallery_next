@@ -1,0 +1,26 @@
+.sliderHeader
+{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+}
+
+.sliderHeader__text
+{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: white;
+    max-width: 100%;
+}
+
+.sliderHeader__text_title
+{
+    font-size: var(--fontSizeMedium);
+}
+
+.sliderHeader__text_description
+{
+    font-size: var(--fontSizeMedium);
+}

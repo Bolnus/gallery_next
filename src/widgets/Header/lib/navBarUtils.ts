@@ -6,7 +6,7 @@ export function goBack(router: AppRouterInstance, albumsArrayLoaded: boolean) {
   if (albumsArrayLoaded) {
     router.back();
   } else {
-    router.push("/");
+    router.push("/search");
   }
 }
 

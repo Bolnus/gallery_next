@@ -4,11 +4,13 @@ import React from "react";
 import { SkeletonLoader } from "../../icons/SkeletonLoader/SkeletonLoader";
 import { FileLoadState, GalleryImage } from "../../../lib/common/galleryTypes";
 import classes from "./ImageSnap.module.scss";
+import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 
 export interface OwnProps {
   element: GalleryImage;
-  albumId: string;
-  onError?: () => void;
+  albumId?: string;
+  // onError?: () => void;
+  onClick?: (id: string) => void;
 }
 
 // function onSnapImageError(dispatch: AppDispatch, galleryImage: GalleryImage, albumId: string) {
@@ -23,47 +25,49 @@ export interface OwnProps {
 //   );
 // }
 
-export function ImageSnap({ element, albumId, onError }: OwnProps) {
-  let imgContents: null | JSX.Element = null;
+function onImageClick(id: string, onClick?: (id: string) => void) {
+  if (onClick) {
+    onClick(id);
+  }
+}
 
-  if (element.loadState === FileLoadState.parsingFailed) {
-    imgContents = (
-      <div className={classes.imageWrapper}>
-        <div className={classes.galleryGrid__loaderWrapper}>
-          <SkeletonLoader isSharp />
-        </div>
+function onError(setLocalLoadState: (state: FileLoadState) => void) {
+  setLocalLoadState(FileLoadState.downloadFailed);
+}
+
+function onLoad(setLocalLoadState: (state: FileLoadState) => void, localEvent: React.SyntheticEvent<HTMLImageElement>) {
+  setLocalLoadState(FileLoadState.downloaded);
+}
+
+export function ImageSnap({ element, onClick }: OwnProps) {
+  const [localLoadState, setLocalLoadState] = React.useState<FileLoadState>(element.loadState);
+  const loading = localLoadState !== FileLoadState.uploaded && localLoadState !== FileLoadState.downloaded;
+  // console.log(localLoadState)
+
+  return (
+    <div className={classes.imageWrapper} onClick={onImageClick.bind(null, element.id, onClick)}>
+      <div
+        className={getUnitedClassnames([
+          classes.loaderWrapper,
+          loading ? classes.loaderWrapper_loading : classes.loaderWrapper_loaded
+        ])}
+      >
+        <SkeletonLoader isSharp />
       </div>
-    );
-  } else {
-    imgContents = (
-      <>
-      {/* <div className={classes.imageContainer}> */}
-        {/* <LazyLoadImage
-          className={`${classes.image} ${classes.image_geometry}`}
-          wrapperClassName={classes.image_geometry}
-          alt={element.name}
-          onError={onSnapImageError.bind(null, dispatch, element)}
-          src={imageUrl}
-          onClick={(valueDispatch<string>).bind(null, dispatch, setCurrentViewId, element.id)}
-          // placeholder={<SkeletonLoader isSharp />}
-          // visibleByDefault
-          // placeholderSrc={placeholderSrc}
-          effect="blur"
-        /> */}
+      {element.url ? (
         <NextImage
-          className={`${classes.image} ${classes.image_geometry}`}
+          className={getUnitedClassnames([classes.image, classes.image_geometry])}
           alt={element.name || ""}
-          onError={onError}
+          onError={onError.bind(null, setLocalLoadState)}
+          onLoad={onLoad.bind(null, setLocalLoadState)}
           src={element.url || ""}
           loading="lazy"
           fill
           sizes="99vw"
-          // priority
         />
-      {/* </div> */}
-      </>
-    );
-  }
-
-  return <div className={classes.imageWrapper}>{imgContents}</div>;
+      ) : (
+        <div className={getUnitedClassnames([classes.image, classes.image_geometry])} />
+      )}
+    </div>
+  );
 }

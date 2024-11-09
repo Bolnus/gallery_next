@@ -1,7 +1,7 @@
 // @import "../../../../app/globals.scss";
 
 .buttonIcon {
-    border-radius: var(--fontSizeSmall);
+    border-radius: 10px;
     position: relative;
     display: inline-block;
     outline: none;
@@ -48,4 +48,9 @@
 
 .buttonIcon_grey {
     background-color: rgba(227, 228, 221, 0.5);
+    padding: 6px;
+}
+
+.buttonIcon_grey:hover {
+    background-color: rgba(227, 228, 221);
 }

@@ -12,20 +12,25 @@ export interface GalleryImage {
   loadState: FileLoadState;
 }
 
-export interface Album {
+export interface AlbumHeaders {
   id: string;
   albumName: string;
   changedDate: string;
-  picturesSnap: GalleryImage[];
   albumSize: number;
   tags: DefinedTag[];
+}
+
+export interface Album extends AlbumHeaders {
+  snapImages: GalleryImage[];
 }
 
 export enum FileLoadState {
   added = 0,
   parsed = 1,
-  uploaded = 101,
-  downloaded = 102,
-  uploadFailed = 103,
-  parsingFailed = 104
+  downloadFailed = 101,
+  downloading = 102,
+  downloaded = 103,
+  uploaded = 104,
+  uploadFailed = 105,
+  parsingFailed = 106
 }

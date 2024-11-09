@@ -1,4 +1,3 @@
-"use client";
 import axios, { AxiosError } from "axios";
 import { ApiMessage, ApiResponse } from "./apiTypes";
 import { getProxyHostname, getProxyProtocol } from "./apiUtils";
@@ -22,7 +21,7 @@ export function isApiError(localError: unknown): localError is AxiosError<ApiMes
 
 export function handleResponseError<T = null>(localError: unknown, endPoint: string): ApiResponse<T | null> {
   if (isAxiosError<T>(localError)) {
-    console.warn(`Fetch error ${endPoint}: ${localError?.code}`);
+    console.warn(`Fetch error ${endPoint}: ${localError?.status} ${localError?.code}`);
     if (localError.response?.status === 401) {
       localStorage.removeItem("AccessToken");
       window.location.href = "/auth";

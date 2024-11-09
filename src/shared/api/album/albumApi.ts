@@ -1,7 +1,9 @@
+import { AxiosResponse } from "axios";
 import { ApiAlbum, ApiMessage, ApiResponse } from "../apiTypes";
-import { mapAlbums, mapPictureIdToFullRef } from "../apiUtils";
+import { mapAlbumHeaders, mapAlbums, mapPictureIdToFullRef } from "../apiUtils";
 import { axiosClient, handleResponseError, isApiError, isAxiosError } from "../galleryApi";
-import { AlbumWithImages } from "./types";
+import { AlbumWithImages, PutAlbumHeadersArgs } from "./types";
+import { AlbumHeaders } from "../../lib/common/galleryTypes";
 
 export async function getAlbum(albumId: string): Promise<ApiResponse<AlbumWithImages | null>> {
   const path = "/albums_list/album";
@@ -10,8 +12,8 @@ export async function getAlbum(albumId: string): Promise<ApiResponse<AlbumWithIm
     return {
       rc: 200,
       data: {
-        album: mapAlbums(response.data),
-        images: response.data?.pictureIds.map(mapPictureIdToFullRef)
+        ...mapAlbums(response.data),
+        fullImages: response.data?.pictureIds?.length ? response.data.pictureIds.map(mapPictureIdToFullRef) : []
       }
     };
   } catch (localError: unknown) {
@@ -60,4 +62,43 @@ export async function putAlbumHeaders(
       }
     };
   }
+}
+
+export async function putAlbumHeadersMutation({
+  id,
+  albumName,
+  tags
+}: PutAlbumHeadersArgs): Promise<AxiosResponse<ApiMessage>> {
+  const path = "/albums_list/album/headers";
+  return axiosClient.put<ApiMessage>(path, {
+    id,
+    albumName,
+    tags
+  });
+}
+
+export async function getAlbumHeadersQuery(albumId: string): Promise<AlbumHeaders> {
+  const response = await axiosClient.get<ApiAlbum>(`/albums_list/album/headers?id=${albumId}`);
+  return mapAlbumHeaders(response.data);
+}
+
+export function putAlbumHeadersError(localError: unknown): ApiResponse<string> {
+  const path = "/albums_list/album/headers";
+  handleResponseError(localError, path);
+  if (isApiError(localError)) {
+    return {
+      rc: localError?.response?.status || 500,
+      data: localError?.response?.data?.message || ""
+    };
+  }
+  if (isAxiosError(localError)) {
+    return {
+      rc: localError?.response?.status || 500,
+      data: localError?.message || ""
+    };
+  }
+  return {
+    rc: 500,
+    data: "Unknown error"
+  };
 }

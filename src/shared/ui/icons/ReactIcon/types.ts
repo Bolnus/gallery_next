@@ -5,5 +5,8 @@ export enum IconName {
   ChevronLeft = "ChevronLeft",
   ChevronRight = "ChevronRight",
   Close = "Close",
-  Search = "Search"
+  Search = "Search",
+  Edit = "Edit",
+  Add = "Add",
+  Images = "Images"
 }
