@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.scss";
-import { Header } from "../widgets/Header/ui/Header";
-import { ReactQueryProvider } from "../appFSD/lib/reactQuery/ReactQueryProvider";
-import { SearchProvider } from "../appFSD/lib/context/searchContext";
+import { Header } from "../FSD/widgets/Header/ui/Header";
+import { ReactQueryProvider } from "../FSD/app/lib/reactQuery/ReactQueryProvider";
+import { SearchProvider } from "../FSD/app/lib/context/searchContext";
 
 export const metadata: Metadata = {
   title: "Gallery Next App",

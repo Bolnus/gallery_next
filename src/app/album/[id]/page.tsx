@@ -1,9 +1,10 @@
-import { AlbumPage } from "../../../pages/album/ui/AlbumPage";
-import { getAlbum } from "../../../shared/api/album/albumApi";
-import { AlbumWithImages } from "../../../shared/api/album/types";
-import { PAGE_PARAM, SIZE_PARAM } from "../../../pages/albumsSearch/consts/consts";
-import { getAlbumsList } from "../../../shared/api/albumsList/albumsListApi";
+import { AlbumPage } from "../../../FSD/pages/album/ui/AlbumPage";
+import { getAlbum, getAlbumQuery } from "../../../FSD/shared/api/album/albumApi";
+import { AlbumWithImages } from "../../../FSD/shared/api/album/types";
+import { PAGE_PARAM, SIZE_PARAM } from "../../../FSD/pages/albumsSearch/consts/consts";
+import { getAlbumsList } from "../../../FSD/shared/api/albumsList/albumsListApi";
 import { Suspense } from "react";
+import { useQuery } from "react-query";
 
 interface AlbumParam {
   id: string;
@@ -49,6 +50,7 @@ function AlbumWrapper(props: AlbumWithImages) {
           changedDate=""
         />
       }
+      key={props?.id}
     >
       <AlbumPage {...props} />
     </Suspense>
@@ -60,6 +62,13 @@ export default async function Page({ params }: PageProps) {
   if (res.rc < 300 && res.rc >= 200 && res.data) {
     return <AlbumWrapper {...res.data} />;
   }
+  // const { isLoading, data } = useQuery({
+  //   queryKey: ["get-album", params?.id],
+  //   queryFn: getAlbumQuery.bind(null, params?.id)
+  // });
+  // if (data) {
+  //   return <AlbumPage {...data} />;
+  // }
   return (
     <AlbumWrapper
       id={params?.id}
@@ -69,6 +78,7 @@ export default async function Page({ params }: PageProps) {
       albumSize={0}
       tags={[]}
       changedDate=""
+      // isFetching={isLoading}
     />
   );
 }
