@@ -62,13 +62,6 @@ export default async function Page({ params }: PageProps) {
   if (res.rc < 300 && res.rc >= 200 && res.data) {
     return <AlbumWrapper {...res.data} />;
   }
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ["get-album", params?.id],
-  //   queryFn: getAlbumQuery.bind(null, params?.id)
-  // });
-  // if (data) {
-  //   return <AlbumPage {...data} />;
-  // }
   return (
     <AlbumWrapper
       id={params?.id}

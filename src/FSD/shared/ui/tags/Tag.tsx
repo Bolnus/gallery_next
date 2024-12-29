@@ -14,7 +14,7 @@ export function mapTags(tag: DefinedTag): JSX.Element {
 
 export function Tag({ id, tagName, onClick, className }: Props) {
   return (
-    <div className={`${classes.tagBlock} ${className}`} onClick={onClick?.bind(null, id)}>
+    <div className={`${classes.tagBlock} ${className}`} onClick={() => onClick?.(id)}>
       <span className={classes.tagBlock__label}>{tagName}</span>
     </div>
   );

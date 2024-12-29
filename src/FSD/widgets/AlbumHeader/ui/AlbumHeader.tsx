@@ -97,8 +97,8 @@ function onCreateOption(
   setUnsavedChanges: (saved: ChangesSaveState) => void,
   inputValue: string
 ) {
-  setLocalAlbumTags(
-    pushNewAlbumTag.bind(null, { tagName: inputValue, id: inputValue, albumsCount: 0 }, setUnsavedChanges)
+  setLocalAlbumTags((prevTags: DefinedTag[]) =>
+    pushNewAlbumTag({ tagName: inputValue, id: inputValue, albumsCount: 0 }, setUnsavedChanges, prevTags)
   );
 }
 
@@ -131,7 +131,7 @@ function onEditClicked(
   setUnsavedChanges: (state: ChangesSaveState) => void,
   setIsOnEdit: React.Dispatch<React.SetStateAction<boolean>>
 ) {
-  setIsOnEdit(invertIsOnEdit.bind(null, setUnsavedChanges));
+  setIsOnEdit((prevIsOnEdit: boolean) => invertIsOnEdit(setUnsavedChanges, prevIsOnEdit));
 }
 
 function onGetAlbumHeader(
@@ -171,15 +171,16 @@ export function AlbumHeader({ imageCover, albumName, tags, isFetching, albumId }
       tags: string[];
     }
   >(putAlbumHeadersMutation, {
-    onError: onPutAlbumHeadersError.bind(null, setErrorMessage),
-    onSuccess: onPutAlbumHeadersSuccess.bind(null, setIsOnEdit)
+    onError: (localError: AxiosError<ApiMessage>) => onPutAlbumHeadersError(setErrorMessage, localError),
+    onSuccess: () => onPutAlbumHeadersSuccess(setIsOnEdit)
   });
 
   const { isLoading: headersLoading } = useQuery({
     queryKey: ["get-album-headers"],
-    queryFn: getAlbumHeadersQuery.bind(null, albumId),
+    queryFn: () => getAlbumHeadersQuery(albumId),
     enabled: unsavedChanges === ChangesSaveState.Loading,
-    onSuccess: onGetAlbumHeader.bind(null, setLocalAlbumTags, setLocalAlbumName, setUnsavedChanges, setIsOnEdit)
+    onSuccess: (newAlbumHeaders: AlbumHeaders) =>
+      onGetAlbumHeader(setLocalAlbumTags, setLocalAlbumName, setUnsavedChanges, setIsOnEdit, newAlbumHeaders)
   });
 
   // React.useEffect(function() {
@@ -209,7 +210,7 @@ export function AlbumHeader({ imageCover, albumName, tags, isFetching, albumId }
               classes.galleryHeader__backgroundImage,
               classes.galleryHeader__backgroundImage_appearence
             ])}
-            // onError={onImageError.bind(null, dispatch, imageCover)}
+            // onError={() => onImageError(dispatch, imageCover)}
             fill
             sizes="99vw"
           />
@@ -220,7 +221,7 @@ export function AlbumHeader({ imageCover, albumName, tags, isFetching, albumId }
           <div className={classes.galleryHeader__leftContent}>
             <TextInput
               value={localAlbumName}
-              onChange={onAlbumNameChange.bind(null, setLocalAlbumName, setUnsavedChanges)}
+              onChange={(newValue: string) => onAlbumNameChange(setLocalAlbumName, setUnsavedChanges, newValue)}
               isClearable
             />
           </div>
@@ -238,7 +239,7 @@ export function AlbumHeader({ imageCover, albumName, tags, isFetching, albumId }
               <ButtonIcon
                 title="Save changes"
                 iconName={IconName.Save}
-                onClick={onSaveChanges.bind(null, putAlbumHeaders, albumId, localAlbumName, localAlbumTags)}
+                onClick={() => onSaveChanges(putAlbumHeaders, albumId, localAlbumName, localAlbumTags)}
                 size={UiSize.MediumAdaptive}
                 color="white"
                 background={ButtonIconBackground.Grey}
@@ -249,7 +250,7 @@ export function AlbumHeader({ imageCover, albumName, tags, isFetching, albumId }
             <ButtonIcon
               title="Edit images"
               iconName={IconName.Images}
-              onClick={onAddImages.bind(null, setErrorMessage)}
+              onClick={() => onAddImages(setErrorMessage)}
               size={UiSize.MediumAdaptive}
               color="white"
               isFetching={headersFetching}
@@ -262,7 +263,7 @@ export function AlbumHeader({ imageCover, albumName, tags, isFetching, albumId }
           <ButtonIcon
             title={isOnEdit ? "Cancel" : "Edit"}
             iconName={isOnEdit ? IconName.Reload : IconName.Edit}
-            onClick={onEditClicked.bind(null, setUnsavedChanges, setIsOnEdit)}
+            onClick={() => onEditClicked(setUnsavedChanges, setIsOnEdit)}
             size={UiSize.MediumAdaptive}
             color="white"
             isFetching={headersFetching}
@@ -277,9 +278,11 @@ export function AlbumHeader({ imageCover, albumName, tags, isFetching, albumId }
           <CreatableMultiSelect
             options={searchTags?.length ? searchTags.map(mapDefinedTagsToOptions) : []}
             value={localAlbumTags.map(mapDefinedTagsToOptions)}
-            onChange={changeSelectedTags.bind(null, setLocalAlbumTags, setUnsavedChanges)}
-            onCreateOption={onCreateOption.bind(null, setLocalAlbumTags, setUnsavedChanges)}
-            onFocus={onTagsFocus.bind(null, setTagsFocused)}
+            onChange={(newTags: readonly SelectOption[]) =>
+              changeSelectedTags(setLocalAlbumTags, setUnsavedChanges, newTags)
+            }
+            onCreateOption={(inputValue: string) => onCreateOption(setLocalAlbumTags, setUnsavedChanges, inputValue)}
+            onFocus={() => onTagsFocus(setTagsFocused)}
             isClearable
             placeholder="Tags..."
             isLoading={searchTagsLoading}
@@ -289,7 +292,7 @@ export function AlbumHeader({ imageCover, albumName, tags, isFetching, albumId }
         )}
       </div>
       {errorMessage ? (
-        <Modal onClose={closeModal.bind(null, setErrorMessage)} header={errorMessage} modalType={ModalType.Info} />
+        <Modal onClose={() => closeModal(setErrorMessage)} header={errorMessage} modalType={ModalType.Info} />
       ) : null}
     </div>
   );

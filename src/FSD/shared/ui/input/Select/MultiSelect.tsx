@@ -42,7 +42,7 @@ export function MultiSelect({
       isMulti
       value={value}
       onChange={onChange}
-      onBlur={onSelectBlur.bind(null, onBlur)}
+      onBlur={() => onSelectBlur(onBlur)}
       className={className}
       placeholder={placeholder}
       isDisabled={isDisabled}

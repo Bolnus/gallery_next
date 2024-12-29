@@ -29,7 +29,7 @@ function invertSearchActive(
     setSearchActive(true);
     inputRef.current?.focus();
     inputRef.current?.click();
-    setTimeout(setFocus.bind(null, inputRef), 550);
+    setTimeout(() => setFocus(inputRef), 550);
   } else {
     applySearch(onSearch, prevSearchValue);
   }
@@ -42,7 +42,7 @@ function onSearchClick(
   setSearchName: (str: string) => void,
   onSearch: (flag: boolean) => void
 ) {
-  setSearchValue(invertSearchActive.bind(null, inputRef, setSearchName, onSearch));
+  setSearchValue((prevSearchValue: string) => invertSearchActive(inputRef, setSearchName, onSearch, prevSearchValue));
 }
 
 function onKeyUp(
@@ -53,7 +53,7 @@ function onKeyUp(
   if (localEvent.key === "Enter") {
     const { currentTarget } = localEvent;
     currentTarget.blur();
-    setSearchValue(applySearch.bind(null, onSearch, currentTarget.value));
+    setSearchValue(() => applySearch(onSearch, currentTarget.value));
   }
 }
 
@@ -86,15 +86,15 @@ export function ExpandableSearchBar({ onSearch }: Props) {
             searchActive ? classes.searchBar__input_expanded : classes.searchBar__input_collapsed
           ])}
           value={searchValue}
-          onChange={onInputChange.bind(null, setSearchValue)}
-          onBlur={onBlur.bind(null, setSearchActive)}
-          onKeyUp={onKeyUp.bind(null, onSearch, setSearchValue)}
+          onChange={(localEvent: React.ChangeEvent<HTMLInputElement>) => onInputChange(setSearchValue, localEvent)}
+          onBlur={() => onBlur(setSearchActive)}
+          onKeyUp={(localEvent: React.KeyboardEvent<HTMLInputElement>) => onKeyUp(onSearch, setSearchValue, localEvent)}
           ref={inputRef}
         />
         <div>
           <ButtonIcon
             iconName={IconName.Search}
-            onClick={onSearchClick.bind(null, inputRef, setSearchValue, onSearch, setSearchActive)}
+            onClick={() => onSearchClick(inputRef, setSearchValue, onSearch, setSearchActive)}
             size={UiSize.SmallAdaptive}
             color={searchActive ? "var(--inputBgColor)" : "white"}
             disabled={searchActive && !searchValue}

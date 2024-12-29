@@ -16,7 +16,7 @@ export function SearchBar(): JSX.Element {
   const [, setSearchName] = useSearchName();
   return (
     <div className={`${classes.searchBar}`}>
-      <ExpandableSearchBar onSearch={onSearch.bind(null, setSearchName, router)} />
+      <ExpandableSearchBar onSearch={(searchValue: string) => onSearch(setSearchName, router, searchValue)} />
     </div>
   );
 }

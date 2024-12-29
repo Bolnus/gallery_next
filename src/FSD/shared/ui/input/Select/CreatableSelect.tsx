@@ -46,7 +46,7 @@ export function CreatableMultiSelect({
       value={value}
       onChange={onChange}
       onCreateOption={onCreateOption}
-      onBlur={onSelectBlur.bind(null, onBlur)}
+      onBlur={() => onSelectBlur(onBlur)}
       className={className}
       placeholder={placeholder}
       isDisabled={isDisabled}

@@ -45,7 +45,7 @@ export function DateTimeInput({ type, size, value, onChange, disabled, className
       <input
         type={type}
         value={value}
-        onChange={onInputChange.bind(null, onChange)}
+        onChange={(localEvent: React.ChangeEvent<HTMLInputElement>) => onInputChange(onChange, localEvent)}
         onBlur={resetScrollOnBlur}
         disabled={disabled}
         className={`${classes.dateTimeInput__input} ${getInputClass(size)} commonInput`}

@@ -13,19 +13,20 @@ export function goBack(router: AppRouterInstance, albumsArrayLoaded: boolean) {
 export function onMenuClick(
   router: AppRouterInstance,
   checkBoxRef: React.RefObject<HTMLInputElement>,
-  menuItemName: string,
-  menuClickEvent: React.MouseEvent<HTMLElement>
+  menuItemName: MenuItem,
+  menuClickEvent: React.MouseEvent
 ): void {
   menuClickEvent.preventDefault();
   const checkBox = checkBoxRef.current as HTMLInputElement;
   checkBox.checked = false;
-  // const listItem = event.target as HTMLUListElement;
-  // const upcomingDate: string = getUpcomingDate();
   switch (menuItemName) {
     case MenuItem.MAIN:
-      router.push("/");
+      router.push("/search");
       break;
     case MenuItem.CATEGORIES:
+      break;
+    case MenuItem.ADD:
+      router.push("/album");
       break;
   }
 }

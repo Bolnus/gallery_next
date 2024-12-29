@@ -20,7 +20,7 @@ export function GalleryNavBar(): JSX.Element {
     <nav className={classes.nav}>
       {pathname?.startsWith("/album") ? (
         <ButtonIcon
-          onClick={goBack.bind(null, router, !!currentAlbumId)}
+          onClick={() => goBack(router, !!currentAlbumId)}
           iconName={IconName.NavBack}
           size={UiSize.SmallAdaptive}
         />
@@ -31,14 +31,29 @@ export function GalleryNavBar(): JSX.Element {
           <span />
           <span />
           <menu className={`${classes.nav__menu}`}>
-            <li onClick={onMenuClick.bind(null, router, checkBoxRef, MenuItem.MAIN)} className={classes.nav__menuItem}>
+            <li
+              onClick={(menuClickEvent: React.MouseEvent) =>
+                onMenuClick(router, checkBoxRef, MenuItem.MAIN, menuClickEvent)
+              }
+              className={classes.nav__menuItem}
+            >
               {MenuItem.MAIN}
             </li>
             <li
-              onClick={onMenuClick.bind(null, router, checkBoxRef, MenuItem.CATEGORIES)}
+              onClick={(menuClickEvent: React.MouseEvent) =>
+                onMenuClick(router, checkBoxRef, MenuItem.CATEGORIES, menuClickEvent)
+              }
               className={classes.nav__menuItem}
             >
               {MenuItem.CATEGORIES}
+            </li>
+            <li
+              onClick={(menuClickEvent: React.MouseEvent) =>
+                onMenuClick(router, checkBoxRef, MenuItem.ADD, menuClickEvent)
+              }
+              className={classes.nav__menuItem}
+            >
+              {MenuItem.ADD}
             </li>
           </menu>
         </div>

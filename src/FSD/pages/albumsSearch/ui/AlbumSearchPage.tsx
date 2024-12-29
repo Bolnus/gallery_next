@@ -30,7 +30,6 @@ import { useQuery } from "react-query";
 import { getAllTagsError, getAllTagsQuery } from "../../../shared/api/tags/tagsApi";
 import { getAlbumsListError, getAlbumsListQuery } from "../../../shared/api/albumsList/albumsListApi";
 import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
-import { AlbumListItemLoading } from "../../../widgets/AlbumListItem/ui/AlbumListItemLoading";
 import { mapLoaders } from "../lib/mappers";
 
 const halfClientPageSize = 2;
@@ -92,7 +91,7 @@ export function AlbumsSearchPage() {
 
   const { data: albumsWithTotal, isLoading: albumsListLoading } = useQuery({
     queryKey: ["get-albums-list-search", debouncedSearchParams?.toString()],
-    queryFn: getAlbumsListQuery.bind(null, debouncedSearchParams || undefined),
+    queryFn: () => getAlbumsListQuery(debouncedSearchParams || undefined),
     onError: getAlbumsListError
   });
   const totalCount = albumsWithTotal?.totalCount || 0;
@@ -237,7 +236,7 @@ export function AlbumsSearchPage() {
           <div className={`${classes.inputWrapper}`}>
             <TextInput
               value={searchName}
-              onChange={changeSearchName.bind(null, setSearchName, setPageNumber)}
+              onChange={(newValue: string) => changeSearchName(setSearchName, setPageNumber, newValue)}
               isClearable
             />
           </div>
@@ -246,7 +245,7 @@ export function AlbumsSearchPage() {
               options={searchTags?.length ? searchTags.map(mapDefinedTagsToOptions) : []}
               value={selectedTags}
               onChange={onTagsSelectionChange}
-              onFocus={onTagsFocus.bind(null, setTagsFocused)}
+              onFocus={() => onTagsFocus(setTagsFocused)}
               isClearable
               className="reactSelectTags"
               placeholder="Tags..."
@@ -265,7 +264,9 @@ export function AlbumsSearchPage() {
           />
         ) : null}
         {albums?.length
-          ? albums.map(mapAlbumToBlock.bind(null, scrollAlbumBlockRef, currentAlbumId, scrollBlockNumber))
+          ? albums.map((album: Album, index: number) =>
+              mapAlbumToBlock(scrollAlbumBlockRef, currentAlbumId, scrollBlockNumber, album, index)
+            )
           : null}
         {!albums?.length && isFetching ? ALBUM_ITEM_LOADER_ARRAY.map(mapLoaders) : null}
         {!albums?.length && !isFetching ? (

@@ -42,10 +42,12 @@ function AlbumListItemInternal({ album, isCurrent }: AlbumListItemProps, ref: Re
   const [, setCurrentAlbumId] = useCurrentAlbumId();
 
   return (
-    <div className={classes.scrollBox_itemWrapper} onClick={onAlbumClick.bind(null, setCurrentAlbumId, album.id)}>
+    <div className={classes.scrollBox_itemWrapper} onClick={() => onAlbumClick(setCurrentAlbumId, album.id)}>
       <Link href={`/album/${album.id}`} className={classes.navLink}>
         <div ref={ref} className={`${classes.albumBlock} ${isCurrent ? classes.albumBlock_current : ""}`}>
-          <div className={classes.albumBlock__picturesSnap}>{album.snapImages.map(mapImages.bind(null, album.id))}</div>
+          <div className={classes.albumBlock__picturesSnap}>
+            {album.snapImages.map((element: GalleryImage) => mapImages(album.id, element))}
+          </div>
           <div className={classes.albumBlock__contents}>
             <div className={classes.albumBlock__header}>
               <span className={`${classes.albumBlock__name} ${isCurrent ? classes.albumBlock__name_current : ""}`}>

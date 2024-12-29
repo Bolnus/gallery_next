@@ -14,14 +14,18 @@ interface TextInputProps {
   className?: string;
 }
 
-function onInputChange(onChange: (str: string) => void, localEvent: React.FormEvent) {
+function onInputChange(localEvent: React.ChangeEvent<HTMLInputElement>, onChange?: (str: string) => void) {
   localEvent.preventDefault();
-  const inputElement = localEvent.target as HTMLInputElement;
-  onChange(inputElement.value);
+  if (onChange) {
+    const inputElement = localEvent.target;
+    onChange(inputElement.value);
+  }
 }
 
-function onClearInput(onChange: (str: string) => void) {
-  onChange("");
+function onClearInput(onChange?: (str: string) => void) {
+  if (onChange) {
+    onChange("");
+  }
 }
 
 export function TextInput({ value, onChange, isClearable, className, disabled }: TextInputProps) {
@@ -31,7 +35,7 @@ export function TextInput({ value, onChange, isClearable, className, disabled }:
         placeholder="Album name..."
         onBlur={resetScrollOnBlur}
         value={value}
-        onChange={onChange && onInputChange.bind(null, onChange)}
+        onChange={(localEvent: React.ChangeEvent<HTMLInputElement>) => onInputChange(localEvent, onChange)}
         className={`${classes.textInput__input} commonInput`}
         disabled={disabled}
       />
@@ -40,7 +44,7 @@ export function TextInput({ value, onChange, isClearable, className, disabled }:
           <span className={classes.textInput__spacer} />
           <div className={classes.textInput__indicatorClose}>
             <ButtonIcon
-              onClick={onChange && onClearInput.bind(null, onChange)}
+              onClick={() => onClearInput(onChange)}
               iconName={IconName.Close}
               size={UiSize.Small}
               color="var(--fontColorFirm)"

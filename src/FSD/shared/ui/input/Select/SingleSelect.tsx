@@ -130,17 +130,17 @@ export function SingleSelect({
     <Select
       options={options}
       value={value}
-      onChange={onSelectChange.bind(null, onChange, setInputValue)}
-      onBlur={onSelectBlur.bind(null, onBlur)}
+      onChange={(newValue: SelectOption | null) => onSelectChange(onChange, setInputValue, newValue)}
+      onBlur={() => onSelectBlur(onBlur)}
       className={className}
       placeholder={placeholder}
       isDisabled={isDisabled}
       isClearable={isClearable}
-      onFocus={onInputFocus.bind(null, setInputValue, value.label, onFocus)}
+      onFocus={() => onInputFocus(setInputValue, value.label, onFocus)}
       isLoading={isLoading}
       styles={styles}
       inputValue={inputValue}
-      onInputChange={onInputChange.bind(null, setInputValue, value.label)}
+      onInputChange={(newInputValue: string) => onInputChange(setInputValue, value.label, newInputValue)}
       blurInputOnSelect
       loadingMessage={LoadingMessage}
       inputId="selectInputId"

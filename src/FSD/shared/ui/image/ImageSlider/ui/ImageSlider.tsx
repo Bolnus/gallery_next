@@ -30,7 +30,7 @@ function mapViewImages(setToolBarActive: React.Dispatch<React.SetStateAction<boo
         height={0}
         fill
         sizes="100vw"
-        onClick={invertTrigger.bind(null, setToolBarActive)}
+        onClick={() => invertTrigger(setToolBarActive)}
         className={classes.image}
       />
     </div>
@@ -88,7 +88,7 @@ export function ImageSlider({ images, currentViewId, header, onClose }: ImageSli
             </header>
             <footer className={getUnitedClassnames([classes.photoViewToolBar, classes.photoViewToolBar_footer])}>
               {/* <button
-              onClick={invertTrigger.bind(null, modalVisible, setModalVisible)}
+              onClick={() => invertTrigger(modalVisible, setModalVisible)}
               className={`${classes.photoViewToolBar__button} emojiFont`}
             >
               🗑️
@@ -102,7 +102,7 @@ export function ImageSlider({ images, currentViewId, header, onClose }: ImageSli
           arrows
           initialSlide={imageIndex}
           infinite={false}
-          afterChange={(updateStateValue<number>).bind(null, setImageIndex)}
+          afterChange={(currentSlide: number) => updateStateValue(setImageIndex, currentSlide)}
           lazyLoad="anticipated"
           touchThreshold={10}
           slidesToShow={1}
@@ -110,14 +110,14 @@ export function ImageSlider({ images, currentViewId, header, onClose }: ImageSli
           prevArrow={prevVisible ? <PrevButton /> : undefined}
           nextArrow={nextVisible ? <NextButton /> : undefined}
         >
-          {images.map(mapViewImages.bind(null, setToolBarActive))}
+          {images.map((element: GalleryImage) => mapViewImages(setToolBarActive, element))}
         </Slider>
         {/* {modalVisible ? (
         <Modal
-          onClose={invertTrigger.bind(null, modalVisible, setModalVisible)}
+          onClose={() => invertTrigger(setModalVisible)}
           header="Удалить?"
           modalType={ModalType.DeleteDialog}
-          onOk={deleteCurrentImage.bind(null, props.images[imageIndex]?.id, props.deleteImage)}
+          onOk={() => deleteCurrentImage(props.images[imageIndex]?.id, props.deleteImage)}
         />
       ) : null} */}
       </div>,

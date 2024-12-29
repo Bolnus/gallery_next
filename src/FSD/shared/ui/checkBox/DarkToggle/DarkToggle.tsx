@@ -47,7 +47,7 @@ export function DarkToggle() {
     <input
       type="checkbox"
       checked={checked}
-      onChange={onCheckBoxClicked.bind(null, setChecked)}
+      onChange={(toggleEvent: React.ChangeEvent<HTMLInputElement>) => onCheckBoxClicked(setChecked, toggleEvent)}
       className={classes.darkToggle}
     />
   );

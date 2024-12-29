@@ -46,7 +46,7 @@ export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName 
   React.useEffect(
     function () {
       if (loaderIntersected) {
-        setLocalImages(addLocalImages.bind(null, snapImages));
+        setLocalImages((prevState: GalleryImage[]) => addLocalImages(snapImages, prevState));
       }
     },
     [snapImages, loaderIntersected]
@@ -56,7 +56,7 @@ export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName 
     <div className={classes.galleryContents}>
       {isFetching || snapImages.length ? (
         <div className={classes.galleryGrid}>
-          {localImages.map(mapImages.bind(null, setCurrentViewId))}
+          {localImages.map((element: GalleryImage) => mapImages(setCurrentViewId, element))}
           {snapImages.length > localImages.length ? (
             <div key="last" className={classes.galleryGrid__imageWrapper} ref={imagesLoaderRef}>
               <div className={classes.galleryGrid__imageWrapper}>
@@ -73,7 +73,7 @@ export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName 
       <ImageSlider
         header={albumName}
         currentViewId={currentViewId}
-        onClose={onClose.bind(null, setCurrentViewId)}
+        onClose={() => onClose(setCurrentViewId)}
         images={fullImages}
       />
     </div>

@@ -30,7 +30,7 @@ function mapPaginationButtons(
           ? classes.paginationButtonsBlock__button_selected
           : classes.paginationButtonsBlock__button_common
       }`}
-      onClick={onPageClicked.bind(null, element)}
+      onClick={() => onPageClicked(element)}
     >
       {element}
     </button>
@@ -96,17 +96,19 @@ export function Pagination({
             className={`${classes.paginationButtonsBlock__button}
             ${classes.paginationButtonsBlock__button_common}
             emojiFont pushButton`}
-            onClick={onPageSelect.bind(null, 1)}
+            onClick={() => onPageSelect(1)}
           >
             <ReactIcon iconName={IconName.ChevronLeft} />
           </button>
-          {paginationElements.map(mapPaginationButtons.bind(null, page, onPageSelect))}
+          {paginationElements.map((element: number, index: number) =>
+            mapPaginationButtons(page, onPageSelect, element, index)
+          )}
           <button
             key="last"
             className={`${classes.paginationButtonsBlock__button}
             ${classes.paginationButtonsBlock__button_common}
             emojiFont pushButton`}
-            onClick={onPageSelect.bind(null, Math.floor(albumsCount / pageSize) + 1)}
+            onClick={() => onPageSelect(Math.floor(albumsCount / pageSize) + 1)}
           >
             <ReactIcon iconName={IconName.ChevronRight} />
           </button>

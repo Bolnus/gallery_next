@@ -3,5 +3,6 @@
 export enum MenuItem {
   MAIN = "Main",
   CATEGORIES = "Categories",
-  ENTER = "Login"
+  ENTER = "Login",
+  ADD = "Add"
 }

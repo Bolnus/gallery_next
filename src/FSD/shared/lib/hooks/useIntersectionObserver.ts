@@ -1,10 +1,6 @@
 "use client";
 import React from "react";
 
-function onObserverChange(setIntersecting: (flag: boolean) => void, entries: IntersectionObserverEntry[]) {
-  setIntersecting(entries?.[0]?.isIntersecting);
-}
-
 export function useIntersectionObserver(
   target: React.MutableRefObject<Element | null>,
   options: IntersectionObserverInit
@@ -15,7 +11,10 @@ export function useIntersectionObserver(
     function () {
       let observer: IntersectionObserver;
       if (target.current) {
-        observer = new IntersectionObserver(onObserverChange.bind(null, setIntersecting), options);
+        observer = new IntersectionObserver(
+          (entries: IntersectionObserverEntry[]) => setIntersecting(entries?.[0]?.isIntersecting),
+          options
+        );
         observer.observe(target.current);
       }
       return function () {

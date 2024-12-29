@@ -13,18 +13,6 @@ export interface OwnProps {
   onClick?: (id: string) => void;
 }
 
-// function onSnapImageError(dispatch: AppDispatch, galleryImage: GalleryImage, albumId: string) {
-//   dispatch(
-//     updateAlbumSnapLoadState({
-//       albumId,
-//       image: {
-//         ...galleryImage,
-//         loadState: FileLoadState.parsingFailed
-//       }
-//     })
-//   );
-// }
-
 function onImageClick(id: string, onClick?: (id: string) => void) {
   if (onClick) {
     onClick(id);
@@ -42,10 +30,9 @@ function onLoad(setLocalLoadState: (state: FileLoadState) => void, localEvent: R
 export function ImageSnap({ element, onClick }: OwnProps) {
   const [localLoadState, setLocalLoadState] = React.useState<FileLoadState>(element.loadState);
   const loading = localLoadState !== FileLoadState.uploaded && localLoadState !== FileLoadState.downloaded;
-  // console.log(localLoadState)
 
   return (
-    <div className={classes.imageWrapper} onClick={onImageClick.bind(null, element.id, onClick)}>
+    <div className={classes.imageWrapper} onClick={() => onImageClick(element.id, onClick)}>
       <div
         className={getUnitedClassnames([
           classes.loaderWrapper,
@@ -58,8 +45,8 @@ export function ImageSnap({ element, onClick }: OwnProps) {
         <NextImage
           className={getUnitedClassnames([classes.image, classes.image_geometry])}
           alt={element.name || ""}
-          onError={onError.bind(null, setLocalLoadState)}
-          onLoad={onLoad.bind(null, setLocalLoadState)}
+          onError={() => onError(setLocalLoadState)}
+          onLoad={(localEvent: React.SyntheticEvent<HTMLImageElement>) => onLoad(setLocalLoadState, localEvent)}
           src={element.url || ""}
           loading="lazy"
           fill

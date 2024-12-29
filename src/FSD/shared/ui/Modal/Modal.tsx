@@ -22,7 +22,7 @@ function onBackGroundClicked(onClose: () => void, localEvent: React.FormEvent) {
   onClose();
 }
 
-function onOkClicked(onOk: () => void, onClose: () => void) {
+function onOkClicked(onClose: () => void, onOk?: () => void) {
   if (onOk) {
     onOk();
   }
@@ -48,13 +48,13 @@ export function Modal({ modalType, header, onClose, onOk }: ModalProps) {
         <>
           <button
             className={`pushButton ${classes.modal__pb} ${classes.modal__pb_left} ${classes.modal__pb_normal}`}
-            onClick={onCallbackExec.bind(null, onClose)}
+            onClick={(localEvent: React.MouseEvent) => onCallbackExec(onClose, localEvent)}
           >
             Cancel
           </button>
           <button
             className={`pushButton ${classes.modal__pb} ${classes.modal__pb_right} ${classes.modal__pb_alert}`}
-            onClick={onOkClicked.bind(null, onOk as () => void, onClose)}
+            onClick={() => onOkClicked(onClose, onOk)}
           >
             Yes
           </button>
@@ -66,7 +66,7 @@ export function Modal({ modalType, header, onClose, onOk }: ModalProps) {
         <>
           <button
             className={`pushButton ${classes.modal__pb} ${classes.modal__pb_wide} ${classes.modal__pb_normal}`}
-            onClick={onCallbackExec.bind(null, onClose)}
+            onClick={(localEvent: React.MouseEvent) => onCallbackExec(onClose, localEvent)}
           >
             Ok
           </button>
@@ -76,7 +76,7 @@ export function Modal({ modalType, header, onClose, onOk }: ModalProps) {
   }
 
   return createPortal(
-    <div onClick={onBackGroundClicked.bind(null, onClose)} className={classes.root}>
+    <div onClick={(localEvent: React.MouseEvent) => onBackGroundClicked(onClose, localEvent)} className={classes.root}>
       <div className={classes.modal}>
         <h4>{header}</h4>
         {modalContent}
