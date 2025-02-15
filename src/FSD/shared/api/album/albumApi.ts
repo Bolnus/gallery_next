@@ -73,14 +73,20 @@ export async function putAlbumHeaders(
   }
 }
 
-export async function putAlbumHeadersMutation({
+export async function saveAlbumHeadersMutation({
   id,
   albumName,
   tags
-}: PutAlbumHeadersArgs): Promise<AxiosResponse<ApiMessage>> {
-  const path = "/albums_list/album/headers";
-  return axiosClient.put<ApiMessage>(path, {
-    id,
+}: PutAlbumHeadersArgs): Promise<AxiosResponse<{ id?: string }>> {
+  // const path = "/albums_list/album/headers";
+  if (id) {
+    return axiosClient.put<{ id?: string }>("/albums_list/album/headers", {
+      id,
+      albumName,
+      tags
+    });
+  }
+  return axiosClient.post<{ id?: string }>("/albums_list/album", {
     albumName,
     tags
   });

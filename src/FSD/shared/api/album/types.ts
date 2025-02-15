@@ -5,7 +5,7 @@ export interface AlbumWithImages extends Album {
 }
 
 export interface PutAlbumHeadersArgs {
-  id: string;
+  id?: string;
   albumName: string;
   tags: string[];
 }

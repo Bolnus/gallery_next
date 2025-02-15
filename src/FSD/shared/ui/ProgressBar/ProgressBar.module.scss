@@ -1,0 +1,16 @@
+.progressBar
+{
+    width: 100%;
+    height: var(--fontSizeMedium);
+    background-color: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+}
+  
+.progressFill
+{
+    height: 100%;
+    background: var(--checkBoxColor);
+    border-radius: 5px 0 0 5px;
+    transition: width 0.3s ease-in-out;
+}

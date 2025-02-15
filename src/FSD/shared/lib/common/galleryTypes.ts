@@ -35,3 +35,11 @@ export enum FileLoadState {
   uploadFailed = 105,
   parsingFailed = 106
 }
+
+export interface AlbumParam {
+  id: string;
+}
+
+export interface AlbumPageProps {
+  params: AlbumParam;
+}

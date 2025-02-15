@@ -5,14 +5,7 @@ import { PAGE_PARAM, SIZE_PARAM } from "../../../FSD/pages/albumsSearch/consts/c
 import { getAlbumsList } from "../../../FSD/shared/api/albumsList/albumsListApi";
 import { Suspense } from "react";
 import { useQuery } from "react-query";
-
-interface AlbumParam {
-  id: string;
-}
-
-interface PageProps {
-  params: AlbumParam;
-}
+import { AlbumPageProps, AlbumParam } from "../../../FSD/shared/lib/common/galleryTypes";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
   let downloadedCount = 0;
@@ -57,7 +50,7 @@ function AlbumWrapper(props: AlbumWithImages) {
   );
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: AlbumPageProps) {
   const res = await getAlbum(params?.id);
   if (res.rc < 300 && res.rc >= 200 && res.data) {
     return <AlbumWrapper {...res.data} />;

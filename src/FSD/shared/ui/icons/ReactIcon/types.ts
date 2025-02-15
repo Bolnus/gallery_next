@@ -8,5 +8,6 @@ export enum IconName {
   Search = "Search",
   Edit = "Edit",
   Add = "Add",
-  Images = "Images"
+  Images = "Images",
+  DragAndDrop = "DragAndDrop"
 }

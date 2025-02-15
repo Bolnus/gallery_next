@@ -74,7 +74,7 @@ app.get("/", function (req, res)
           rootDiv.textContent = "Reverse proxy working";
           break;
       }
-    }, 500)</script>
+    }, 2000)</script>
     </body>`
   );
 });

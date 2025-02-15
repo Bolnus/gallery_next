@@ -8,6 +8,7 @@ import { IconName } from "./types";
 import { IconBaseProps } from "react-icons";
 import { HiRefresh } from "react-icons/hi";
 import { HiPencil } from "react-icons/hi";
+import { MdDragHandle } from "react-icons/md";
 import { BiSolidSave } from "react-icons/bi";
 import classes from "./ReactIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
@@ -18,26 +19,29 @@ interface Props extends IconBaseProps {
 
 export function ReactIcon({ iconName, className, ...props }: Props) {
   const unitedClassnames = getUnitedClassnames([classes.adaptiveIcon, className || ""]);
+  const propsWithClass = { ...props, className: unitedClassnames };
   switch (iconName) {
     case IconName.NavBack:
       // iconElement = <TriangleSVG />;
-      return <HiArrowCircleLeft {...props} className={unitedClassnames} />;
+      return <HiArrowCircleLeft {...propsWithClass} />;
     case IconName.ChevronLeft:
-      return <HiChevronLeft {...props} className={unitedClassnames} />;
+      return <HiChevronLeft {...propsWithClass} />;
     case IconName.ChevronRight:
-      return <HiChevronRight {...props} className={unitedClassnames} />;
+      return <HiChevronRight {...propsWithClass} />;
     case IconName.Close:
-      return <HiX {...props} className={unitedClassnames} />;
+      return <HiX {...propsWithClass} />;
     case IconName.Search:
-      return <HiSearch {...props} className={unitedClassnames} />;
+      return <HiSearch {...propsWithClass} />;
     case IconName.Images:
-      return <HiPhotograph {...props} className={unitedClassnames} />;
+      return <HiPhotograph {...propsWithClass} />;
     case IconName.Reload:
-      return <HiRefresh {...props} className={unitedClassnames} />;
+      return <HiRefresh {...propsWithClass} />;
     case IconName.Edit:
-      return <HiPencil {...props} className={unitedClassnames} />;
+      return <HiPencil {...propsWithClass} />;
     case IconName.Save:
-      return <BiSolidSave {...props} className={unitedClassnames} />;
+      return <BiSolidSave {...propsWithClass} />;
+    case IconName.DragAndDrop:
+      return <MdDragHandle {...propsWithClass} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

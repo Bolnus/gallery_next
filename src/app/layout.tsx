@@ -3,6 +3,7 @@ import "./globals.scss";
 import { Header } from "../FSD/widgets/Header/ui/Header";
 import { ReactQueryProvider } from "../FSD/app/lib/reactQuery/ReactQueryProvider";
 import { SearchProvider } from "../FSD/app/lib/context/searchContext";
+import { BaseProvider } from "../FSD/app/lib/baseProviders/baseProvider";
 
 export const metadata: Metadata = {
   title: "Gallery Next App",
@@ -25,18 +26,15 @@ export default function RootLayout({
       <body>
         <ReactQueryProvider>
           <SearchProvider>
-            <div className="rootContent">
-              <Header />
-              <main className="main">{children}</main>
-            </div>
+            <BaseProvider>
+              <div className="rootContent">
+                <Header />
+                <main className="main">{children}</main>
+              </div>
+            </BaseProvider>
           </SearchProvider>
         </ReactQueryProvider>
       </body>
     </html>
   );
 }
-
-global?.window && window.addEventListener("resize", function () {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
-});

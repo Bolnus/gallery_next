@@ -1,0 +1,10 @@
+.searchBar
+{
+  flex: 1 1 auto;
+  padding: 0 var(--fontSizeSmall) 5px var(--fontSizeSmall);
+}
+
+.searchButton:hover
+{
+  cursor: pointer;
+}

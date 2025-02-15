@@ -135,3 +135,24 @@ function mapIndexToString(el: unknown, index: number) {
 export function getIndexesArray(arrayLength: number) {
   return Array.from({ length: arrayLength }).map(mapIndexToString);
 }
+
+export function shiftArrayElement<T = unknown>(prev: T[]): T[] {
+  const [first, ...rest] = prev;
+  return rest;
+}
+
+export function pushElementToArray<T = unknown>(newElement: T, prev: T[]): T[] {
+  return [...prev, newElement];
+}
+
+export function tagsChanged(tags1: readonly DefinedTag[], tags2: readonly DefinedTag[]): boolean {
+  if (tags1.length !== tags2.length) {
+    return true;
+  }
+  for (let i = 0; i < tags1.length; i++) {
+    if (tags1[i].id !== tags2[i].id) {
+      return true;
+    }
+  }
+  return false;
+}

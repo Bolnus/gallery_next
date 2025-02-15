@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 // import { useRouter } from "next/router";
 import React from "react";
 import { ButtonIcon } from "../../../shared/ui/button/ButtonIcon/ButtonIcon";
-import classes from "./header.module.scss";
+import classes from "./NavBar.module.scss";
 import { goBack, onMenuClick } from "../lib/navBarUtils";
 import { MenuItem } from "../lib/types";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";

@@ -1,5 +1,5 @@
-import { AlbumEditPage } from "../../FSD/pages/newAlbum/ui/AlbumEditPage";
+import { AlbumEditView } from "../../FSD/pages/albumEdit/ui/AlbumEditView";
 
 export default function Page() {
-  return <AlbumEditPage />;
+  return <AlbumEditView />;
 }

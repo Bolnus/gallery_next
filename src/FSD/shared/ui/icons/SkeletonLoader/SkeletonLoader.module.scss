@@ -9,12 +9,15 @@
 .skeletonBlock__line
 {
     fill: $subColorGrey;
+    opacity: 0.5;
+}
+
+.skeletonBlock__line_animated
+{
     animation-duration: 2s;
     animation-name: pulse;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-
-    //border-radius: 0 50% 0 50%;
 }
 
 @keyframes pulse

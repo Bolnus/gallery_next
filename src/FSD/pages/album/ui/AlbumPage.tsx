@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import classes from "./AlbumPage.module.scss";
 import { AlbumHeader } from "../../../widgets/AlbumHeader/ui/AlbumHeader";
 import { AlbumImagesGrid } from "../../../widgets/AlbumImagesGrid/ui/AlbumImagesGrid";

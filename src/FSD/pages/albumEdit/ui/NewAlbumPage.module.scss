@@ -1,0 +1,16 @@
+.newAlbumPage
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    background: var(--bgColor);
+}
+
+.scrollWrapper
+{
+    height: 2px;
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
