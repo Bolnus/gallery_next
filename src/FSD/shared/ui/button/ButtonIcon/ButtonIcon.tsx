@@ -45,6 +45,7 @@ export function ButtonIcon({
         className || ""
       ])}
       title={title}
+      id={iconName}
     >
       {isFetching ? "•" : <ReactIcon iconName={iconName} color={color} />}
     </button>

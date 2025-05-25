@@ -11,8 +11,21 @@
     width: 20%;
 }
 
-.imagesListItem__progressBar
+.imagesListItem__description
 {
     flex: 1 1 5px;
+    padding: 12px;
+}
+
+.imagesListItem__descriptionText
+{
+    font-size: var(--fontSizeBig);
+    color: var(--fontColorLight);
+}
+
+.imagesListItem__progressBar
+{
+    flex: 0 0 50px;
     padding: 3px;
 }
+

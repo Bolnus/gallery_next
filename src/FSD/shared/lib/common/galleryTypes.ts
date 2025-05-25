@@ -9,7 +9,8 @@ export interface GalleryImage {
   url?: string;
   name?: string;
   type?: string;
-  data?: string;
+  data?: File;
+  pictureNumber?: number;
   loadState: FileLoadState;
 }
 
@@ -27,13 +28,15 @@ export interface Album extends AlbumHeaders {
 
 export enum FileLoadState {
   added = 0,
-  parsed = 1,
+  uploadPlanned = 1,
+  startedUploading = 2,
   downloadFailed = 101,
   downloading = 102,
   downloaded = 103,
   uploaded = 104,
   uploadFailed = 105,
-  parsingFailed = 106
+  parsingFailed = 106,
+  uploadCanceled = 107
 }
 
 export interface AlbumParam {

@@ -28,6 +28,7 @@ app.use(
   })
 );
 const apiProxy = httpProxy.createProxyServer();
+apiProxy.on("error", (localError) => console.log(`Proxy error: ${localError?.message}`));
 const baseServerEndPoint = `${backendAddr}${baseEndPoint}`;
 
 function getFullTime()
@@ -83,7 +84,9 @@ app.all(":endpoint([\\/\\w\\.-\\?\\=]*)", function (req, res) {
   const endpoint = `${baseServerEndPoint}${req.params.endpoint}`;
   console.log(`${req.method} | ${getFullTime()} | ${endpoint}`);
 
-  apiProxy.web(req, res, {target: `${baseServerEndPoint}`});
+  apiProxy.web(req, res, {
+    target: baseServerEndPoint
+  });
 });
 
 if (isHTTPS)

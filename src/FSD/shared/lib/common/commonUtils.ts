@@ -116,8 +116,8 @@ export function mapOptionsToDefinedTags(option: SelectOption): DefinedTag {
   };
 }
 
-export function getUnitedClassnames(classNames: string[]): string {
-  return classNames.join(" ");
+export function getUnitedClassnames(classNames: (string | undefined)[]): string {
+  return classNames.filter((className) => className && typeof className === "string").join(" ");
 }
 
 export function onInputChange(onChange: (newStr: string) => void, localEvent: React.ChangeEvent<HTMLInputElement>) {

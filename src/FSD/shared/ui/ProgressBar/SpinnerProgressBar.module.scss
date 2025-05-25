@@ -1,0 +1,101 @@
+.container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border-width: 4px;
+    border-color: var(--fontColorFirm);
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+    height: 60px;
+    width: 60px;
+}
+
+.progressBar {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border-width: 4px;
+    border-color: var(--fontColorFirm);
+    transform-origin: left;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+}
+
+.progressBarFailed {
+    border-color: red;
+}
+
+.contentContainer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    height: 60px;
+    width: 60px;
+    position: absolute;
+    color: var(--fontColorFirm);
+    animation: spin 1s linear infinite;
+}
+
+.cancelButton {
+    position: absolute;
+    color: var(--fontColorFirm);
+    transition-property: color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.cancelButton:hover {
+    opacity: 0.8;
+}
+
+.checkContainer {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+    transform: var(--transform);
+    // opacity: var(--opacity);
+    height: calc(2 * var(--fontSizeMedium));
+    width: calc(2 * var(--fontSizeMedium));
+}
+
+.checkIconContainer {
+    border-radius: 50%;
+    // background-color: hsl(var(--primary));
+    padding: 0.375rem;
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+    height: calc(2 * var(--fontSizeMedium));
+    width: calc(2 * var(--fontSizeMedium));
+}
+
+.checkIcon {
+    width: 100%;
+    height: 100%;
+    color: var(--fontColorFirm);
+}
+
+.failedSpinner {
+    width: 33.333333%;
+    height: 33.333333%;
+    color: red;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

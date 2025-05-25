@@ -97,6 +97,10 @@ export async function getAlbumHeadersQuery(albumId: string): Promise<AlbumHeader
   return mapAlbumHeaders(response.data);
 }
 
+export async function deleteAlbumMutation(id: string): Promise<AxiosResponse> {
+  return axiosClient.delete(`/albums_list/album?id=${id}`);
+}
+
 export function putAlbumHeadersError(localError: unknown): ApiResponse<string> {
   const path = "/albums_list/album/headers";
   handleResponseError(localError, path);
@@ -117,3 +121,4 @@ export function putAlbumHeadersError(localError: unknown): ApiResponse<string> {
     data: "Unknown error"
   };
 }
+

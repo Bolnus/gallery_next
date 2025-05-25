@@ -9,5 +9,9 @@ export enum IconName {
   Edit = "Edit",
   Add = "Add",
   Images = "Images",
-  DragAndDrop = "DragAndDrop"
+  DragAndDrop = "DragAndDrop",
+  Delete = "Delete",
+  Loader = "Loader",
+  Check = "Check",
+  Error = "Error"
 }

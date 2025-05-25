@@ -43,14 +43,11 @@ export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName 
   const imagesLoaderRef = React.useRef<HTMLDivElement>(null);
   const loaderIntersected = useIntersectionObserver(imagesLoaderRef, { root: global.document && document.body });
 
-  React.useEffect(
-    function () {
-      if (loaderIntersected) {
-        setLocalImages((prevState: GalleryImage[]) => addLocalImages(snapImages, prevState));
-      }
-    },
-    [snapImages, loaderIntersected]
-  );
+  React.useEffect(() => {
+    if (loaderIntersected) {
+      setLocalImages((prevState: GalleryImage[]) => addLocalImages(snapImages, prevState));
+    }
+  }, [snapImages, loaderIntersected]);
 
   return (
     <div className={classes.galleryContents}>

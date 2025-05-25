@@ -10,6 +10,10 @@ import { HiRefresh } from "react-icons/hi";
 import { HiPencil } from "react-icons/hi";
 import { MdDragHandle } from "react-icons/md";
 import { BiSolidSave } from "react-icons/bi";
+import { HiTrash } from "react-icons/hi";
+import { TbLoader2 } from "react-icons/tb";
+import { HiOutlineCheckCircle } from "react-icons/hi";
+import { HiOutlineExclamationCircle } from "react-icons/hi"
 import classes from "./ReactIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 
@@ -42,6 +46,14 @@ export function ReactIcon({ iconName, className, ...props }: Props) {
       return <BiSolidSave {...propsWithClass} />;
     case IconName.DragAndDrop:
       return <MdDragHandle {...propsWithClass} />;
+    case IconName.Delete:
+      return <HiTrash {...propsWithClass} />;
+    case IconName.Loader:
+      return <TbLoader2 {...propsWithClass} />;
+    case IconName.Check:
+      return <HiOutlineCheckCircle {...propsWithClass} />;
+    case IconName.Error:
+      return <HiOutlineExclamationCircle {...propsWithClass} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

@@ -1,0 +1,23 @@
+
+
+.segment {
+  font-size: var(--fontSizeBig);
+//   font-weight: bold;
+  color: var(--fontColorFirm);
+  // background: transparent;
+  background-color: var(--bgColor);
+  cursor: pointer;
+  padding: 5px 5px 20px 5px;
+  border-radius: 4px;
+  height: fit-content;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  opacity: 0.5;
+}
+
+.segment_selected {
+    // text-decoration: underline;
+    opacity: 1;
+}
