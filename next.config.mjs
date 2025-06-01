@@ -5,26 +5,32 @@ const nextConfig = {
           {
             protocol: 'http',
             hostname: 'localhost',
-            port: '3001',
+            port: '',
             pathname: '/**',
           },
           {
             protocol: 'http',
             hostname: 'mike-pc.local',
-            port: '3001',
+            port: '',
+            pathname: '/**',
+          },
+          {
+            protocol: 'https',
+            hostname: 'gallery-backend-teal.vercel.app',
+            port: '',
             pathname: '/**',
           }
         ],
       },
       staticPageGenerationTimeout: 120,
-      // async rewrites() {
-      //   return [
-      //     {
-      //       source: '/:path*',
-      //       destination: 'https://gallery-backend-teal.vercel.app/gallery/:path*'
-      //     }
-      //   ]
-      // }
+      async rewrites() {
+        return [
+          {
+            source: '/gallery/:path*',
+            destination: 'https://gallery-backend-teal.vercel.app/gallery/:path*'
+          }
+        ]
+      }
 };
 
 export default nextConfig;
