@@ -35,7 +35,7 @@ import { SendImagesPortionRes } from "../lib/types";
 
 interface Props {
   onEditAlbumId?: string;
-  revalidateAlbum: (id: string) => void;
+  revalidateAlbum?: (id: string) => void;
 }
 
 export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): JSX.Element {
@@ -85,7 +85,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
   >((savedIds: string[]) => putAlbumPicturesIds(oldImages || [], savedIds, albumId), {
     onError: (localError: AxiosError<ApiMessage>) => pushServerError(setErrorMessages, localError),
     onSettled: () =>
-      onArrangePicturesSettled(unsavedImages, onEditAlbumId, revalidateAlbum, setNewImages, setCurrentSegment)
+      onArrangePicturesSettled(unsavedImages, setNewImages, setCurrentSegment, onEditAlbumId, revalidateAlbum)
   });
 
   const { mutate: postAlbumPictures, isLoading: postAlbumPicturesLoading } = useMutation<

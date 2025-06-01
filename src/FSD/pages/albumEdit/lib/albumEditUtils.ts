@@ -258,17 +258,17 @@ export function clearImagesArray(prev: GalleryImage[]) {
 
 export async function onArrangePicturesSettled(
   unsavedImages: GalleryImage[],
-  albumId: string,
-  revalidateAlbum: (id: string) => void,
   setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
-  setCurrentSegment: React.Dispatch<React.SetStateAction<ImagesSegment>>
+  setCurrentSegment: React.Dispatch<React.SetStateAction<ImagesSegment>>,
+  albumId?: string,
+  revalidateAlbum?: (id: string) => void
 ): Promise<void> {
   if (unsavedImages.length) {
     return undefined;
   }
   setNewImages(clearImagesArray);
   setCurrentSegment(ImagesSegment.OldImages);
-  if (albumId) {
+  if (albumId && revalidateAlbum) {
     revalidateAlbum(albumId);
   }
   return queryClient.invalidateQueries({ queryKey: ["get-album"] });
