@@ -1,7 +1,7 @@
-import { v4 as uuidV4 } from "uuid";
+import { revalidatePath } from "next/cache";
 import { pushElementToArray } from "../../../shared/lib/common/commonUtils";
 import { DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
-import { getImageUrlFromFile, getReadableFileRefs } from "../../../shared/lib/file/filePromises";
+import { getCompressedImageURL, getImageUrlFromFile, getReadableFileRefs } from "../../../shared/lib/file/filePromises";
 import { ImageLoadError, ImportType } from "../../../shared/lib/file/types";
 import { ChangesSaveState } from "../../../entities/album/model/albumTypes";
 import { queryClient } from "../../../app/lib/reactQuery/ReactQueryProvider";
@@ -18,7 +18,14 @@ export async function addImages(
   setErrorMessage: React.Dispatch<React.SetStateAction<string[]>>,
   setCurrentSegment: (newSegment: ImagesSegment) => void
 ) {
-  const fileRefs = await getReadableFileRefs(ImportType.Multiple);
+  let fileRefs: File[] = [];
+  try {
+    fileRefs = await getReadableFileRefs(ImportType.Multiple);
+  } catch (localError) {
+    setErrorMessage((prev: string[]) => pushElementToArray("Error reading files from input.", prev));
+    console.log(localError);
+    return;
+  }
   if (!fileRefs.length) {
     return;
   }
@@ -29,7 +36,12 @@ export async function addImages(
   for (let i = 0; i < fileRefs.length; i++) {
     const file = fileRefs[i];
     try {
-      const pendingURL = await getImageUrlFromFile(file);
+      let pendingURL: string;
+      if (file.size < 500 * 1024) {
+        pendingURL = await getImageUrlFromFile(file);
+      } else {
+        pendingURL = await getCompressedImageURL(file);
+      }
       setNewImages((prev: GalleryImage[]) =>
         pushElementToArray(
           {
@@ -127,11 +139,14 @@ export async function onSaveAlbumHeadersSuccess(
 export function resetHeaders(
   setLocalAlbumName: (str: string) => void,
   setLocalAlbumTags: (tags: DefinedTag[]) => void,
+  setLocalAlbumDescription: (str: string) => void,
   albumName: string,
+  description?: string,
   tags?: DefinedTag[]
 ) {
   setLocalAlbumTags(tags || []);
   setLocalAlbumName(albumName || "");
+  setLocalAlbumDescription(description || "");
 }
 
 function updateImageIds(imageIdsMap: Map<string, string>, prev: GalleryImage[]): GalleryImage[] {
@@ -232,15 +247,29 @@ export async function putAlbumPicturesIds(
   return putAlbumPicturesMutation(albumId, oldImageIds.concat(newImageIds));
 }
 
+export function clearImagesArray(prev: GalleryImage[]) {
+  for (const image of prev) {
+    if (image.url) {
+      URL.revokeObjectURL(image.url);
+    }
+  }
+  return prev.length ? [] : prev;
+}
+
 export async function onArrangePicturesSettled(
   unsavedImages: GalleryImage[],
+  albumId: string,
+  revalidateAlbum: (id: string) => void,
   setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
   setCurrentSegment: React.Dispatch<React.SetStateAction<ImagesSegment>>
 ): Promise<void> {
   if (unsavedImages.length) {
     return undefined;
   }
-  setNewImages((prev) => (prev.length ? [] : prev));
+  setNewImages(clearImagesArray);
   setCurrentSegment(ImagesSegment.OldImages);
+  if (albumId) {
+    revalidateAlbum(albumId);
+  }
   return queryClient.invalidateQueries({ queryKey: ["get-album"] });
 }

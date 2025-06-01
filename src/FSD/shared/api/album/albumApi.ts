@@ -76,19 +76,22 @@ export async function putAlbumHeaders(
 export async function saveAlbumHeadersMutation({
   id,
   albumName,
-  tags
+  tags,
+  description
 }: PutAlbumHeadersArgs): Promise<AxiosResponse<{ id?: string }>> {
   // const path = "/albums_list/album/headers";
   if (id) {
     return axiosClient.put<{ id?: string }>("/albums_list/album/headers", {
       id,
       albumName,
-      tags
+      tags,
+      description
     });
   }
   return axiosClient.post<{ id?: string }>("/albums_list/album", {
     albumName,
-    tags
+    tags,
+    description
   });
 }
 
@@ -121,4 +124,3 @@ export function putAlbumHeadersError(localError: unknown): ApiResponse<string> {
     data: "Unknown error"
   };
 }
-

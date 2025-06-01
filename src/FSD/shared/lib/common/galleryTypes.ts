@@ -20,6 +20,7 @@ export interface AlbumHeaders {
   changedDate: string;
   albumSize: number;
   tags: DefinedTag[];
+  description: string;
 }
 
 export interface Album extends AlbumHeaders {

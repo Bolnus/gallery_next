@@ -7,6 +7,7 @@ export interface ApiAlbum {
   changedDate: string;
   tags: ApiTag[];
   pictureIds?: string[];
+  description?: string;
 }
 
 export interface ApiResponse<T> {

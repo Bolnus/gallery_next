@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import classes from "./AlbumPage.module.scss";
 import { AlbumHeader } from "../../../widgets/AlbumHeader/ui/AlbumHeader";
 import { AlbumImagesGrid } from "../../../widgets/AlbumImagesGrid/ui/AlbumImagesGrid";
@@ -7,7 +8,16 @@ interface AlbumPageProps extends AlbumWithImages {
   isFetching?: boolean;
 }
 
-export function AlbumPage({ id, fullImages, albumName, snapImages, albumSize, tags, isFetching }: AlbumPageProps) {
+export function AlbumPage({
+  id,
+  fullImages,
+  albumName,
+  snapImages,
+  albumSize,
+  tags,
+  isFetching,
+  description
+}: AlbumPageProps) {
   return (
     <div className={classes.galleryPage}>
       <div className={classes.scrollWrapper}>
@@ -18,6 +28,9 @@ export function AlbumPage({ id, fullImages, albumName, snapImages, albumSize, ta
           isFetching={isFetching}
           albumId={id}
         />
+        <div className={classes.galleryPage__description}>
+          <ReactMarkdown>{description}</ReactMarkdown>
+        </div>
         <AlbumImagesGrid
           snapImages={snapImages}
           isFetching={isFetching}

@@ -19,7 +19,8 @@ import {
   sendImagesPortion,
   onSendImagesSuccess,
   onArrangePicturesSettled,
-  initUploadingImages
+  initUploadingImages,
+  clearImagesArray
 } from "../lib/albumEditUtils";
 import { AlbumImagesList } from "../../../widgets/AlbumImagesList/ui/AlbumImagesList";
 import { AlbumHeaderEdit } from "../../../widgets/AlbumHeader/ui/AlbumHeaderEdit";
@@ -34,9 +35,10 @@ import { SendImagesPortionRes } from "../lib/types";
 
 interface Props {
   onEditAlbumId?: string;
+  revalidateAlbum: (id: string) => void;
 }
 
-export function AlbumEditView({ onEditAlbumId = "" }: Props): JSX.Element {
+export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): JSX.Element {
   const [unsavedChanges, setUnsavedChanges] = React.useState<ChangesSaveState>(ChangesSaveState.Saved);
   const [oldImages, setOldImages] = React.useState<GalleryImage[]>([]);
   const [newImages, setNewImages] = React.useState<GalleryImage[]>([]);
@@ -50,6 +52,7 @@ export function AlbumEditView({ onEditAlbumId = "" }: Props): JSX.Element {
     onEditAlbumId ? ImagesSegment.OldImages : ImagesSegment.NewImages
   );
   const [postImageIndex, setPostImageIndex] = React.useState(-1);
+  const [localAlbumDescription, setLocalAlbumDescription] = React.useState("");
   const router = useRouter();
 
   const { isLoading: headersLoading, data, refetch } = useQuery({
@@ -61,6 +64,7 @@ export function AlbumEditView({ onEditAlbumId = "" }: Props): JSX.Element {
 
   const albumName = data?.albumName || "";
   const tags = data?.tags;
+  const description = data?.description;
 
   React.useEffect(() => {
     if (data?.snapImages) {
@@ -80,7 +84,8 @@ export function AlbumEditView({ onEditAlbumId = "" }: Props): JSX.Element {
     string[]
   >((savedIds: string[]) => putAlbumPicturesIds(oldImages || [], savedIds, albumId), {
     onError: (localError: AxiosError<ApiMessage>) => pushServerError(setErrorMessages, localError),
-    onSettled: () => onArrangePicturesSettled(unsavedImages, setNewImages, setCurrentSegment)
+    onSettled: () =>
+      onArrangePicturesSettled(unsavedImages, onEditAlbumId, revalidateAlbum, setNewImages, setCurrentSegment)
   });
 
   const { mutate: postAlbumPictures, isLoading: postAlbumPicturesLoading } = useMutation<
@@ -135,7 +140,8 @@ export function AlbumEditView({ onEditAlbumId = "" }: Props): JSX.Element {
       saveAlbumHeadersMutation({
         id: albumId,
         albumName: localAlbumName,
-        tags: localAlbumTags.map(mapDefinedTagToStr)
+        tags: localAlbumTags.map(mapDefinedTagToStr),
+        description: localAlbumDescription
       }),
     {
       onError: (localError: AxiosError<ApiMessage>) => pushServerError(setErrorMessages, localError),
@@ -152,12 +158,21 @@ export function AlbumEditView({ onEditAlbumId = "" }: Props): JSX.Element {
     }
   );
 
-  React.useEffect(() => resetHeaders(setLocalAlbumName, setLocalAlbumTags, albumName, tags), [tags, albumName]);
+  React.useEffect(
+    () => resetHeaders(setLocalAlbumName, setLocalAlbumTags, setLocalAlbumDescription, albumName, description, tags),
+    [tags, albumName, description]
+  );
 
   React.useEffect(() => {
-    const changed = albumName !== localAlbumName || tagsChanged(tags || [], localAlbumTags);
+    const changed = albumName !== localAlbumName ||
+      description !== localAlbumDescription ||
+      tagsChanged(tags || [], localAlbumTags);
     setUnsavedChanges(changed ? ChangesSaveState.Unsaved : ChangesSaveState.Saved);
-  }, [albumName, localAlbumName, tags, localAlbumTags]);
+  }, [albumName, localAlbumName, tags, localAlbumTags, description, localAlbumDescription]);
+
+  React.useEffect(() => () => {
+    clearImagesArray(newImagesRef.current);
+  }, [newImagesRef]);
 
   const headersFetching =
     headersLoading ||
@@ -194,6 +209,8 @@ export function AlbumEditView({ onEditAlbumId = "" }: Props): JSX.Element {
           onDelete={deleteAlbum}
           currentSegment={currentSegment}
           setCurrentSegment={setCurrentSegment}
+          localAlbumDescription={localAlbumDescription}
+          setLocalAlbumDescription={setLocalAlbumDescription}
         />
         <AlbumImagesList
           images={currentSegment === ImagesSegment.OldImages ? oldImages : newImages}

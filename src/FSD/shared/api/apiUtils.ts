@@ -35,7 +35,8 @@ export function mapAlbums(albumApi: ApiAlbum): Album {
     changedDate: albumApi.changedDate,
     snapImages: [],
     albumSize: albumApi.albumSize,
-    tags: albumApi.tags.map(mapTags)
+    tags: albumApi.tags.map(mapTags),
+    description: albumApi.description || ""
   };
   if (albumApi.pictureIds?.length) {
     album.snapImages = albumApi.pictureIds.map(mapPictureIdToSnapRef);
@@ -49,7 +50,8 @@ export function mapAlbumHeaders(albumApi: ApiAlbum): AlbumHeaders {
     albumName: albumApi.albumName,
     changedDate: albumApi.changedDate,
     albumSize: albumApi.albumSize,
-    tags: albumApi.tags.map(mapTags)
+    tags: albumApi.tags.map(mapTags),
+    description: albumApi.description || ""
   };
   return album;
 }

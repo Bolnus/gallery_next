@@ -15,3 +15,11 @@
     flex: 1 1 auto;
     overflow-y: auto;
 }
+
+.galleryPage__description
+{
+    width: 70%;
+    margin: var(--fontSizeLargest) 15% var(--fontSizeLargest) 15%;
+    color: var(--fontColorFirm);
+    font-size: var(--fontSizeMedium);
+}

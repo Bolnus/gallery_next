@@ -67,7 +67,8 @@ export function SpinnerProgressBar({
         className={getUnitedClassnames([classes.progressBar, isFailed ? classes.progressBarFailed : ""])}
         style={{
           clipPath: `inset(0 ${100 - progress}% 0 0)`,
-          opacity: isComplete || isFailed ? 0 : 1
+          opacity: isComplete || isFailed ? 0 : 1,
+          background: progress > 0 && progress < 100 ? "rgba(227, 228, 221, 0.5)" : undefined
         }}
       />
 
@@ -76,7 +77,7 @@ export function SpinnerProgressBar({
           <ReactIcon iconName={IconName.Loader} className={classes.spinner} />
         )}
 
-        {isHovering && !isComplete && !isFailed && progress === FileLoadState.uploadPlanned && (
+        {!isComplete && !isFailed && progress === FileLoadState.uploadPlanned && (
           <ButtonIcon
             onClick={onCancel}
             className={classes.cancelButton}

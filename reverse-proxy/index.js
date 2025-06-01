@@ -85,7 +85,8 @@ app.all(":endpoint([\\/\\w\\.-\\?\\=]*)", function (req, res) {
   console.log(`${req.method} | ${getFullTime()} | ${endpoint}`);
 
   apiProxy.web(req, res, {
-    target: baseServerEndPoint
+    target: baseServerEndPoint,
+    changeOrigin: true
   });
 });
 

@@ -9,6 +9,7 @@ import { ProgressBar } from "../../../shared/ui/ProgressBar/ProgressBar";
 import { ButtonIconBackground } from "../../../shared/ui/button/ButtonIcon/types";
 import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 import { SpinnerProgressBar } from "../../../shared/ui/ProgressBar/SpinnerProgressBar";
+import { ProgressTester } from "../../../shared/ui/ProgressBar/ProgressTester";
 
 interface Props {
   image: GalleryImage;

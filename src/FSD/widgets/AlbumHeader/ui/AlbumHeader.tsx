@@ -38,8 +38,7 @@ export function AlbumHeader({
   imageCover,
   tags,
   albumName = "",
-  isFetching = false,
-  albumId = ""
+  isFetching = false
 }: Props & (OnEditProps | ReadOnlyProps)): JSX.Element {
   const router = useRouter();
 

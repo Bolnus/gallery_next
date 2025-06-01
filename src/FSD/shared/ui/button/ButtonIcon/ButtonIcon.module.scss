@@ -27,8 +27,8 @@
 }
 
 .buttonIcon_small {
-    height: 16px;
-    width: 16px;
+    height: 14px;
+    width: 14px;
 }
 
 .buttonIcon_mediumAdaptive {
@@ -37,8 +37,8 @@
 }
 
 .buttonIcon_smallAdaptive {
-    height: calc(2 * var(--fontSizeSmall));
-    width: calc(2 * var(--fontSizeSmall));
+    height: calc(1.8 * var(--fontSizeSmall));
+    width: calc(1.8 * var(--fontSizeSmall));
 }
 
 .buttonIcon_largeAdaptive {

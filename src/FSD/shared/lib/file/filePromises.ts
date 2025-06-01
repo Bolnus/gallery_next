@@ -55,6 +55,77 @@ export async function getImageUrlFromFile(file: File): Promise<string> {
   return promise;
 }
 
+function calculateScale(fileSize: number) {
+  if (fileSize > 5 * 1024 * 1024) {
+    return 0.5;
+  } else if (fileSize > 2 * 1024 * 1024) {
+    return 0.7;
+  } else if (fileSize > 1 * 1024 * 1024) {
+    return 0.8;
+  } else if (fileSize > 500 * 1024) {
+    return 0.9;
+  }
+  return 1;
+}
+
+function getDataURLFromBlob(
+  blob: Blob | null,
+  canvas: HTMLCanvasElement,
+  resolve: (value: string) => void,
+  reject: (reason: ImageLoadError) => void
+) {
+  const url = window.URL || window.webkitURL;
+  if (!blob) {
+    console.warn("Empty blob after compression");
+    reject(ImageLoadError.PARSE);
+    return;
+  }
+  resolve(url.createObjectURL(blob));
+  canvas.remove();
+}
+
+function compressLoadedImage(
+  image: HTMLImageElement,
+  scale: number,
+  resolve: (value: string) => void,
+  reject: (reason: ImageLoadError) => void
+) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    console.warn("Error canvas.getContext");
+    reject(ImageLoadError.PARSE);
+    return;
+  }
+  const width = image.width * scale;
+  const height = image.height * scale;
+  canvas.width = width;
+  canvas.height = height;
+  ctx.drawImage(image, 0, 0, width, height);
+  canvas.toBlob((blob) => getDataURLFromBlob(blob, canvas, resolve, reject), "image/webp", scale);
+}
+
+function createImageCompressPromise(
+  file: File,
+  resolve: (value: string) => void,
+  reject: (reason: ImageLoadError) => void
+): void {
+  if (file.size > FILE_SIZE_LIMIT) {
+    reject(ImageLoadError.SIZE_LIMIT);
+  }
+  const scale = calculateScale(file.size);
+  const image = new Image();
+  const url = window.URL || window.webkitURL;
+  image.src = url.createObjectURL(file);
+  image.onload = (ev: Event) => compressLoadedImage(ev.target as HTMLImageElement, scale, resolve, reject);
+  image.onerror = () => reject(ImageLoadError.PARSE);
+}
+
+export async function getCompressedImageURL(file: File): Promise<string> {
+  const promise = new Promise<string>((resolve, reject) => createImageCompressPromise(file, resolve, reject));
+  return promise;
+}
+
 function readPendingTextFile(
   resolve: (value: ImportedTextFile[]) => void,
   reader: FileReader,
@@ -89,12 +160,17 @@ function getFileRefsOnFileInputChange(resolve: (value: File[]) => void, localEve
   resolve(validFiles);
 }
 
-function importFilesFromFS(resolve: (value: File[]) => void, importType = ImportType.Single): void {
+function importFilesFromFS(
+  resolve: (value: File[]) => void,
+  reject: (err: unknown) => void,
+  importType = ImportType.Single
+): void {
   const inputElement = document.createElement("input");
   inputElement.type = "file";
   if (importType !== ImportType.Single) {
     inputElement.id = "ctrl";
     inputElement.multiple = true;
+    inputElement.max = "50";
     if (importType === ImportType.Directory) {
       inputElement.webkitdirectory = true;
       // @ts-ignore
@@ -102,13 +178,14 @@ function importFilesFromFS(resolve: (value: File[]) => void, importType = Import
     }
   }
   inputElement.onchange = (localEvent: Event) => getFileRefsOnFileInputChange(resolve, localEvent);
+  inputElement.onerror = reject;
   document.body.appendChild(inputElement);
   inputElement.click();
   document.body.removeChild(inputElement);
 }
 
 export async function getReadableFileRefs(importType?: ImportType): Promise<File[]> {
-  const promise = new Promise<File[]>((resolve) => importFilesFromFS(resolve, importType));
+  const promise = new Promise<File[]>((resolve, reject) => importFilesFromFS(resolve, reject, importType));
   return promise;
 }
 

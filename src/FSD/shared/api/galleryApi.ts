@@ -2,8 +2,8 @@ import axios, { AxiosError } from "axios";
 import { ApiMessage, ApiResponse } from "./apiTypes";
 import { getProxyHostname, getProxyProtocol } from "./apiUtils";
 
-const proxyPort = process.env.NEXT_PUBLIC_PROXY_PORT || "";
-export const baseURL = `${getProxyProtocol()}//${getProxyHostname()}:${proxyPort}`;
+const proxyPort = process.env.NEXT_PUBLIC_PROXY_PORT ? `:${process.env.NEXT_PUBLIC_PROXY_PORT}` : "";
+export const baseURL = `${getProxyProtocol()}//${getProxyHostname()}${proxyPort}`;
 export const axiosClient = axios.create({
   baseURL
 });

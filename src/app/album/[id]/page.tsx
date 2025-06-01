@@ -41,6 +41,7 @@ function AlbumWrapper(props: AlbumWithImages) {
           albumSize={0}
           tags={[]}
           changedDate=""
+          description=""
         />
       }
       key={props?.id}
@@ -64,6 +65,7 @@ export default async function Page({ params }: AlbumPageProps) {
       albumSize={0}
       tags={[]}
       changedDate=""
+      description=""
       // isFetching={isLoading}
     />
   );

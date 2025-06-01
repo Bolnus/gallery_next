@@ -8,4 +8,5 @@ export interface PutAlbumHeadersArgs {
   id?: string;
   albumName: string;
   tags: string[];
+  description: string;
 }

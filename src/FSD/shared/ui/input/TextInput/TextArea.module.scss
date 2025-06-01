@@ -1,0 +1,28 @@
+.textArea {
+    background: var(--inputBgColor);
+    border-radius: 4px;
+}
+
+.textArea__input {
+    overflow: auto;
+    resize: none;
+    background: inherit;
+    min-height: 38px;
+    color: var(--fontColorFirm);
+    min-width: 10px;
+    padding: 2px 8px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: inherit;
+    font-size: var(--fontSizeSmall);
+}
+
+.textArea__input:disabled {
+    color: grey;
+    cursor: pointer;
+}
+
+.textArea__input::placeholder
+{
+    color: hsl(0, 0%, 50%);
+}

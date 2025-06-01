@@ -16,7 +16,15 @@ const nextConfig = {
           }
         ],
       },
-      staticPageGenerationTimeout: 120
+      staticPageGenerationTimeout: 120,
+      // async rewrites() {
+      //   return [
+      //     {
+      //       source: '/:path*',
+      //       destination: 'https://gallery-backend-teal.vercel.app/gallery/:path*'
+      //     }
+      //   ]
+      // }
 };
 
 export default nextConfig;

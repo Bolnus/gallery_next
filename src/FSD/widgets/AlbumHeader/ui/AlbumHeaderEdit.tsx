@@ -27,13 +27,14 @@ import { Modal, ModalType } from "../../../shared/ui/Modal/Modal";
 import { ImagesSegment } from "../lib/types";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { Segment } from "../../../shared/ui/segments/Segment";
+import { ProgressTester } from "../../../shared/ui/ProgressBar/ProgressTester";
+import { TextArea } from "../../../shared/ui/input/TextInput/TextArea";
 
 interface Props {
   albumId: string;
   localAlbumName: string;
+  localAlbumDescription: string;
   localAlbumTags: readonly DefinedTag[];
-  albumName?: string;
-  tags?: DefinedTag[];
   imageCover?: GalleryImage;
   isFetching?: boolean;
   canSave?: boolean;
@@ -47,6 +48,7 @@ interface Props {
   onDelete: () => void;
   setLocalAlbumName: (str: string) => void;
   setLocalAlbumTags: React.Dispatch<React.SetStateAction<readonly DefinedTag[]>>;
+  setLocalAlbumDescription: (str: string) => void;
 }
 
 const canEdit = true;
@@ -74,10 +76,9 @@ export function AlbumHeaderEdit({
   newImages,
   oldImages,
   albumId,
-  tags,
-  albumName,
   localAlbumName,
   localAlbumTags,
+  localAlbumDescription,
   canSave,
   isFetching,
   currentSegment,
@@ -87,7 +88,8 @@ export function AlbumHeaderEdit({
   onDelete,
   setLocalAlbumTags,
   setLocalAlbumName,
-  setCurrentSegment
+  setCurrentSegment,
+  setLocalAlbumDescription
 }: Props): JSX.Element {
   const [tagsFocused, setTagsFocused] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
@@ -114,23 +116,46 @@ export function AlbumHeaderEdit({
           sizes="99vw"
         />
       </div>
-      <div className={classes.galleryHeader__segments}>
-        <Segment
-          isSelected={currentSegment === ImagesSegment.OldImages}
-          onClick={() => setCurrentSegment(ImagesSegment.OldImages)}
-        >
-          {`Old images${oldImages?.length ? ` (${oldImages.length})` : ""}`}
-        </Segment>
-        <Segment
-          isSelected={currentSegment === ImagesSegment.NewImages}
-          onClick={() => setCurrentSegment(ImagesSegment.NewImages)}
-        >
-          {`New images${newImages?.length ? ` (${newImages.length})` : ""}`}
-        </Segment>
-      </div>
       <div className={classes.galleryHeader__nameArea}>
         <div className={classes.galleryHeader__leftContent}>
           <TextInput value={localAlbumName} onChange={(newValue: string) => setLocalAlbumName(newValue)} isClearable />
+        </div>
+      </div>
+
+      <div className={classes.galleryHeader__descriptionArea}>
+        <TextArea
+          value={localAlbumDescription}
+          onChange={setLocalAlbumDescription}
+          rows={5}
+          containerClassName={classes.descriptionTextArea}
+          placeholder="Description..."
+        />
+      </div>
+
+      <div className={classes.galleryHeader__tagsArea}>
+        <CreatableMultiSelect
+          options={searchTags?.length ? searchTags.map(mapDefinedTagsToOptions) : []}
+          value={localAlbumTags.map(mapDefinedTagsToOptions)}
+          onChange={(newTags: readonly SelectOption[]) => setLocalAlbumTags(newTags.map(mapOptionsToDefinedTags))}
+          onCreateOption={(inputValue: string) => onCreateOption(setLocalAlbumTags, inputValue)}
+          onFocus={() => onTagsFocus(setTagsFocused)}
+          isClearable
+          placeholder="Tags..."
+          isLoading={searchTagsLoading}
+        />
+        <div className={classes.galleryHeader__segments}>
+          <Segment
+            isSelected={currentSegment === ImagesSegment.OldImages}
+            onClick={() => setCurrentSegment(ImagesSegment.OldImages)}
+          >
+            {`Old${oldImages?.length ? ` (${oldImages.length})` : ""}`}
+          </Segment>
+          <Segment
+            isSelected={currentSegment === ImagesSegment.NewImages}
+            onClick={() => setCurrentSegment(ImagesSegment.NewImages)}
+          >
+            {`New${newImages?.length ? ` (${newImages.length})` : ""}`}
+          </Segment>
         </div>
       </div>
 
@@ -183,18 +208,6 @@ export function AlbumHeaderEdit({
         ) : null}
       </div>
 
-      <div className={classes.galleryHeader__tagsArea}>
-        <CreatableMultiSelect
-          options={searchTags?.length ? searchTags.map(mapDefinedTagsToOptions) : []}
-          value={localAlbumTags.map(mapDefinedTagsToOptions)}
-          onChange={(newTags: readonly SelectOption[]) => setLocalAlbumTags(newTags.map(mapOptionsToDefinedTags))}
-          onCreateOption={(inputValue: string) => onCreateOption(setLocalAlbumTags, inputValue)}
-          onFocus={() => onTagsFocus(setTagsFocused)}
-          isClearable
-          placeholder="Tags..."
-          isLoading={searchTagsLoading}
-        />
-      </div>
       {deleteConfirmOpen ? (
         <Modal
           modalType={ModalType.DeleteDialog}
