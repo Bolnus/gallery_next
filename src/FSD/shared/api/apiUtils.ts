@@ -1,6 +1,5 @@
 import { Album, AlbumHeaders, DefinedTag, FileLoadState, GalleryImage } from "../lib/common/galleryTypes";
 import { ApiAlbum, ApiTag } from "./apiTypes";
-import { baseURL } from "./galleryApi";
 
 export function mapTags(tagApi: ApiTag): DefinedTag {
   return {
@@ -14,7 +13,7 @@ function mapPictureIdToSnapRef(pictureId: string): GalleryImage {
   return {
     id: pictureId,
     name: pictureId,
-    url: `${baseURL}/albums_list/album/picture?id=${pictureId}&sizing=snap`,
+    url: `${getClientProxyUrl()}/albums_list/album/picture?id=${pictureId}&sizing=snap`,
     loadState: FileLoadState.downloading
   };
 }
@@ -23,7 +22,7 @@ export function mapPictureIdToFullRef(pictureId: string): GalleryImage {
   return {
     id: pictureId,
     name: pictureId,
-    url: `${baseURL}/albums_list/album/picture?id=${pictureId}`,
+    url: `${getClientProxyUrl()}/albums_list/album/picture?id=${pictureId}`,
     loadState: FileLoadState.downloading
   };
 }
@@ -68,4 +67,14 @@ export function getProxyHostname(): string {
     return window.location.hostname;
   }
   return "localhost";
+}
+
+export function getClientProxyUrl(): string {
+  const proxyPort = process.env.NEXT_PUBLIC_PROXY_PORT ? `:${process.env.NEXT_PUBLIC_PROXY_PORT}` : "";
+  const baseEndpoint = process.env.NEXT_PUBLIC_ENDPOINT || "";
+  if (global.window) {
+    return `${getProxyProtocol()}//${getProxyHostname()}${proxyPort}${baseEndpoint}`;
+  }
+  const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL || "http://localhost";
+  return `${proxyUrl}${proxyPort}${baseEndpoint}`;
 }
