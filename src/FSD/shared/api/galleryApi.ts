@@ -33,6 +33,7 @@ export function handleResponseError<T = null>(localError: unknown, endPoint: str
     };
   }
   console.warn(`Fetch error ${endPoint}: unknown error`);
+  console.log(localError)
   return {
     rc: 500,
     data: null

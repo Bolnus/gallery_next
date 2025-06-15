@@ -1,11 +1,10 @@
 import { AlbumPage } from "../../../FSD/pages/album/ui/AlbumPage";
-import { getAlbum, getAlbumQuery } from "../../../FSD/shared/api/album/albumApi";
 import { AlbumWithImages } from "../../../FSD/shared/api/album/types";
 import { PAGE_PARAM, SIZE_PARAM } from "../../../FSD/pages/albumsSearch/consts/consts";
-import { getAlbumsList } from "../../../FSD/shared/api/albumsList/albumsListApi";
 import { Suspense } from "react";
 import { useQuery } from "react-query";
 import { AlbumPageProps, AlbumParam } from "../../../FSD/shared/lib/common/galleryTypes";
+import { getAlbumServerSide, getAlbumsListServerSide } from "../../../FSD/shared/api/album/albumApiServer";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
   let downloadedCount = 0;
@@ -16,7 +15,7 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
     const searchParams = new URLSearchParams();
     searchParams.set(PAGE_PARAM, String(pageNumber));
     searchParams.set(SIZE_PARAM, "50");
-    const res = await getAlbumsList(searchParams);
+    const res = await getAlbumsListServerSide(searchParams);
     totalCount = res.data.totalCount;
     for (const album of res.data.albumsList) {
       paths.push({ id: album.id });
@@ -52,7 +51,7 @@ function AlbumWrapper(props: AlbumWithImages) {
 }
 
 export default async function Page({ params }: AlbumPageProps) {
-  const res = await getAlbum(params?.id);
+  const res = await getAlbumServerSide(params?.id);
   if (res.rc < 300 && res.rc >= 200 && res.data) {
     return <AlbumWrapper {...res.data} />;
   }

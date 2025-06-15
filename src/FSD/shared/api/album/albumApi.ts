@@ -5,22 +5,6 @@ import { axiosClient, handleResponseError, isApiError, isAxiosError } from "../g
 import { AlbumWithImages, PutAlbumHeadersArgs } from "./types";
 import { AlbumHeaders } from "../../lib/common/galleryTypes";
 
-export async function getAlbum(albumId: string): Promise<ApiResponse<AlbumWithImages | null>> {
-  const path = "/albums_list/album";
-  try {
-    const response = await axiosClient.get<ApiAlbum>(`${path}?id=${albumId}`);
-    return {
-      rc: 200,
-      data: {
-        ...mapAlbums(response.data),
-        fullImages: response.data?.pictureIds?.length ? response.data.pictureIds.map(mapPictureIdToFullRef) : []
-      }
-    };
-  } catch (localError: unknown) {
-    return handleResponseError(localError, path);
-  }
-}
-
 export async function getAlbumQuery(albumId: string): Promise<AlbumWithImages> {
   const path = "/albums_list/album";
   const response = await axiosClient.get<ApiAlbum>(`${path}?id=${albumId}`);
