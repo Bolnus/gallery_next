@@ -51,6 +51,7 @@
 .scrollBox_itemWrapper
 {
     width: 60%;
+    margin: var(--fontSizeLargest) auto 0 auto;
     @media all and (max-width: 1000px)
     {
         width: 80%;
@@ -59,5 +60,4 @@
     {
         width: 90%;
     }
-    margin: var(--fontSizeLargest) auto 0 auto;
 }

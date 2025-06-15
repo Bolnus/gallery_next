@@ -10,6 +10,7 @@ import { ButtonIconBackground } from "../../../shared/ui/button/ButtonIcon/types
 import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 import { SpinnerProgressBar } from "../../../shared/ui/ProgressBar/SpinnerProgressBar";
 import { ProgressTester } from "../../../shared/ui/ProgressBar/ProgressTester";
+import { getHumanReadableFileSize } from "../lib/utils";
 
 interface Props {
   image: GalleryImage;
@@ -33,7 +34,7 @@ export function ImagesListItem({ image, onDelete, onCancel, deleteDisabled }: Pr
       </div>
       <div className={classes.imagesListItem__description}>
         <p className={classes.imagesListItem__descriptionText}>
-          {image?.data?.size ? `${(image?.data?.size / 1024 / 1024).toFixed(2)} MB` : ""}
+          {image?.data?.size ? getHumanReadableFileSize(image?.data?.size) : ""}
         </p>
       </div>
       <div className={classes.imagesListItem__progressBar}>

@@ -59,13 +59,13 @@
     z-index: 2;
     // margin-top: 3px;
     margin-left: var(--fontSizeLargest);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     @media all and (max-width: 700px)
     {
         margin-left: var(--fontSizeSmall);
     }
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .galleryHeader__tagsWrapper

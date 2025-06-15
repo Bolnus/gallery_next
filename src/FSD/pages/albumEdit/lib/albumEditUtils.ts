@@ -1,4 +1,3 @@
-import { revalidatePath } from "next/cache";
 import { pushElementToArray } from "../../../shared/lib/common/commonUtils";
 import { DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
 import { getCompressedImageURL, getImageUrlFromFile, getReadableFileRefs } from "../../../shared/lib/file/filePromises";
@@ -8,10 +7,11 @@ import { queryClient } from "../../../app/lib/reactQuery/ReactQueryProvider";
 import { AxiosError, AxiosResponse } from "axios";
 import { ApiMessage } from "../../../shared/api/apiTypes";
 import { postAlbumPicturesMutation, putAlbumPicturesMutation } from "../../../shared/api/picture/pictureApi";
-import { PostPicturesResp } from "../../../shared/api/picture/types";
 import { isApiError } from "../../../shared/api/galleryApi";
 import { ImagesSegment } from "../../../widgets/AlbumHeader/lib/types";
 import { SendImagesPortionRes } from "./types";
+import { getHumanReadableFileSize } from "../../../widgets/AlbumImagesList/lib/utils";
+import { FILE_SIZE_LIMIT } from "../../../shared/lib/file/consts";
 
 export async function addImages(
   setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
@@ -58,7 +58,12 @@ export async function addImages(
       if (localError === ImageLoadError.PARSE) {
         setErrorMessage((prev: string[]) => pushElementToArray(`Error. Could not parse ${file.name} as image.`, prev));
       } else if (localError === ImageLoadError.SIZE_LIMIT) {
-        setErrorMessage((prev: string[]) => pushElementToArray(`Error. File ${file.name} exceeds 10MB limit.`, prev));
+        setErrorMessage((prev: string[]) =>
+          pushElementToArray(
+            `Error. File ${file.name} exceeds ${getHumanReadableFileSize(FILE_SIZE_LIMIT)} limit.`,
+            prev
+          )
+        );
       } else if (typeof localError === "string") {
         setErrorMessage((prev: string[]) => pushElementToArray(localError, prev));
       } else {

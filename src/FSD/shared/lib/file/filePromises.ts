@@ -1,7 +1,5 @@
+import { FILE_SIZE_LIMIT } from "./consts";
 import { ImageLoadError, ImportedTextFile, ImportType } from "./types";
-
-const FILE_SIZE_LIMIT = 10 * 1024 * 1024;
-const FILES_COUNT_LIMIT = 50;
 
 function readTextFileOnLoad(
   resolve: (value: ImportedTextFile) => void,
@@ -55,15 +53,15 @@ export async function getImageUrlFromFile(file: File): Promise<string> {
   return promise;
 }
 
-function calculateScale(fileSize: number) {
+function calculateScale(fileSize: number): number {
   if (fileSize > 5 * 1024 * 1024) {
-    return 0.5;
+    return 0.1;
   } else if (fileSize > 2 * 1024 * 1024) {
-    return 0.7;
+    return 0.25;
   } else if (fileSize > 1 * 1024 * 1024) {
-    return 0.8;
+    return 0.3;
   } else if (fileSize > 500 * 1024) {
-    return 0.9;
+    return 0.6;
   }
   return 1;
 }

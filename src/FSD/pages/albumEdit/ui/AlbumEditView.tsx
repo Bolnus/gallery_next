@@ -32,6 +32,7 @@ import { deleteAlbumMutation, getAlbumQuery, saveAlbumHeadersMutation } from "..
 import { useRouter } from "next/navigation";
 import { ImagesSegment } from "../../../widgets/AlbumHeader/lib/types";
 import { SendImagesPortionRes } from "../lib/types";
+import { FILE_SIZE_LIMIT } from "../../../shared/lib/file/consts";
 
 interface Props {
   onEditAlbumId?: string;
@@ -69,6 +70,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
   React.useEffect(() => {
     if (data?.snapImages) {
       setOldImages(data?.snapImages);
+      setNewImages([]);
     }
   }, [data?.snapImages]);
 
@@ -115,12 +117,14 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
         images = initUploadingImages(images);
       }
       const imagesPortion: GalleryImage[] = [];
+      let portionSize = 0;
       for (let i = postImageIndex; i < images.length; i++) {
         if (images[i].loadState !== FileLoadState.uploaded && images[i].loadState !== FileLoadState.uploadCanceled) {
-          imagesPortion.push(images[i]);
-          if (imagesPortion.length === 5) {
+          portionSize = portionSize + (images[i].data as File)?.size;
+          if (portionSize > FILE_SIZE_LIMIT || imagesPortion.length > 8) {
             break;
           }
+          imagesPortion.push(images[i]);
         }
       }
       setNewImages((prev: GalleryImage[]) => updateLoadingPortion(imagesPortion, prev));
