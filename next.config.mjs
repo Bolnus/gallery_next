@@ -15,6 +15,23 @@ const nextConfig = {
             pathname: '/**',
           },
           {
+            protocol: 'http',
+            hostname: 'localhost',
+            port: '',
+            pathname: '/**',
+          },
+          {
+            protocol: 'http',
+            hostname: 'mike-pc.local',
+            port: '',
+            pathname: '/**',
+          },
+          {
+            hostname: 'recipes-rho-ten.vercel.app',
+            port: '',
+            pathname: '/**',
+          },
+          {
             protocol: 'https',
             hostname: 'gallery-backend-teal.vercel.app',
             port: '',
