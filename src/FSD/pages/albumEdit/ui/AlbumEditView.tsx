@@ -20,7 +20,8 @@ import {
   onSendImagesSuccess,
   onArrangePicturesSettled,
   initUploadingImages,
-  clearImagesArray
+  clearImagesArray,
+  onReset
 } from "../lib/albumEditUtils";
 import { AlbumImagesList } from "../../../widgets/AlbumImagesList/ui/AlbumImagesList";
 import { AlbumHeaderEdit } from "../../../widgets/AlbumHeader/ui/AlbumHeaderEdit";
@@ -70,7 +71,6 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
   React.useEffect(() => {
     if (data?.snapImages) {
       setOldImages(data?.snapImages);
-      setNewImages([]);
     }
   }, [data?.snapImages]);
 
@@ -207,7 +207,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
           setLocalAlbumTags={setLocalAlbumTags}
           onSaveChanges={() => onSaveChanges(saveAlbumHeaders, setPostImageIndex, unsavedChanges)}
           onAddImages={() => addImages(setNewImages, setErrorMessages, setCurrentSegment)}
-          onReset={refetch}
+          onReset={() => onReset(setNewImages, refetch)}
           isFetching={headersFetching}
           canSave={canSave}
           onDelete={deleteAlbum}

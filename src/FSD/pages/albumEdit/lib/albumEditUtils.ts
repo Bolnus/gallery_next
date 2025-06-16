@@ -12,6 +12,8 @@ import { ImagesSegment } from "../../../widgets/AlbumHeader/lib/types";
 import { SendImagesPortionRes } from "./types";
 import { getHumanReadableFileSize } from "../../../widgets/AlbumImagesList/lib/utils";
 import { FILE_SIZE_LIMIT } from "../../../shared/lib/file/consts";
+import { QueryObserverResult } from "react-query";
+import { AlbumWithImages } from "../../../shared/api/album/types";
 
 export async function addImages(
   setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
@@ -277,4 +279,12 @@ export async function onArrangePicturesSettled(
     revalidateAlbum(albumId);
   }
   return queryClient.invalidateQueries({ queryKey: ["get-album"] });
+}
+
+export function onReset(
+  setNewImages: (images: GalleryImage[]) => void,
+  refetch: () => Promise<QueryObserverResult<AlbumWithImages, unknown>>
+) {
+  setNewImages([]);
+  refetch();
 }
