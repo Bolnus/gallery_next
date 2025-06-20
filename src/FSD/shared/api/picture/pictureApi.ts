@@ -14,7 +14,11 @@ export async function postAlbumPicturesMutation(
       formData.append("images", image.data);
     }
   }
-  return axiosClient.post<PostPicturesResp>("/albums_list/album/picture", formData);
+  return axiosClient.post<PostPicturesResp>("/albums_list/album/picture", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  });
 }
 
 export async function putAlbumPicturesMutation(albumId: string, imageIds: string[]): Promise<AxiosResponse<null>> {
