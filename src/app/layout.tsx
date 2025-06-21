@@ -6,8 +6,8 @@ import { SearchProvider } from "../FSD/app/lib/context/searchContext";
 import { BaseProvider } from "../FSD/app/lib/baseProviders/baseProvider";
 
 export const metadata: Metadata = {
-  title: "Gallery Next App",
-  description: "Gallery"
+  title: "Tasty Duo",
+  description: "Recipes by a couple of russian chefs"
 };
 
 export default function RootLayout({
