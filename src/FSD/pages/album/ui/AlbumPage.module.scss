@@ -24,3 +24,27 @@
     font-size: var(--fontSizeMedium);
     white-space: pre-wrap;
 }
+
+.galleryPage__description code {
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: var(--inputBgColor);
+    border-radius: 6px;
+}
+
+.galleryPage__description pre {
+    background-color: var(--inputBgColor);
+    border-radius: 6px;
+    padding: 0.2em 0.4em;
+}
+
+.galleryPage__description ul {
+    display: inline flow;
+}
+
+.galleryPage__description li {
+    line-height: 1.5rem;
+    display: inline flow list-item;
+}
