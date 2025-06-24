@@ -86,15 +86,15 @@ export function ImageSlider({ images, currentViewId, header, onClose }: ImageSli
               <ButtonIcon onClick={onClose} iconName={IconName.Close} size={UiSize.MediumAdaptive} color="white" />
               <div className={classes.photoViewToolBar__background} />
             </header>
-            <footer className={getUnitedClassnames([classes.photoViewToolBar, classes.photoViewToolBar_footer])}>
-              {/* <button
+            {/* <footer className={getUnitedClassnames([classes.photoViewToolBar, classes.photoViewToolBar_footer])}>
+              <button
               onClick={() => invertTrigger(modalVisible, setModalVisible)}
               className={`${classes.photoViewToolBar__button} emojiFont`}
             >
               🗑️
-            </button> */}
+            </button>
               <div className={classes.photoViewToolBar__background} />
-            </footer>
+            </footer> */}
           </>
         ) : null}
         <Slider
