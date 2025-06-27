@@ -27,7 +27,7 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
   return paths;
 }
 
-function AlbumWrapper(props: AlbumWithImages) {
+function AlbumWrapper(props: AlbumWithImages): JSX.Element {
   return (
     <Suspense
       fallback={
@@ -50,7 +50,7 @@ function AlbumWrapper(props: AlbumWithImages) {
   );
 }
 
-export default async function Page({ params }: AlbumPageProps) {
+export default async function Page({ params }: AlbumPageProps): Promise<JSX.Element> {
   const res = await getAlbumServerSide(params?.id);
   if (res.rc < 300 && res.rc >= 200 && res.data) {
     return <AlbumWrapper {...res.data} />;

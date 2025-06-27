@@ -65,7 +65,7 @@ export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName 
           ) : null}
         </div>
       ) : (
-        <div className="emptyComment">404 Not found</div>
+        <div className="emptyComment">{albumName ? "No images" : "404 Not found"}</div>
       )}
       <ImageSlider
         header={albumName}

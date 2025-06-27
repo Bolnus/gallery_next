@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import classes from "./AlbumsSearchPage.module.scss";
-import { AlbumListItem } from "../../../widgets/AlbumListItem/ui/AlbumListItem";
+import { AlbumListItem } from "../../../widgets/AlbumListItem/ui/AlbumsListItem";
 import { Album } from "../../../shared/lib/common/galleryTypes";
 import { useDebounce } from "../../../shared/lib/hooks/useDebounce";
 import { MultiValue } from "react-select";
@@ -14,7 +14,7 @@ import {
   mapValueToOption,
   onTagsFocus
 } from "../../../shared/lib/common/commonUtils";
-import { Pagination } from "../../../widgets/Pagination/ui/Pagination";
+import { Pagination } from "../../../shared/ui/Pagination/Pagination";
 import { TextInput } from "../../../shared/ui/input/TextInput/TextInput";
 import { useRouterSearchParams } from "../../../shared/lib/hooks/useRouterSearchParams";
 import { useSearchName } from "../../../app/lib/context/useSearchName";
@@ -31,32 +31,7 @@ import { getAllTagsError, getAllTagsQuery } from "../../../shared/api/tags/tagsA
 import { getAlbumsListError, getAlbumsListQuery } from "../../../shared/api/albumsList/albumsListApi";
 import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
 import { mapLoaders } from "../lib/mappers";
-
-const halfClientPageSize = 2;
-
-function mapAlbumToBlock(
-  scrollAlbumBlockRef: React.RefObject<HTMLDivElement>,
-  currentAlbumId: string,
-  scrollBlockNumber: number,
-  album: Album,
-  index: number
-) {
-  return (
-    <AlbumListItem
-      album={album}
-      isCurrent={album.id === currentAlbumId}
-      ref={scrollBlockNumber === index ? scrollAlbumBlockRef : null}
-      key={album.id}
-    />
-  );
-}
-
-function scrollToDiv(divBlock: HTMLDivElement | null, smooth = false) {
-  if (divBlock) {
-    divBlock.scrollIntoView({ block: "nearest", behavior: smooth ? "smooth" : undefined });
-    // divBlock = null;
-  }
-}
+import { AlbumsList } from "../../../widgets/AlbumListItem/ui/AlbumsList";
 
 function changeSearchName(
   setSearchName: (str: string) => void,
@@ -67,15 +42,19 @@ function changeSearchName(
   setSearchName(newValue);
 }
 
+/** Set page number */
+function onPageSelect(setPageChanged: (flag: boolean) => void, newPage: number, prevPage: number): number {
+  if (newPage !== prevPage) {
+    setPageChanged(true);
+  }
+  return newPage;
+}
+
 export function AlbumsSearchPage() {
-  const scrollAlbumBlockRef = React.useRef<HTMLDivElement>(null);
-  const listBoxRef = React.useRef<HTMLDivElement>(null);
-  const [scrollBlockNumber, setScrollBlockNumber] = React.useState(-1);
   const [pageNumber, setPageNumber] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(DEFAULT_PAGE_SIZE);
   const [selectedTags, setSelectedTags] = React.useState<readonly SelectOption[]>([]);
   const [globalSearchName, setGlobalSearchName] = useSearchName();
-  const [currentAlbumId] = useCurrentAlbumId();
   const [searchName, setSearchName] = React.useState("");
   const [searchParams, setSearchParams] = useRouterSearchParams();
   const debouncedSearchParams = useDebounce<URLSearchParams | null>(searchParams, 1000);
@@ -98,78 +77,36 @@ export function AlbumsSearchPage() {
   const albums = albumsWithTotal?.albumsList;
   const isFetching = pageChanged || albumsListLoading;
 
-  React.useEffect(function() {
+  React.useEffect(() => {
     setPageChanged(false);
   }, [debouncedSearchParams]);
 
-  React.useEffect(
-    function () {
-      setSearchName(globalSearchName);
-      setSelectedTags([]);
-      setPageNumber(1);
-      listBoxRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-    },
-    [globalSearchName]
-  );
+  React.useEffect(() => {
+    setSearchName(globalSearchName);
+    setSelectedTags([]);
+    setPageNumber(1);
+    // listBoxRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, [globalSearchName]);
 
-  React.useEffect(
-    function () {
-      return function () {
-        setGlobalSearchName("");
-      };
-    },
-    [setGlobalSearchName]
-  );
-
-  /** Selected block number update */
-  React.useEffect(
-    function () {
-      const listBox = listBoxRef.current as HTMLDivElement;
-      if (listBox && albums?.length) {
-        let nextScrollAlbumIndex = 0;
-        let currentAlbumIndex = 0;
-        for (let i = 0; i < albums.length; i++) {
-          if (albums[i].id === currentAlbumId) {
-            currentAlbumIndex = i;
-            break;
-          }
-        }
-        if (currentAlbumIndex) {
-          if (currentAlbumIndex + halfClientPageSize > albums.length - 1) {
-            nextScrollAlbumIndex = albums.length - 1;
-          } else {
-            nextScrollAlbumIndex = currentAlbumIndex + halfClientPageSize;
-          }
-        }
-        setScrollBlockNumber(nextScrollAlbumIndex);
-      }
-    },
-    [listBoxRef, albums, currentAlbumId]
-  );
-
-  /** Scroll to selected block after page inited */
-  React.useLayoutEffect(
-    function () {
-      if (listBoxRef.current) {
-        scrollToDiv(scrollAlbumBlockRef.current);
-      }
-    },
-    [scrollAlbumBlockRef.current, listBoxRef.current]
-  );
+  React.useEffect(() => {
+    return () => {
+      setGlobalSearchName("");
+    };
+  }, [setGlobalSearchName]);
 
   /** Init state hooks with query params */
-  React.useEffect(function () {
+  React.useEffect(() => {
     const newPage = searchParams?.get(PAGE_PARAM);
     const newPageSize = searchParams?.get(SIZE_PARAM);
     const tagsStr = searchParams?.get(TAGS_PARAM);
     const nameStr = searchParams?.get(NAME_PARAM);
     if (newPage) {
-      setPageNumber(Number(newPage));
+      setPageNumber(Math.round(Number(newPage)));
     } else {
       setPageNumber(1);
     }
     if (newPageSize) {
-      setPageSize(Number(newPageSize));
+      setPageSize(Math.round(Number(newPageSize)));
     } else {
       setPageSize(DEFAULT_PAGE_SIZE);
     }
@@ -187,39 +124,24 @@ export function AlbumsSearchPage() {
   }, []);
 
   /** Update query params based on state variables */
-  React.useEffect(
-    function () {
-      const newSearchParams = new URLSearchParams();
-      if (!selectedTags.length) {
-        newSearchParams.delete(TAGS_PARAM);
-      } else {
-        const tagsStr = selectedTags.map(mapOptionToLabel).join(",");
-        newSearchParams.set(TAGS_PARAM, tagsStr);
-      }
-      if (!searchName) {
-        newSearchParams.delete(NAME_PARAM);
-      } else {
-        newSearchParams.set(NAME_PARAM, searchName);
-      }
-      newSearchParams.set(PAGE_PARAM, String(pageNumber));
-      newSearchParams.set(SIZE_PARAM, String(pageSize));
+  React.useEffect(() => {
+    const newSearchParams = new URLSearchParams();
+    if (!selectedTags.length) {
+      newSearchParams.delete(TAGS_PARAM);
+    } else {
+      const tagsStr = selectedTags.map(mapOptionToLabel).join(",");
+      newSearchParams.set(TAGS_PARAM, tagsStr);
+    }
+    if (!searchName) {
+      newSearchParams.delete(NAME_PARAM);
+    } else {
+      newSearchParams.set(NAME_PARAM, searchName);
+    }
+    newSearchParams.set(PAGE_PARAM, String(pageNumber));
+    newSearchParams.set(SIZE_PARAM, String(pageSize));
 
-      setSearchParams(newSearchParams);
-    },
-    [selectedTags, setSearchParams, pageNumber, pageSize, searchName]
-  );
-
-  /** Set page number */
-  const onPageSelect = React.useCallback(
-    function (newPage: number) {
-      setPageNumber(newPage);
-      if (newPage !== pageNumber) {
-        setPageChanged(true);
-      }
-      listBoxRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-    },
-    [setPageNumber, listBoxRef, pageNumber]
-  );
+    setSearchParams(newSearchParams);
+  }, [selectedTags, setSearchParams, pageNumber, pageSize, searchName]);
 
   const onTagsSelectionChange = React.useCallback(
     function (newValue: MultiValue<SelectOption>) {
@@ -230,61 +152,36 @@ export function AlbumsSearchPage() {
   );
 
   return (
-    <div className={`${classes.albumsListPage}`}>
-      <div className={classes.scrollBox} ref={listBoxRef}>
-        <div className={`${classes.searchBlock} ${classes.scrollBox_itemWrapper}`}>
-          <div className={`${classes.inputWrapper}`}>
-            <TextInput
-              value={searchName}
-              onChange={(newValue: string) => changeSearchName(setSearchName, setPageNumber, newValue)}
-              isClearable
-            />
-          </div>
-          <div className={`${classes.inputWrapper}`}>
-            <MultiSelect
-              options={searchTags?.length ? searchTags.map(mapDefinedTagsToOptions) : []}
-              value={selectedTags}
-              onChange={onTagsSelectionChange}
-              onFocus={() => onTagsFocus(setTagsFocused)}
-              isClearable
-              className="reactSelectTags"
-              placeholder="Tags..."
-              isLoading={searchTagsLoading}
-            />
-          </div>
+    <AlbumsList
+      isFetching={isFetching}
+      onPageSelect={(newPage) => setPageNumber((prev) => onPageSelect(setPageChanged, newPage, prev))}
+      albums={albums}
+      totalCount={totalCount}
+      pageNumber={pageNumber}
+      pageSize={pageSize}
+      key={globalSearchName}
+    >
+      <div className={`${classes.searchBlock} ${classes.scrollBox_itemWrapper}`}>
+        <div className={`${classes.inputWrapper}`}>
+          <TextInput
+            value={searchName}
+            onChange={(newValue: string) => changeSearchName(setSearchName, setPageNumber, newValue)}
+            isClearable
+          />
         </div>
-        {albums?.length ? (
-          <Pagination
-            albumsCount={totalCount}
-            page={pageNumber}
-            pageSize={pageSize}
-            onPageSelect={onPageSelect}
-            loadedAlbumsNumber={albums.length}
-            isFetching={isFetching}
+        <div className={`${classes.inputWrapper}`}>
+          <MultiSelect
+            options={searchTags?.length ? searchTags.map(mapDefinedTagsToOptions) : []}
+            value={selectedTags}
+            onChange={onTagsSelectionChange}
+            onFocus={() => onTagsFocus(setTagsFocused)}
+            isClearable
+            className="reactSelectTags"
+            placeholder="Tags..."
+            isLoading={searchTagsLoading}
           />
-        ) : null}
-        {albums?.length
-          ? albums.map((album: Album, index: number) =>
-              mapAlbumToBlock(scrollAlbumBlockRef, currentAlbumId, scrollBlockNumber, album, index)
-            )
-          : null}
-        {!albums?.length && isFetching ? ALBUM_ITEM_LOADER_ARRAY.map(mapLoaders) : null}
-        {!albums?.length && !isFetching ? (
-          <div className={`${classes.albumBlock} ${classes.scrollBox_itemWrapper}`} key="last">
-            <div className="emptyComment">Not found</div>
-          </div>
-        ) : null}
-        {albums?.length ? (
-          <Pagination
-            albumsCount={totalCount}
-            page={pageNumber}
-            pageSize={pageSize}
-            onPageSelect={onPageSelect}
-            loadedAlbumsNumber={albums.length}
-            isFetching={isFetching}
-          />
-        ) : null}
+        </div>
       </div>
-    </div>
+    </AlbumsList>
   );
 }

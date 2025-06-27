@@ -47,3 +47,11 @@ export interface AlbumParam {
 export interface AlbumPageProps {
   params: AlbumParam;
 }
+
+export interface AlbumsListParam {
+  pageNumber: string;
+}
+
+export interface AlbumsListProps {
+  params: AlbumsListParam;
+}

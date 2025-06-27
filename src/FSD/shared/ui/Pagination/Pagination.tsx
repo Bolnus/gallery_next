@@ -9,9 +9,9 @@ interface PaginationProps {
   page: number;
   albumsCount: number;
   onPageSelect: (newPage: number) => void;
-  isFetching: boolean;
   loadedAlbumsNumber: number;
   pageSize?: number;
+  isFetching?: boolean;
 }
 
 function mapPaginationButtons(
@@ -63,26 +63,23 @@ export function Pagination({
   const [paginationElements, setPaginationElements] = React.useState<number[]>([]);
   // const [currentLoaderId, setCurrentLoaderId] = React.useState<number>(1);
 
-  React.useEffect(
-    function () {
-      const newPaginationElements: number[] = [page];
-      let albumsCovered = pageSize;
-      for (let i = 0; i < 2; i++) {
-        const currentLast = Number(newPaginationElements[newPaginationElements.length - 1]);
-        const currentFirst = Number(newPaginationElements[0]);
-        if (currentLast * pageSize < albumsCount && albumsCovered < albumsCount * pageSize) {
-          newPaginationElements.push(currentLast + 1);
-          albumsCovered = albumsCovered + pageSize;
-        }
-        if (currentFirst * pageSize - pageSize > 0 && albumsCovered < albumsCount * pageSize) {
-          newPaginationElements.unshift(currentFirst - 1);
-          albumsCovered = albumsCovered + pageSize;
-        }
+  React.useEffect(() => {
+    const newPaginationElements: number[] = [page];
+    let albumsCovered = pageSize;
+    for (let i = 0; i < 2; i++) {
+      const currentLast = Number(newPaginationElements[newPaginationElements.length - 1]);
+      const currentFirst = Number(newPaginationElements[0]);
+      if (currentLast * pageSize < albumsCount && albumsCovered < albumsCount * pageSize) {
+        newPaginationElements.push(currentLast + 1);
+        albumsCovered = albumsCovered + pageSize;
       }
-      setPaginationElements(newPaginationElements);
-    },
-    [page, pageSize, albumsCount]
-  );
+      if (currentFirst * pageSize - pageSize > 0 && albumsCovered < albumsCount * pageSize) {
+        newPaginationElements.unshift(currentFirst - 1);
+        albumsCovered = albumsCovered + pageSize;
+      }
+    }
+    setPaginationElements(newPaginationElements);
+  }, [page, pageSize, albumsCount]);
 
   return (
     <div className={`${classes.pagination} ${classes.scrollBox_itemWrapper}`}>

@@ -21,7 +21,7 @@ export function onMenuClick(
   checkBox.checked = false;
   switch (menuItemName) {
     case MenuItem.MAIN:
-      router.push("/search");
+      router.push("/main/1");
       break;
     case MenuItem.CATEGORIES:
       break;

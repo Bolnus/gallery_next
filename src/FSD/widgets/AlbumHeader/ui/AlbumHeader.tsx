@@ -8,9 +8,9 @@ import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { UiSize } from "../../../shared/lib/common/commonTypes";
 import { ButtonIcon } from "../../../shared/ui/button/ButtonIcon/ButtonIcon";
 import { ButtonIconBackground } from "../../../shared/ui/button/ButtonIcon/types";
-import { mapTags } from "../../../shared/ui/tags/Tag";
 import defaultImage from "../../../shared/ui/image/greyRect.svg";
 import { useRouter } from "next/navigation";
+import { Tag } from "../../../shared/ui/tags/Tag";
 
 interface Props {
   albumId?: string;
@@ -78,7 +78,11 @@ export function AlbumHeader({
       </div>
 
       <div className={classes.galleryHeader__tagsArea}>
-        <div className={classes.galleryHeader__tagsWrapper}>{tags?.map(mapTags)}</div>
+        <div className={classes.galleryHeader__tagsWrapper}>
+          {tags?.map((definedTag) => (
+            <Tag {...definedTag} key={definedTag.id} href={`/search?tags=${definedTag.tagName}`} />
+          ))}
+        </div>
       </div>
     </div>
   );

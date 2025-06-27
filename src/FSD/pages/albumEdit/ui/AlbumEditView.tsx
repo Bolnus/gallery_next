@@ -189,7 +189,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
   const canSave = !!(
     (unsavedChanges === ChangesSaveState.Saving ||
       unsavedChanges === ChangesSaveState.Unsaved ||
-      unsavedImages.length || oldImages.length !== data?.snapImages?.length) &&
+      newImages.length || oldImages.length !== data?.snapImages?.length) &&
     localAlbumName
   );
 

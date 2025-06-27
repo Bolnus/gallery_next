@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
 import classes from "./AlbumsListItemLoading.module.scss";
-import { Album, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
+import { FileLoadState } from "../../../shared/lib/common/galleryTypes";
 import { ImageSnap } from "../../../shared/ui/image/ImageSnap/ImageSnap";
-import { mapTags } from "../../../shared/ui/tags/Tag";
 import { getIndexesArray } from "../../../shared/lib/common/commonUtils";
 import { SkeletonLoader } from "../../../shared/ui/icons/SkeletonLoader/SkeletonLoader";
 

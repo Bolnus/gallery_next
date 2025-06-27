@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 80",
+    "dev": "npx next lint --quiet && next dev -p 80",
     "dev-turbo": "next dev --turbo -p 80",
     "build": "next build",
     "start": "next start -p 80",
