@@ -27,13 +27,32 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
   return paths;
 }
 
-function AlbumWrapper(props: AlbumWithImages): JSX.Element {
+async function AlbumWrapper({ id }: AlbumParam): Promise<JSX.Element> {
+  const res = await getAlbumServerSide(id);
+  if (res.rc < 300 && res.rc >= 200 && res.data) {
+    return <AlbumPage {...res.data} />;
+  }
+  return (
+    <AlbumPage
+      id={id}
+      fullImages={[]}
+      albumName="404: Not found"
+      snapImages={[]}
+      albumSize={0}
+      tags={[]}
+      changedDate=""
+      description=""
+    />
+  );
+}
+
+export default function Page({ params }: AlbumPageProps): JSX.Element {
   return (
     <Suspense
       fallback={
         <AlbumPage
           isFetching
-          id={props?.id}
+          id={params?.id}
           fullImages={[]}
           albumName="--"
           snapImages={[]}
@@ -43,29 +62,9 @@ function AlbumWrapper(props: AlbumWithImages): JSX.Element {
           description=""
         />
       }
-      key={props?.id}
+      key={params?.id}
     >
-      <AlbumPage {...props} />
+      <AlbumWrapper id={params.id} />
     </Suspense>
-  );
-}
-
-export default async function Page({ params }: AlbumPageProps): Promise<JSX.Element> {
-  const res = await getAlbumServerSide(params?.id);
-  if (res.rc < 300 && res.rc >= 200 && res.data) {
-    return <AlbumWrapper {...res.data} />;
-  }
-  return (
-    <AlbumWrapper
-      id={params?.id}
-      fullImages={[]}
-      albumName="404: Not found"
-      snapImages={[]}
-      albumSize={0}
-      tags={[]}
-      changedDate=""
-      description=""
-      // isFetching={isLoading}
-    />
   );
 }
