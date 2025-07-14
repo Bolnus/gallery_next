@@ -6,7 +6,6 @@ import { DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/com
 import { shiftArrayElement, tagsChanged } from "../../../shared/lib/common/commonUtils";
 import {
   addImages,
-  deleteImageById,
   mapDefinedTagToStr,
   pushServerError,
   onSaveAlbumHeadersSuccess,
@@ -14,16 +13,15 @@ import {
   resetHeaders,
   putAlbumPicturesIds,
   onSendImagesError,
-  setImageCanceled,
   updateLoadingPortion,
   sendImagesPortion,
   onSendImagesSuccess,
   onArrangePicturesSettled,
   initUploadingImages,
   clearImagesArray,
-  onReset
+  onReset,
+  imagesChanged
 } from "../lib/albumEditUtils";
-import { AlbumImagesList } from "../../../widgets/AlbumImagesList/ui/AlbumImagesList";
 import { AlbumHeaderEdit } from "../../../widgets/AlbumHeader/ui/AlbumHeaderEdit";
 import { ChangesSaveState } from "../../../entities/album/model/albumTypes";
 import { useMutation, useQuery } from "react-query";
@@ -34,6 +32,7 @@ import { useRouter } from "next/navigation";
 import { ImagesSegment } from "../../../widgets/AlbumHeader/lib/types";
 import { SendImagesPortionRes } from "../lib/types";
 import { FILE_SIZE_LIMIT } from "../../../shared/lib/file/consts";
+import { GalleryAlbumImagesList } from "./GalleryAlbumImagesList";
 
 interface Props {
   onEditAlbumId?: string;
@@ -187,10 +186,12 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
     postImageIndex !== -1;
 
   const canSave = !!(
-    (unsavedChanges === ChangesSaveState.Saving ||
+    (
+      unsavedChanges === ChangesSaveState.Saving ||
       unsavedChanges === ChangesSaveState.Unsaved ||
-      newImages.length || oldImages.length !== data?.snapImages?.length) &&
-    localAlbumName
+      newImages.length ||
+      imagesChanged(oldImages, data?.snapImages)
+    ) && localAlbumName
   );
 
   return (
@@ -206,7 +207,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
           setLocalAlbumName={setLocalAlbumName}
           setLocalAlbumTags={setLocalAlbumTags}
           onSaveChanges={() => onSaveChanges(saveAlbumHeaders, setPostImageIndex, unsavedChanges)}
-          onAddImages={() => addImages(setNewImages, setErrorMessages, setCurrentSegment)}
+          onAddImages={() => void addImages(setNewImages, setErrorMessages, setCurrentSegment)}
           onReset={() => onReset(setNewImages, refetch)}
           isFetching={headersFetching}
           canSave={canSave}
@@ -216,12 +217,9 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
           localAlbumDescription={localAlbumDescription}
           setLocalAlbumDescription={setLocalAlbumDescription}
         />
-        <AlbumImagesList
+        <GalleryAlbumImagesList
           images={currentSegment === ImagesSegment.OldImages ? oldImages : newImages}
-          onDelete={(id, loadState) =>
-            deleteImageById(id, loadState, currentSegment === ImagesSegment.OldImages ? setOldImages : setNewImages)
-          }
-          onCancel={(id) => setNewImages((prev) => setImageCanceled(id, prev))}
+          setImages={currentSegment === ImagesSegment.OldImages ? setOldImages : setNewImages}
           deleteDisabled={headersFetching}
         />
       </div>

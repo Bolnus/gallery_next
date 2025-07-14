@@ -288,3 +288,18 @@ export function onReset(
   setNewImages([]);
   refetch();
 }
+
+export function moveImage(dragIndex: number, hoverIndex: number, prevImages: GalleryImage[]): GalleryImage[] {
+  const draggedItem = prevImages[dragIndex];
+  const newItems = [...prevImages];
+  newItems.splice(dragIndex, 1);
+  newItems.splice(hoverIndex, 0, draggedItem);
+  return newItems;
+}
+
+export function imagesChanged(localImages: GalleryImage[], serverImages?: GalleryImage[]): boolean {
+  if (serverImages?.length !== localImages?.length) {
+    return true;
+  }
+  return localImages.some((image, index) => image.id !== serverImages[index].id);
+}

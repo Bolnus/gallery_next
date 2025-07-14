@@ -22,17 +22,10 @@ interface Props {
   isFetching?: boolean;
 }
 
-export function ButtonIcon({
-  iconName,
-  background,
-  onClick,
-  disabled,
-  size,
-  color,
-  className,
-  title,
-  isFetching
-}: Props) {
+export function ButtonIconInternal(
+  { iconName, background, onClick, disabled, size, color, className, title, isFetching }: Props,
+  ref: React.ForwardedRef<HTMLButtonElement>
+) {
   return (
     <button
       onClick={onClick}
@@ -46,8 +39,11 @@ export function ButtonIcon({
       ])}
       title={title}
       id={iconName}
+      ref={ref}
     >
       {isFetching ? "•" : <ReactIcon iconName={iconName} color={color} />}
     </button>
   );
 }
+
+export const ButtonIcon = React.forwardRef(ButtonIconInternal);

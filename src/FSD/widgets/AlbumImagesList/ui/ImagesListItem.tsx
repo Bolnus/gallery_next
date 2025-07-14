@@ -1,4 +1,6 @@
 import React from "react";
+import type { Identifier, XYCoord } from "dnd-core";
+import { DragSourceMonitor, useDrag, useDrop } from "react-dnd";
 import classes from "./ImagesListItem.module.scss";
 import { ButtonIcon } from "../../../shared/ui/button/ButtonIcon/ButtonIcon";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
@@ -11,23 +13,94 @@ import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 import { SpinnerProgressBar } from "../../../shared/ui/ProgressBar/SpinnerProgressBar";
 import { ProgressTester } from "../../../shared/ui/ProgressBar/ProgressTester";
 import { getHumanReadableFileSize } from "../lib/utils";
+import { DragItem } from "../lib/types";
+
+const DRAGGABLE_TYPE = "DRAGGABLE_TYPE" as const;
 
 interface Props {
   image: GalleryImage;
+  index: number;
   deleteDisabled?: boolean;
   onDelete: (id: string, loadState: FileLoadState) => void;
   onCancel: (id: string) => void;
+  moveImage: (dragIndex: number, hoverIndex: number) => void;
 }
 
-export function ImagesListItem({ image, onDelete, onCancel, deleteDisabled }: Props): JSX.Element {
+export function ImagesListItem({ image, onDelete, onCancel, deleteDisabled, moveImage, index }: Props): JSX.Element {
+  const listItemRef = React.useRef<HTMLDivElement>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+
+  const [{ isDragging }, drag] = useDrag<DragItem, DragItem, { isDragging: boolean }>({
+    type: DRAGGABLE_TYPE,
+    item: () => ({ index, id: image.id, type: DRAGGABLE_TYPE }),
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  });
+
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
+    accept: DRAGGABLE_TYPE,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId()
+      };
+    },
+    // drop: () => ({ index, id: image.id }),
+    hover(item: DragItem, monitor) {
+      if (!listItemRef.current) {
+        return;
+      }
+
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+
+      // Determine rectangle on screen
+      const hoverBoundingRect = listItemRef.current.getBoundingClientRect();
+      // Get vertical middle
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+      // Get pixels to the top
+      const hoverClientY = (clientOffset?.y || 0) - hoverBoundingRect.top;
+
+      // Only perform the move when the mouse has crossed half of the items height
+      // When dragging downwards, only move when the cursor is below 50%
+      // When dragging upwards, only move when the cursor is above 50%
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+
+      moveImage(dragIndex, hoverIndex);
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      item.index = hoverIndex;
+    }
+  });
+
+  drag(buttonRef);
+  drop(listItemRef);
+
   return (
-    <div className={classes.imagesListItem}>
+    <div
+      className={getUnitedClassnames([classes.imagesListItem, isDragging ? classes.imagesListItem_dragging : ""])}
+      ref={listItemRef}
+      data-handler-id={handlerId}
+    >
       <ButtonIcon
-        onClick={() => console.log("dnd")}
+        // onClick={() => console.log("dnd")}
         iconName={IconName.DragAndDrop}
         size={UiSize.MediumAdaptive}
         color="var(--fontColorFirm)"
         background={ButtonIconBackground.Transparent}
+        ref={buttonRef}
       />
       <div className={classes.imagesListItem__image}>
         <ImageSnap element={image} />
