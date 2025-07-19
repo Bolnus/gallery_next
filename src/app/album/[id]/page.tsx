@@ -27,6 +27,30 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
   return paths;
 }
 
+export async function generateMetadata({ id }: AlbumParam) {
+  const { data } = await getAlbumServerSide(id);
+
+  return {
+    title: data?.albumName,
+    description: data?.description,
+    keywords: data?.tags?.map((tag) => tag.tagName),
+    openGraph: {
+      title: data?.albumName,
+      description: data?.description,
+      images: [data?.snapImages?.[0]?.url]
+    },
+    robots: {
+      index: true, // Allow search engines to index
+      follow: true, // Allow following links on the page
+      nocache: false, // Prevent caching (rarely used)
+      noarchive: false, // Prevent showing cached version in search
+      nosnippet: false, // Prevent showing snippets in search
+      noimageindex: false, // Prevent indexing images on the page
+      notranslate: false // Prevent Google from offering translation
+    }
+  };
+}
+
 async function AlbumWrapper({ id }: AlbumParam): Promise<JSX.Element> {
   const res = await getAlbumServerSide(id);
   if (res.rc < 300 && res.rc >= 200 && res.data) {
