@@ -27,8 +27,8 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
   return paths;
 }
 
-export async function generateMetadata({ id }: AlbumParam) {
-  const { data } = await getAlbumServerSide(id);
+export async function generateMetadata({ params }: AlbumPageProps) {
+  const { data } = await getAlbumServerSide(params.id);
 
   return {
     title: data?.albumName,
