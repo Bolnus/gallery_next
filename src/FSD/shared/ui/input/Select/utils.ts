@@ -23,7 +23,8 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
       background: "var(--inputBgColor)",
       color: "var(--fontColorFirm)",
       pointerEvents: "all",
-      zIndex: 4
+      zIndex: 4,
+      boxShadow: "0 3px 3px var(--shadowColor)"
     }),
     menuList: (baseStyles) => ({
       ...baseStyles,
@@ -91,7 +92,7 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
   return formSelectStyle;
 }
 
-export function onSelectBlur(onBlur?: () => void) {
+export function onSelectBlur(onBlur?: () => void): void {
   resetScrollOnBlur();
   if (onBlur) {
     onBlur();

@@ -15,7 +15,7 @@ interface IconSelectProps {
 function Option(props: OptionProps<SelectOption<IconName>>): JSX.Element {
   return (
     <components.Option {...props}>
-      <ReactIcon iconName={props.data.value} title={props.data.label} color="white" />
+      <ReactIcon iconName={props.data.value} title={props.data.label} color="var(--fontColorFirm)" />
     </components.Option>
   );
 }
@@ -23,7 +23,7 @@ function Option(props: OptionProps<SelectOption<IconName>>): JSX.Element {
 function SingleValue(props: SingleValueProps<SelectOption<IconName>>): JSX.Element {
   return (
     <components.SingleValue {...props}>
-      <ReactIcon iconName={props.data.value} title={props.data.label} color="white" />
+      <ReactIcon iconName={props.data.value} title={props.data.label} color="var(--fontColorFirm)" />
     </components.SingleValue>
   );
 }
@@ -91,7 +91,8 @@ function customStyles(): StylesConfig<SelectOption<IconName>, false> {
       ...baseStyles,
       background: "var(--inputBgColor)",
       color: "var(--fontColorFirm)",
-      zIndex: 4
+      zIndex: 4,
+      boxShadow: "0 3px 3px var(--shadowColor)"
     }),
     menuList: (baseStyles) => ({
       ...baseStyles,
@@ -112,6 +113,10 @@ function customStyles(): StylesConfig<SelectOption<IconName>, false> {
       // "&:active": {
       //   background: state.isSelected ? "var(--inputBgColor)" : "var(--bgColor)"
       // }
+    }),
+    dropdownIndicator: (baseStyles) => ({
+      ...baseStyles,
+      color: "var(--fontColorFirm)"
     })
   };
 }

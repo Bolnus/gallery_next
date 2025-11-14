@@ -8,6 +8,7 @@ function updateStyle(toggleState: boolean): void {
     document.documentElement.style.setProperty("--mainColor", "#112734");
     document.documentElement.style.setProperty("--bgColor", "#021e2a");
     document.documentElement.style.setProperty("--fontColorFirm", "white");
+    document.documentElement.style.setProperty("--shadowColor", "rgba(255, 255, 255, 0.2)");
     document.documentElement.style.setProperty("--fontColorFirmGreen", "white");
     document.documentElement.style.setProperty("--fontColorGreenInverted", "#004422");
     document.documentElement.style.setProperty("--fontColorLight", "#c4ccce");
@@ -17,6 +18,7 @@ function updateStyle(toggleState: boolean): void {
     document.documentElement.style.setProperty("--mainColor", "#80eeb0");
     document.documentElement.style.setProperty("--bgColor", "#f5f6fa");
     document.documentElement.style.setProperty("--fontColorFirm", "black");
+    document.documentElement.style.setProperty("--shadowColor", "rgba(0, 0, 0, 0.2)");
     document.documentElement.style.setProperty("--fontColorFirmGreen", "#004422");
     document.documentElement.style.setProperty("--fontColorGreenInverted", "grey");
     document.documentElement.style.setProperty("--fontColorLight", "grey");
