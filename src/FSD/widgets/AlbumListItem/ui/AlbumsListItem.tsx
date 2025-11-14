@@ -30,10 +30,6 @@ function getBriefDate(timeT: string): string {
   return briefDate;
 }
 
-function mapImages(albumId: string, element: GalleryImage): JSX.Element {
-  return <ImageSnap albumId={albumId} element={element} key={element.id} />;
-}
-
 function onAlbumClick(setCurrentAlbumId: (id: string) => void, albumId: string) {
   setCurrentAlbumId(albumId);
 }
@@ -46,7 +42,9 @@ function AlbumListItemInternal({ album, isCurrent }: AlbumListItemProps, ref: Re
       <Link href={`/album/${album.id}`} className={classes.navLink}>
         <div ref={ref} className={`${classes.albumBlock} ${isCurrent ? classes.albumBlock_current : ""}`}>
           <div className={classes.albumBlock__picturesSnap}>
-            {album.snapImages.map((element: GalleryImage) => mapImages(album.id, element))}
+            {album.snapImages.map((element: GalleryImage) => (
+              <ImageSnap albumId={album.id} element={element} key={element.id} />
+            ))}
           </div>
           <div className={classes.albumBlock__contents}>
             <div className={classes.albumBlock__header}>

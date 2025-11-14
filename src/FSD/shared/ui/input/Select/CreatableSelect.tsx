@@ -38,7 +38,7 @@ export function CreatableMultiSelect({
   onBlur,
   onFocus,
   onCreateOption
-}: CreateableSelectProps) {
+}: Readonly<CreateableSelectProps>): JSX.Element {
   return (
     <Select
       options={options}

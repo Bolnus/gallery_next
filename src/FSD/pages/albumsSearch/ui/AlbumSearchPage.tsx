@@ -1,37 +1,32 @@
 "use client";
 import React from "react";
 import classes from "./AlbumsSearchPage.module.scss";
-import { AlbumListItem } from "../../../widgets/AlbumListItem/ui/AlbumsListItem";
-import { Album } from "../../../shared/lib/common/galleryTypes";
+import { AlbumsListSorting } from "../../../shared/lib/common/galleryTypes";
 import { useDebounce } from "../../../shared/lib/hooks/useDebounce";
 import { MultiValue } from "react-select";
 import { SelectOption } from "../../../shared/ui/input/Select/types";
 import { MultiSelect } from "../../../shared/ui/input/Select/MultiSelect";
 import {
-  getIndexesArray,
   mapDefinedTagsToOptions,
   mapOptionToLabel,
   mapValueToOption,
   onTagsFocus
 } from "../../../shared/lib/common/commonUtils";
-import { Pagination } from "../../../shared/ui/Pagination/Pagination";
 import { TextInput } from "../../../shared/ui/input/TextInput/TextInput";
 import { useRouterSearchParams } from "../../../shared/lib/hooks/useRouterSearchParams";
 import { useSearchName } from "../../../app/lib/context/useSearchName";
-import {
-  ALBUM_ITEM_LOADER_ARRAY,
-  DEFAULT_PAGE_SIZE,
-  NAME_PARAM,
-  PAGE_PARAM,
-  SIZE_PARAM,
-  TAGS_PARAM
-} from "../consts/consts";
+import { DEFAULT_PAGE_SIZE, NAME_PARAM, PAGE_PARAM, SIZE_PARAM, SORT_PARAM, TAGS_PARAM } from "../consts/consts";
 import { useQuery } from "react-query";
 import { getAllTagsError, getAllTagsQuery } from "../../../shared/api/tags/tagsApi";
 import { getAlbumsListError, getAlbumsListQuery } from "../../../shared/api/albumsList/albumsListApi";
-import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
-import { mapLoaders } from "../lib/mappers";
 import { AlbumsList } from "../../../widgets/AlbumListItem/ui/AlbumsList";
+import {
+  getSortingIconOptions,
+  getSortingTypeFromString,
+  mapIconOptionToSortingType,
+  mapSortingTypeToIconOption
+} from "../lib/utils";
+import { IconSelect } from "../../../shared/ui/input/Select/IconSelect";
 
 function changeSearchName(
   setSearchName: (str: string) => void,
@@ -50,9 +45,10 @@ function onPageSelect(setPageChanged: (flag: boolean) => void, newPage: number, 
   return newPage;
 }
 
-export function AlbumsSearchPage() {
+export function AlbumsSearchPage(): JSX.Element {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(DEFAULT_PAGE_SIZE);
+  const [sortBy, setSortBy] = React.useState<AlbumsListSorting>(AlbumsListSorting.none);
   const [selectedTags, setSelectedTags] = React.useState<readonly SelectOption[]>([]);
   const [globalSearchName, setGlobalSearchName] = useSearchName();
   const [searchName, setSearchName] = React.useState("");
@@ -71,7 +67,8 @@ export function AlbumsSearchPage() {
   const { data: albumsWithTotal, isLoading: albumsListLoading } = useQuery({
     queryKey: ["get-albums-list-search", debouncedSearchParams?.toString()],
     queryFn: () => getAlbumsListQuery(debouncedSearchParams || undefined),
-    onError: getAlbumsListError
+    onError: getAlbumsListError,
+    refetchOnWindowFocus: false
   });
   const totalCount = albumsWithTotal?.totalCount || 0;
   const albums = albumsWithTotal?.albumsList;
@@ -100,6 +97,7 @@ export function AlbumsSearchPage() {
     const newPageSize = searchParams?.get(SIZE_PARAM);
     const tagsStr = searchParams?.get(TAGS_PARAM);
     const nameStr = searchParams?.get(NAME_PARAM);
+    const sorting = searchParams?.get(SORT_PARAM);
     if (newPage) {
       setPageNumber(Math.round(Number(newPage)));
     } else {
@@ -121,6 +119,7 @@ export function AlbumsSearchPage() {
     } else {
       setSearchName("");
     }
+    setSortBy(getSortingTypeFromString(sorting));
   }, []);
 
   /** Update query params based on state variables */
@@ -137,14 +136,19 @@ export function AlbumsSearchPage() {
     } else {
       newSearchParams.set(NAME_PARAM, searchName);
     }
+    if (sortBy) {
+      newSearchParams.set(SORT_PARAM, sortBy);
+    } else {
+      newSearchParams.delete(SORT_PARAM);
+    }
     newSearchParams.set(PAGE_PARAM, String(pageNumber));
     newSearchParams.set(SIZE_PARAM, String(pageSize));
 
     setSearchParams(newSearchParams);
-  }, [selectedTags, setSearchParams, pageNumber, pageSize, searchName]);
+  }, [selectedTags, setSearchParams, pageNumber, pageSize, searchName, sortBy]);
 
   const onTagsSelectionChange = React.useCallback(
-    function (newValue: MultiValue<SelectOption>) {
+    (newValue: MultiValue<SelectOption>) => {
       setPageNumber(1);
       setSelectedTags(newValue);
     },
@@ -162,11 +166,18 @@ export function AlbumsSearchPage() {
       key={globalSearchName}
     >
       <div className={`${classes.searchBlock} ${classes.scrollBox_itemWrapper}`}>
-        <div className={`${classes.inputWrapper}`}>
+        <div className={`${classes.searchInputsWrapper}`}>
           <TextInput
+            className={classes.searchInput}
             value={searchName}
             onChange={(newValue: string) => changeSearchName(setSearchName, setPageNumber, newValue)}
             isClearable
+          />
+          <div className={classes.listBoxSpacer} />
+          <IconSelect
+            iconOptions={getSortingIconOptions()}
+            value={mapSortingTypeToIconOption(sortBy)}
+            onChange={(option) => setSortBy(mapIconOptionToSortingType(option))}
           />
         </div>
         <div className={`${classes.inputWrapper}`}>

@@ -45,7 +45,7 @@ export interface AlbumParam {
 }
 
 export interface AlbumPageProps {
-  params: AlbumParam;
+  params: Promise<AlbumParam>;
 }
 
 export interface AlbumsListParam {
@@ -54,4 +54,10 @@ export interface AlbumsListParam {
 
 export interface AlbumsListProps {
   params: AlbumsListParam;
+}
+
+export enum AlbumsListSorting {
+  changedDate = "changedDate",
+  sample = "sample",
+  none = ""
 }

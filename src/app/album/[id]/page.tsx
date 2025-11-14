@@ -1,9 +1,9 @@
 import { AlbumPage } from "../../../FSD/pages/album/ui/AlbumPage";
 import { AlbumWithImages } from "../../../FSD/shared/api/album/types";
-import { PAGE_PARAM, SIZE_PARAM } from "../../../FSD/pages/albumsSearch/consts/consts";
+import { PAGE_PARAM, SIZE_PARAM, SORT_PARAM } from "../../../FSD/pages/albumsSearch/consts/consts";
 import { Suspense } from "react";
 import { useQuery } from "react-query";
-import { AlbumPageProps, AlbumParam } from "../../../FSD/shared/lib/common/galleryTypes";
+import { AlbumPageProps, AlbumParam, AlbumsListSorting } from "../../../FSD/shared/lib/common/galleryTypes";
 import { getAlbumServerSide, getAlbumsListServerSide } from "../../../FSD/shared/api/album/albumApiServer";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
@@ -15,6 +15,7 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
     const searchParams = new URLSearchParams();
     searchParams.set(PAGE_PARAM, String(pageNumber));
     searchParams.set(SIZE_PARAM, "50");
+    searchParams.set(SORT_PARAM, AlbumsListSorting.changedDate);
     const res = await getAlbumsListServerSide(searchParams);
     totalCount = res.data.totalCount;
     for (const album of res.data.albumsList) {
@@ -28,7 +29,8 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
 }
 
 export async function generateMetadata({ params }: AlbumPageProps) {
-  const { data } = await getAlbumServerSide(params.id);
+  const { id } = await params;
+  const { data } = await getAlbumServerSide(id);
 
   return {
     title: data?.albumName,
@@ -51,7 +53,7 @@ export async function generateMetadata({ params }: AlbumPageProps) {
   };
 }
 
-async function AlbumWrapper({ id }: AlbumParam): Promise<JSX.Element> {
+async function AlbumWrapper({ id }: Readonly<AlbumParam>): Promise<JSX.Element> {
   const res = await getAlbumServerSide(id);
   if (res.rc < 300 && res.rc >= 200 && res.data) {
     return <AlbumPage {...res.data} />;
@@ -70,13 +72,14 @@ async function AlbumWrapper({ id }: AlbumParam): Promise<JSX.Element> {
   );
 }
 
-export default function Page({ params }: AlbumPageProps): JSX.Element {
+export default async function Page({ params }: Readonly<AlbumPageProps>): Promise<JSX.Element> {
+  const { id } = await params;
   return (
     <Suspense
       fallback={
         <AlbumPage
           isFetching
-          id={params?.id}
+          id={id}
           fullImages={[]}
           albumName="--"
           snapImages={[]}
@@ -86,9 +89,9 @@ export default function Page({ params }: AlbumPageProps): JSX.Element {
           description=""
         />
       }
-      key={params?.id}
+      key={id}
     >
-      <AlbumWrapper id={params.id} />
+      <AlbumWrapper id={id} />
     </Suspense>
   );
 }

@@ -6,7 +6,8 @@
     z-index: 1;
     position: relative;
     display: block;
-    border-radius: 1em;
+    // border-radius: 1em;
+    overflow: hidden;
 }
 
 .imageWrapper:hover

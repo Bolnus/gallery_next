@@ -1,19 +1,23 @@
-import { HiArrowCircleLeft, HiChevronRight } from "react-icons/hi";
-import { HiQuestionMarkCircle } from "react-icons/hi";
-import { HiChevronLeft } from "react-icons/hi";
-import { HiX } from "react-icons/hi";
-import { HiSearch } from "react-icons/hi";
-import { HiPhotograph } from "react-icons/hi";
-import { IconName } from "./types";
+import {
+    HiArrowCircleLeft,
+    HiChevronRight,
+    HiQuestionMarkCircle,
+    HiChevronLeft,
+    HiX,
+    HiSearch,
+    HiPhotograph,
+    HiRefresh,
+    HiPencil,
+    HiOutlineCheckCircle,
+    HiOutlineExclamationCircle,
+    HiTrash
+} from "react-icons/hi";
 import { IconBaseProps } from "react-icons";
-import { HiRefresh } from "react-icons/hi";
-import { HiPencil } from "react-icons/hi";
-import { MdDragHandle } from "react-icons/md";
+import { FaRandom } from "react-icons/fa";
+import { MdDragHandle, MdDateRange  } from "react-icons/md";
 import { BiSolidSave } from "react-icons/bi";
-import { HiTrash } from "react-icons/hi";
 import { TbLoader2 } from "react-icons/tb";
-import { HiOutlineCheckCircle } from "react-icons/hi";
-import { HiOutlineExclamationCircle } from "react-icons/hi"
+import { IconName } from "./types";
 import classes from "./ReactIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 
@@ -54,6 +58,10 @@ export function ReactIcon({ iconName, className, ...props }: Props) {
       return <HiOutlineCheckCircle {...propsWithClass} />;
     case IconName.Error:
       return <HiOutlineExclamationCircle {...propsWithClass} />;
+    case IconName.Random:
+      return <FaRandom {...propsWithClass} />
+    case IconName.Date:
+      return <MdDateRange {...propsWithClass} />
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

@@ -11,6 +11,7 @@ import { ButtonIconBackground } from "../../../shared/ui/button/ButtonIcon/types
 import defaultImage from "../../../shared/ui/image/greyRect.svg";
 import { useRouter } from "next/navigation";
 import { Tag } from "../../../shared/ui/tags/Tag";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 interface Props {
   albumId?: string;
@@ -46,7 +47,7 @@ export function AlbumHeader({
     <div className={classes.galleryHeader}>
       <div className={classes.galleryHeader__backgroundImage}>
         <NextImage
-          src={(!isFetching && imageCover?.url) || defaultImage}
+          src={(!isFetching && imageCover?.url) || (defaultImage as StaticImport)}
           alt={imageCover?.name || ""}
           className={getUnitedClassnames([
             classes.galleryHeader__backgroundImage,
@@ -55,6 +56,7 @@ export function AlbumHeader({
           // onError={() => onImageError(dispatch, imageCover)}
           fill
           sizes="99vw"
+          quality="100"
         />
       </div>
       <div className={classes.galleryHeader__nameArea}>

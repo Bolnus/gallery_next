@@ -7,7 +7,7 @@ interface Props {
   hasSearch?: boolean;
 }
 
-export function AlbumsListLoading({ hasSearch }: Props): JSX.Element {
+export function AlbumsListLoading({ hasSearch }: Readonly<Props>): JSX.Element {
   return (
     <div className={`${classes.albumsListPage}`}>
       <div className={classes.scrollBox}>

@@ -1,5 +1,5 @@
 import React from "react";
-import Select, { InputActionMeta, InputProps, StylesConfig, components } from "react-select";
+import Select, { StylesConfig } from "react-select";
 import { SelectOption } from "./types";
 import { resetScrollOnBlur } from "../../../lib/common/commonUtils";
 
@@ -115,16 +115,13 @@ export function SingleSelect({
   isLoading,
   onBlur,
   onFocus
-}: SingleSelectProps) {
+}: Readonly<SingleSelectProps>): JSX.Element {
   const [styles, setStyles] = React.useState<StylesConfig<SelectOption, false>>();
   const [inputValue, setInputValue] = React.useState(value.label);
 
-  React.useEffect(
-    function () {
-      setStyles(getStyles(SingleSelectType.FormSelect, isInvalid));
-    },
-    [isInvalid]
-  );
+  React.useEffect(() => {
+    setStyles(getStyles(SingleSelectType.FormSelect, isInvalid));
+  }, [isInvalid]);
 
   return (
     <Select

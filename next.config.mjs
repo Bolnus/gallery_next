@@ -36,7 +36,10 @@ const nextConfig = {
         hostname: "gallery-backend-teal.vercel.app",
         pathname: "/**"
       }
-    ]
+    ],
+    // domains: ["localhost", "mike-pc.local", "recipes-rho-ten.vercel.app", "gallery-backend-teal.vercel.app"],
+    qualities: [50, 100],
+    dangerouslyAllowLocalIP: true
   },
   staticPageGenerationTimeout: 120,
   async rewrites() {

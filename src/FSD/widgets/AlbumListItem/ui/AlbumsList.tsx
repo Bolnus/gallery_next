@@ -95,7 +95,7 @@ export function AlbumsList({
     if (listBoxRef.current) {
       scrollToDiv(scrollAlbumBlockRef.current);
     }
-  }, [scrollAlbumBlockRef.current, listBoxRef.current]);
+  }, [scrollAlbumBlockRef, listBoxRef]);
 
   return (
     <div className={`${classes.albumsListPage}`}>

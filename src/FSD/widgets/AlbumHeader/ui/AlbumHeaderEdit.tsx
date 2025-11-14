@@ -90,7 +90,7 @@ export function AlbumHeaderEdit({
   setLocalAlbumName,
   setCurrentSegment,
   setLocalAlbumDescription
-}: Props): JSX.Element {
+}: Readonly<Props>): JSX.Element {
   const [tagsFocused, setTagsFocused] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
 
@@ -114,6 +114,7 @@ export function AlbumHeaderEdit({
           // onError={() => onImageError(dispatch, imageCover)}
           fill
           sizes="99vw"
+          quality="100"
         />
       </div>
       <div className={classes.galleryHeader__nameArea}>

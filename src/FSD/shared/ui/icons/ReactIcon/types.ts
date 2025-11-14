@@ -13,5 +13,7 @@ export enum IconName {
   Delete = "Delete",
   Loader = "Loader",
   Check = "Check",
-  Error = "Error"
+  Error = "Error",
+  Date = "Date",
+  Random = "Random"
 }

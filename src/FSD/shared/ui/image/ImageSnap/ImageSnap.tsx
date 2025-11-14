@@ -27,30 +27,37 @@ function onLoad(setLocalLoadState: (state: FileLoadState) => void, localEvent: R
   setLocalLoadState(FileLoadState.downloaded);
 }
 
-export function ImageSnap({ element, onClick }: OwnProps) {
+export function ImageSnap({ element, onClick }: Readonly<OwnProps>): JSX.Element {
   const [localLoadState, setLocalLoadState] = React.useState<FileLoadState>(element.loadState);
   const loading = localLoadState !== FileLoadState.uploaded && localLoadState !== FileLoadState.downloaded;
 
+  // , classes.image_geometry
   return (
     <div className={classes.imageWrapper} onClick={() => onImageClick(element.id, onClick)}>
-      <div
-        className={getUnitedClassnames([
-          classes.loaderWrapper,
-          loading ? classes.loaderWrapper_loading : classes.loaderWrapper_loaded
-        ])}
-      >
-        <SkeletonLoader isSharp />
-      </div>
+      {loading ? (
+        <div
+          className={getUnitedClassnames([
+            classes.loaderWrapper,
+            loading ? classes.loaderWrapper_loading : classes.loaderWrapper_loaded
+          ])}
+        >
+          <SkeletonLoader isSharp />
+        </div>
+      ) : null}
       {element.url ? (
         <NextImage
-          className={getUnitedClassnames([classes.image, classes.image_geometry])}
+          className={getUnitedClassnames([classes.image])}
           alt={element.name || ""}
           onError={() => onError(setLocalLoadState)}
           onLoad={(localEvent: React.SyntheticEvent<HTMLImageElement>) => onLoad(setLocalLoadState, localEvent)}
           src={element.url || ""}
           loading="lazy"
           fill
-          sizes="99vw"
+          sizes="(min-width: 2300px) 42vw, (min-width: 1380px)
+          calc(6.44vw + 811px), (min-width: 720px) calc(63.44vw + 37px), 90vw"
+          quality="50"
+          // layout="responsive" // Recommended for grids
+          // objectFit="cover" // Adjust as needed
         />
       ) : (
         <div className={getUnitedClassnames([classes.image, classes.image_geometry])} />

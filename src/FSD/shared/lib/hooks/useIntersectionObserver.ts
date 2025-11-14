@@ -8,7 +8,7 @@ export function useIntersectionObserver(
   const [intersecting, setIntersecting] = React.useState(false);
 
   React.useEffect(
-    function () {
+    () => {
       let observer: IntersectionObserver;
       if (target.current) {
         observer = new IntersectionObserver(

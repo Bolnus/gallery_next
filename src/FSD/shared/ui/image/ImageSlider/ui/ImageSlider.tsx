@@ -30,6 +30,7 @@ function mapViewImages(setToolBarActive: React.Dispatch<React.SetStateAction<boo
         height={0}
         fill
         sizes="100vw"
+        quality="100"
         onClick={() => invertTrigger(setToolBarActive)}
         className={classes.image}
       />
