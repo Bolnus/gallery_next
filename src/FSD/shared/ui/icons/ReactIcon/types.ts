@@ -15,5 +15,6 @@ export enum IconName {
   Check = "Check",
   LocalError = "LocalError",
   Calendar = "Calendar",
-  Random = "Random"
+  Random = "Random",
+  Dot = "Dot"
 }

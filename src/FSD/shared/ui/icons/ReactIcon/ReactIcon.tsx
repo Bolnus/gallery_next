@@ -17,6 +17,7 @@ import { FaRandom } from "react-icons/fa";
 import { MdDragHandle, MdDateRange } from "react-icons/md";
 import { BiSolidSave } from "react-icons/bi";
 import { TbLoader2 } from "react-icons/tb";
+import { GoDotFill } from "react-icons/go";
 import { IconName } from "./types";
 import classes from "./ReactIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
@@ -62,6 +63,8 @@ export function ReactIcon({ iconName, className, ...props }: Readonly<Props>): J
       return <FaRandom {...propsWithClass} />;
     case IconName.Calendar:
       return <MdDateRange {...propsWithClass} />;
+    case IconName.Dot:
+      return <GoDotFill {...propsWithClass} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

@@ -19,7 +19,13 @@ interface IconSelectProps {
 function Option(props: OptionProps<SelectOption<IconName>>): JSX.Element {
   return (
     <components.Option {...props}>
+      {props.isSelected ? (
+        <ReactIcon iconName={IconName.Dot} title={props.data.label} color={FontColorFirm} />
+      ) : (
+        <div className={styles.optionSpacer} />
+      )}
       <ReactIcon iconName={props.data.value} title={props.data.label} color={FontColorFirm} />
+      {/* <span className="singleLine">{props.children}</span> */}
     </components.Option>
   );
 }
@@ -76,7 +82,9 @@ function customStyles(): StylesConfig<SelectOption<IconName>, false> {
       margin: 0,
       display: "flex",
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      width: "24px",
+      paddingLeft: "5px"
     }),
     indicatorSeparator: () => ({
       display: "none"
@@ -113,7 +121,10 @@ function customStyles(): StylesConfig<SelectOption<IconName>, false> {
       cursor: "pointer",
       color: state.isFocused ? FontColorFirm : "grey",
       background: getOptionBg(state),
-      fontSize: "var(--fontSizeMedium)"
+      fontSize: "var(--fontSizeMedium)",
+      height: "40px",
+      // maxHeight: "calc(2 * var(--fontSizeMedium))",
+      boxSizing: "border-box"
     }),
     dropdownIndicator: (baseStyles) => ({
       ...baseStyles,
@@ -135,9 +146,11 @@ export function IconSelect({ value, onChange, iconOptions }: Readonly<IconSelect
       components={{
         IndicatorSeparator: null,
         Option,
-        SingleValue
+        SingleValue,
+        Input: () => null
       }}
       instanceId={useId()}
+      menuIsOpen={false}
     />
   );
 }
