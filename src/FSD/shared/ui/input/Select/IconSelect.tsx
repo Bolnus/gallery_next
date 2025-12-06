@@ -150,7 +150,6 @@ export function IconSelect({ value, onChange, iconOptions }: Readonly<IconSelect
         Input: () => null
       }}
       instanceId={useId()}
-      menuIsOpen={false}
     />
   );
 }
