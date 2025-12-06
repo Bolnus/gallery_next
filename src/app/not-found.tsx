@@ -1,4 +1,15 @@
+import Link from "next/link";
 
-export default function NotFound() {
-  return <div>404: Not found</div>;
+export default function NotFound(): JSX.Element {
+  return (
+    <div className="notFoundPage">
+      <h1 className="notFoundPage__header">404: Not found</h1>
+      <p className="notFoundPage__text">
+        Back to{" "}
+        <Link href="/" className="notFoundPage__textLink">
+          main
+        </Link>
+      </p>
+    </div>
+  );
 }

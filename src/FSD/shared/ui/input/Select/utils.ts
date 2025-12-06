@@ -2,6 +2,9 @@ import { StylesConfig } from "react-select";
 import { SelectOption, SelectType } from "./types";
 import { resetScrollOnBlur } from "../../../lib/common/commonUtils";
 
+const fontColorFirm = "var(--fontColorFirm)";
+const fontSizeSmall = "var(--fontSizeSmall)";
+
 export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolean): StylesConfig<SelectOption, true> {
   const formSelectStyle: StylesConfig<SelectOption, true> = {
     control: (baseStyles, state) => ({
@@ -21,7 +24,7 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
     menu: (baseStyles) => ({
       ...baseStyles,
       background: "var(--inputBgColor)",
-      color: "var(--fontColorFirm)",
+      color: fontColorFirm,
       pointerEvents: "all",
       zIndex: 4,
       boxShadow: "0 3px 3px var(--shadowColor)"
@@ -34,7 +37,7 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
       ...baseStyles,
       cursor: "pointer",
       fontWeight: "normal",
-      color: state.isFocused ? "var(--fontColorFirm)" : "grey",
+      color: state.isFocused ? fontColorFirm : "grey",
       background: state.isFocused ? "var(--bgColor)" : undefined,
       fontSize: "var(--fontSizeMedium)"
       // opacity: state.isFocused ? 0.5 : 1
@@ -42,10 +45,11 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
     input: (baseStyles) => ({
       ...baseStyles,
       opacity: 1,
-      fontSize: "var(--fontSizeSmall)",
-      color: "var(--fontColorFirm)",
+      fontSize: fontSizeSmall,
+      color: fontColorFirm,
       fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
         "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;`,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "& input": {
         font: "inherit"
       }
@@ -53,14 +57,14 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
     multiValue: (baseStyles, state) => ({
       ...baseStyles,
       background: "var(--checkBoxColor)",
-      fontSize: "var(--fontSizeSmall)",
+      fontSize: fontSizeSmall,
       padding: state.isDisabled ? "0 0 0 8px" : "0 8px 0 8px",
-      borderRadius: "var(--fontSizeSmall)",
+      borderRadius: fontSizeSmall,
       color: "white",
       pointerEvents: "all",
       cursor: "pointer"
     }),
-    multiValueLabel: (baseStyles, state) => ({
+    multiValueLabel: (baseStyles) => ({
       ...baseStyles,
       color: "white",
       textWrap: "nowrap",
@@ -73,15 +77,15 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
     }),
     indicatorSeparator: (baseStyles) => ({
       ...baseStyles,
-      background: "var(--fontColorFirm)"
+      background: fontColorFirm
     }),
     dropdownIndicator: (baseStyles) => ({
       ...baseStyles,
-      color: "var(--fontColorFirm)"
+      color: fontColorFirm
     }),
     placeholder: (baseStyles) => ({
       ...baseStyles,
-      fontSize: "var(--fontSizeSmall)",
+      fontSize: fontSizeSmall,
       color: "grey",
       fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI",
       "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",

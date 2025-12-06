@@ -1,0 +1,64 @@
+{
+  "NotFound": {
+    "title": "404: Not found",
+    "description": "Back to ",
+    "mainRef": "main"
+  },
+  "Navbar": {
+    "main": "Main",
+    "categories": "Categories",
+    "login": "Login",
+    "add": "Add"
+  },
+  "Months": {
+    "0": "jan",
+    "1": "feb",
+    "2": "mar",
+    "3": "apr",
+    "4": "may",
+    "5": "jun",
+    "6": "jul",
+    "7": "aug",
+    "8": "sep",
+    "9": "oct",
+    "10": "nov",
+    "11": "dec",
+    "today": "today"
+  },
+  "AlbumsSearchPage": {
+    "tagsPlaceholder": "Search by tags...",
+    "searchNamePlaceholder": "Search by name...",
+    "sortByDate": "By date",
+    "sortRandom": "Random"
+  },
+  "AlbumListItem": {
+    "today": "today"
+  },
+  "AlbumHeaderEdit": {
+    "descriptionPlaceholder": "Description...",
+    "tagsPlaceholder": "Tags...",
+    "namePlaceholder": "Name...",
+    "saveChangesButton": "Save changes",
+    "editImagesButton": "Edit images",
+    "reloadButton": "Reload",
+    "deleteButton": "Delete",
+    "deleteConfirm": "Delete album with all its images?",
+    "segmentOld": "Old",
+    "segmentNew": "New"
+  },
+  "Inputs": {
+    "tagsPlaceholder": "Tags..."
+  },
+  "Modal": {
+    "okButton": "Ok",
+    "cancelButton": "Cancel",
+    "yesButton": "Yes"
+  },
+  "ImagesListItem": {
+    "deleteButton": "Delete",
+    "cancelUploadButton": "Cancel upload"
+  },
+  "AlbumHeader": {
+    "editButton": "Edit"
+  }
+}

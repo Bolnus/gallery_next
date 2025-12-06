@@ -7,7 +7,7 @@ export interface SkeletonLoaderProps {
   isStatic?: boolean;
 }
 
-export function SkeletonLoader({ isSharp, isStatic }: SkeletonLoaderProps) {
+export function SkeletonLoader({ isSharp, isStatic }: Readonly<SkeletonLoaderProps>): JSX.Element {
   // return <div className={classes.skeletonBlock}/> viewBox="0 0 100 100" preserveAspectRatio="none"
   return (
     <svg className={classes.skeletonBlock} xmlns="http://www.w3.org/2000/svg">

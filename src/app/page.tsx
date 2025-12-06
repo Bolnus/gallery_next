@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
-import styles from "./page.module.css";
 
-export default function Home() {
+export default function Home(): void {
   redirect("/main/1");
 }

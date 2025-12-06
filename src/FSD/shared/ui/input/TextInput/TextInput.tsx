@@ -12,6 +12,7 @@ interface TextInputProps {
   isClearable?: boolean;
   disabled?: boolean;
   className?: string;
+  placeholder?: string;
 }
 
 function onInputChange(localEvent: React.ChangeEvent<HTMLInputElement>, onChange?: (str: string) => void) {
@@ -28,18 +29,25 @@ function onClearInput(onChange?: (str: string) => void) {
   }
 }
 
-export function TextInput({ value, onChange, isClearable, className, disabled }: TextInputProps) {
+export function TextInput({
+  value,
+  onChange,
+  isClearable,
+  className,
+  disabled,
+  placeholder
+}: Readonly<TextInputProps>): JSX.Element {
   return (
     <div className={`${className || ""} ${classes.textInput}`}>
       <input
-        placeholder="Album name..."
+        placeholder={placeholder}
         onBlur={resetScrollOnBlur}
         value={value}
         onChange={(localEvent: React.ChangeEvent<HTMLInputElement>) => onInputChange(localEvent, onChange)}
         className={`${classes.textInput__input} commonInput`}
         disabled={disabled}
       />
-      {isClearable ? (
+      {isClearable && value ? (
         <div className={classes.textInput__indicatorContainer}>
           <span className={classes.textInput__spacer} />
           <div className={classes.textInput__indicatorClose}>

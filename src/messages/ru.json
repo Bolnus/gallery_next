@@ -1,0 +1,61 @@
+{
+  "NotFound": {
+    "title": "404: Не найдено",
+    "description": "Вернуться ",
+    "mainRef": "на главную"
+  },
+  "Navbar": {
+    "main": "Главная",
+    "categories": "Категории",
+    "login": "Логин",
+    "add": "Добавить"
+  },
+  "Months": {
+    "0": "янв",
+    "1": "фев",
+    "2": "мар",
+    "3": "апр",
+    "4": "май",
+    "5": "июн",
+    "6": "июл",
+    "7": "авг",
+    "8": "сен",
+    "9": "окт",
+    "10": "ноя",
+    "11": "дек",
+    "today": "сегодня"
+  },
+  "AlbumsSearchPage": {
+    "tagsPlaceholder": "Поиск по тегам...",
+    "searchNamePlaceholder": "Поиск по названию...",
+    "sortByDate": "По дате",
+    "sortRandom": "Случайно"
+  },
+  "AlbumListItem": {
+    "today": "сегодня"
+  },
+  "AlbumHeaderEdit": {
+    "descriptionPlaceholder": "Описание...",
+    "tagsPlaceholder": "Теги...",
+    "namePlaceholder": "Название...",
+    "saveChangesButton": "Сохранить изменения",
+    "editImagesButton": "Редактировать изображения",
+    "reloadButton": "Перезагрузить",
+    "deleteButton": "Удалить",
+    "deleteConfirm": "Удалить альбом со всеми изображениями?",
+    "segmentOld": "Старые",
+    "segmentNew": "Новые"
+  },
+  "Modal": {
+    "okButton": "Ок",
+    "cancelButton": "Отмена",
+    "yesButton": "Да"
+  },
+  "ImagesListItem": {
+    "deleteButton": "Удалить",
+    "cancelUploadButton": "Отменить загрузку"
+  },
+  "AlbumHeader": {
+    "editButton": "Редактировать"
+  }
+}

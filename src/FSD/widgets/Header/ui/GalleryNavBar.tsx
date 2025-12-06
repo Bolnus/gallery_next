@@ -9,12 +9,14 @@ import { MenuItem } from "../lib/types";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { UiSize } from "../../../shared/lib/common/commonTypes";
 import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
+import { useTranslations } from "next-intl";
 
 export function GalleryNavBar(): JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
   const checkBoxRef = React.useRef<HTMLInputElement>(null);
   const [currentAlbumId] = useCurrentAlbumId();
+  const intl = useTranslations("Navbar");
 
   return (
     <nav className={classes.nav}>
@@ -37,7 +39,7 @@ export function GalleryNavBar(): JSX.Element {
               }
               className={classes.nav__menuItem}
             >
-              {MenuItem.MAIN}
+              {intl(MenuItem.MAIN)}
             </li>
             <li
               onClick={(menuClickEvent: React.MouseEvent) =>
@@ -45,7 +47,7 @@ export function GalleryNavBar(): JSX.Element {
               }
               className={classes.nav__menuItem}
             >
-              {MenuItem.CATEGORIES}
+              {intl(MenuItem.CATEGORIES)}
             </li>
             <li
               onClick={(menuClickEvent: React.MouseEvent) =>
@@ -53,7 +55,7 @@ export function GalleryNavBar(): JSX.Element {
               }
               className={classes.nav__menuItem}
             >
-              {MenuItem.ADD}
+              {intl(MenuItem.ADD)}
             </li>
           </menu>
         </div>

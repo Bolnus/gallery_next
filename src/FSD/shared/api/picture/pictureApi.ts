@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
-import { axiosClient, handleResponseError, isApiError, isAxiosError } from "../galleryApi";
+import { axiosClient } from "../galleryApi";
 import { GalleryImage } from "../../lib/common/galleryTypes";
-import { PostPicturesResp, UploadImageData } from "./types";
+import { PostPicturesResp } from "./types";
 
 export async function postAlbumPicturesMutation(
   albumId: string,
@@ -16,6 +16,7 @@ export async function postAlbumPicturesMutation(
   }
   return axiosClient.post<PostPicturesResp>("/albums_list/album/picture", formData, {
     headers: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "Content-Type": "multipart/form-data"
     }
   });

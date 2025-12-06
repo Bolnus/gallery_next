@@ -35,7 +35,7 @@ export function MultiSelect({
   isLoading,
   onBlur,
   onFocus
-}: SingleSelectProps) {
+}: Readonly<SingleSelectProps>): JSX.Element {
   return (
     <Select
       options={options}

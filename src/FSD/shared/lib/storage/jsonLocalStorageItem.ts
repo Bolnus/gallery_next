@@ -4,10 +4,6 @@ import { IJsonStorageItem } from "./types";
 
 /** Единица информации из cookie в формате для JSON */
 export class JsonLocalStorageItem<T> extends LocalStorageItem implements IJsonStorageItem<T> {
-  constructor(key: string) {
-    super(key);
-  }
-
   getJson(): T | undefined {
     const valueAsString = super.get();
     if (!valueAsString) {

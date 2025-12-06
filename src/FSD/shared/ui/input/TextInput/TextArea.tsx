@@ -20,7 +20,7 @@ export function TextArea({
   inputClassName,
   rows,
   placeholder
-}: TextInputProps): JSX.Element {
+}: Readonly<TextInputProps>): JSX.Element {
   return (
     <div className={getUnitedClassnames([classes.textArea, containerClassName])}>
       <textarea

@@ -23,7 +23,7 @@ function onError(setLocalLoadState: (state: FileLoadState) => void) {
   setLocalLoadState(FileLoadState.downloadFailed);
 }
 
-function onLoad(setLocalLoadState: (state: FileLoadState) => void, localEvent: React.SyntheticEvent<HTMLImageElement>) {
+function onLoad(setLocalLoadState: (state: FileLoadState) => void) {
   setLocalLoadState(FileLoadState.downloaded);
 }
 
@@ -31,7 +31,6 @@ export function ImageSnap({ element, onClick }: Readonly<OwnProps>): JSX.Element
   const [localLoadState, setLocalLoadState] = React.useState<FileLoadState>(element.loadState);
   const loading = localLoadState !== FileLoadState.uploaded && localLoadState !== FileLoadState.downloaded;
 
-  // , classes.image_geometry
   return (
     <div className={classes.imageWrapper} onClick={() => onImageClick(element.id, onClick)}>
       {loading ? (
@@ -49,7 +48,7 @@ export function ImageSnap({ element, onClick }: Readonly<OwnProps>): JSX.Element
           className={getUnitedClassnames([classes.image])}
           alt={element.name || ""}
           onError={() => onError(setLocalLoadState)}
-          onLoad={(localEvent: React.SyntheticEvent<HTMLImageElement>) => onLoad(setLocalLoadState, localEvent)}
+          onLoad={() => onLoad(setLocalLoadState)}
           src={element.url || ""}
           loading="lazy"
           fill

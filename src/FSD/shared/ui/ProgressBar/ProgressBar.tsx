@@ -5,7 +5,7 @@ interface ProgressBarProps {
   percent: number;
 }
 
-export function ProgressBar({ percent }: ProgressBarProps): JSX.Element {
+export function ProgressBar({ percent }: Readonly<ProgressBarProps>): JSX.Element {
   const clampedPercent = Math.max(0, Math.min(100, percent));
 
   return (

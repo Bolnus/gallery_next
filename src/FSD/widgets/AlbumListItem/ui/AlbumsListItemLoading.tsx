@@ -20,7 +20,7 @@ function mapImages(pictureId: string): JSX.Element {
 
 const PICTURE_LOADER_ARRAY = getIndexesArray(6);
 
-export function AlbumListItemLoading() {
+export function AlbumListItemLoading(): JSX.Element {
   return (
     <div className={classes.scrollBox_itemWrapper}>
       <div className={classes.albumBlock}>

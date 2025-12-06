@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import classes from "./ImageSlider.module.scss";
 import { GalleryImage } from "../../../../lib/common/galleryTypes";
-import { getUnitedClassnames, invertTrigger, updateStateValue } from "../../../../lib/common/commonUtils";
+import { getUnitedClassnames } from "../../../../lib/common/commonUtils";
 import { ButtonIcon } from "../../../button/ButtonIcon/ButtonIcon";
 import { UiSize } from "../../../../lib/common/commonTypes";
 import { IconName } from "../../../icons/ReactIcon/types";
@@ -31,43 +31,44 @@ function mapViewImages(setToolBarActive: React.Dispatch<React.SetStateAction<boo
         fill
         sizes="100vw"
         quality="100"
-        onClick={() => invertTrigger(setToolBarActive)}
+        onClick={() => setToolBarActive((prev) => !prev)}
         className={classes.image}
       />
     </div>
   );
 }
 
-export function ImageSlider({ images, currentViewId, header, onClose }: ImageSliderProps) {
+export function ImageSlider({
+  images,
+  currentViewId,
+  header,
+  onClose
+}: Readonly<ImageSliderProps>): JSX.Element | null {
   const [imageIndex, setImageIndex] = React.useState(-1);
   const [toolBarActive, setToolBarActive] = React.useState(true);
-  const [modalVisible, setModalVisible] = React.useState(false);
   const domNode = React.useRef<HTMLDivElement | null>(null);
 
-  React.useEffect(function () {
+  React.useEffect(() => {
     const element = document.createElement("div");
     domNode.current = element;
     document.body.appendChild(element);
     element.className = classes.portal;
-    return function () {
+    return () => {
       document.body.removeChild(element);
     };
   }, []);
 
-  React.useEffect(
-    function () {
-      if (currentViewId) {
-        for (let i = 0; i < images.length; i++) {
-          if (images[i].id === currentViewId) {
-            setImageIndex(i);
-          }
+  React.useEffect(() => {
+    if (currentViewId) {
+      for (let i = 0; i < images.length; i++) {
+        if (images[i].id === currentViewId) {
+          setImageIndex(i);
         }
-      } else {
-        setImageIndex(-1);
       }
-    },
-    [currentViewId, images]
-  );
+    } else {
+      setImageIndex(-1);
+    }
+  }, [currentViewId, images]);
 
   if (!currentViewId || imageIndex === -1) {
     return null;
@@ -103,7 +104,7 @@ export function ImageSlider({ images, currentViewId, header, onClose }: ImageSli
           arrows
           initialSlide={imageIndex}
           infinite={false}
-          afterChange={(currentSlide: number) => updateStateValue(setImageIndex, currentSlide)}
+          afterChange={(currentSlide: number) => setImageIndex(currentSlide)}
           lazyLoad="anticipated"
           touchThreshold={10}
           slidesToShow={1}

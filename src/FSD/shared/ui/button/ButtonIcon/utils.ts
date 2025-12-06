@@ -2,7 +2,7 @@ import { UiSize } from "../../../lib/common/commonTypes";
 import classes from "./ButtonIcon.module.scss";
 import { ButtonIconBackground } from "./types";
 
-export function getButtonSizeClass(size?: UiSize) {
+export function getButtonSizeClass(size?: UiSize): string {
   switch (size) {
     case UiSize.Small:
       return classes.buttonIcon_small;
@@ -19,11 +19,9 @@ export function getButtonSizeClass(size?: UiSize) {
   }
 }
 
-export function getBackgroundClass(background?: ButtonIconBackground) {
-  switch (background) {
-    case ButtonIconBackground.Grey:
-      return classes.buttonIcon_grey;
-    default:
-      return classes.buttonIcon_transparent;
+export function getBackgroundClass(background?: ButtonIconBackground): string {
+  if (background === ButtonIconBackground.Grey) {
+    return classes.buttonIcon_grey;
   }
+  return classes.buttonIcon_transparent;
 }

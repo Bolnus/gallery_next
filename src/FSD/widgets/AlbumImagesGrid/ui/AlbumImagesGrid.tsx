@@ -37,11 +37,11 @@ interface Props {
   isFetching?: boolean;
 }
 
-export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName }: Props) {
+export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName }: Readonly<Props>): JSX.Element {
   const [localImages, setLocalImages] = React.useState<GalleryImage[]>([]);
   const [currentViewId, setCurrentViewId] = React.useState("");
   const imagesLoaderRef = React.useRef<HTMLDivElement>(null);
-  const loaderIntersected = useIntersectionObserver(imagesLoaderRef, { root: global.document && document.body });
+  const loaderIntersected = useIntersectionObserver(imagesLoaderRef);
 
   React.useEffect(() => {
     if (loaderIntersected) {

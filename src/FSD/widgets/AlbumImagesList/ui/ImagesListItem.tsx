@@ -1,19 +1,18 @@
 import React from "react";
-import type { Identifier, XYCoord } from "dnd-core";
-import { DragSourceMonitor, useDrag, useDrop } from "react-dnd";
+import type { Identifier } from "dnd-core";
+import { useDrag, useDrop } from "react-dnd";
 import classes from "./ImagesListItem.module.scss";
 import { ButtonIcon } from "../../../shared/ui/button/ButtonIcon/ButtonIcon";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { UiSize } from "../../../shared/lib/common/commonTypes";
 import { FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
 import { ImageSnap } from "../../../shared/ui/image/ImageSnap/ImageSnap";
-import { ProgressBar } from "../../../shared/ui/ProgressBar/ProgressBar";
 import { ButtonIconBackground } from "../../../shared/ui/button/ButtonIcon/types";
 import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 import { SpinnerProgressBar } from "../../../shared/ui/ProgressBar/SpinnerProgressBar";
-import { ProgressTester } from "../../../shared/ui/ProgressBar/ProgressTester";
 import { getHumanReadableFileSize } from "../lib/utils";
 import { DragItem } from "../lib/types";
+import { useTranslations } from "next-intl";
 
 const DRAGGABLE_TYPE = "DRAGGABLE_TYPE" as const;
 
@@ -26,9 +25,17 @@ interface Props {
   moveImage: (dragIndex: number, hoverIndex: number) => void;
 }
 
-export function ImagesListItem({ image, onDelete, onCancel, deleteDisabled, moveImage, index }: Props): JSX.Element {
+export function ImagesListItem({
+  image,
+  onDelete,
+  onCancel,
+  deleteDisabled,
+  moveImage,
+  index
+}: Readonly<Props>): JSX.Element {
   const listItemRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const intl = useTranslations("ImagesListItem");
 
   const [{ isDragging }, drag] = useDrag<DragItem, DragItem, { isDragging: boolean }>({
     type: DRAGGABLE_TYPE,
@@ -116,6 +123,7 @@ export function ImagesListItem({ image, onDelete, onCancel, deleteDisabled, move
           isComplete={image.loadState === FileLoadState.uploaded}
           isFailed={image.loadState === FileLoadState.uploadFailed || image.loadState === FileLoadState.uploadCanceled}
           onCancel={() => onCancel(image.id)}
+          cancelTitle={intl("cancelUploadButton")}
         />
       </div>
       {deleteDisabled ? null : (
@@ -124,6 +132,7 @@ export function ImagesListItem({ image, onDelete, onCancel, deleteDisabled, move
           iconName={IconName.Delete}
           size={UiSize.MediumAdaptive}
           color="var(--fontColorFirm)"
+          title={intl("deleteButton")}
         />
       )}
     </div>

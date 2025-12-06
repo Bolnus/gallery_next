@@ -18,6 +18,6 @@ export async function getAlbumsListQuery(searchParams?: URLSearchParams): Promis
   };
 }
 
-export function getAlbumsListError(localError: unknown) {
+export function getAlbumsListError(localError: unknown): ApiResponse<null> {
   return handleResponseError(localError, "/albums_list");
 }

@@ -1,18 +1,21 @@
 "use client";
 import React from "react";
-import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ReadonlyURLSearchParams, usePathname, useSearchParams } from "next/navigation";
 
-type UseSearchParams = [ReadonlyURLSearchParams | null, (newSearchParams: URLSearchParams) => void];
+type UseSearchParams = [ReadonlyURLSearchParams | null, React.Dispatch<React.SetStateAction<ReadonlyURLSearchParams>>];
 
-export function useRouterSearchParams(): UseSearchParams {
+export function useRouterSearchParams(delay: number = 0): UseSearchParams {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const [debouncedValue, setDebouncedValue] = React.useState(searchParams);
   const pathname = usePathname();
 
-  const setSearchParams = React.useCallback(function(newSearchParams: URLSearchParams) {
-    window.history.pushState(null, "", `${pathname}?${newSearchParams.toString()}`);
-    // router.push(`${pathname}?${newSearchParams.toString()}`);
-  }, [pathname]);
+  React.useEffect(() => {
+    const timeout = setTimeout(
+      () => window.history.pushState(null, "", `${pathname}?${debouncedValue.toString()}`),
+      delay
+    );
+    return () => clearTimeout(timeout);
+  }, [debouncedValue, delay, pathname]);
 
-  return [searchParams, setSearchParams];
+  return [searchParams, setDebouncedValue];
 }

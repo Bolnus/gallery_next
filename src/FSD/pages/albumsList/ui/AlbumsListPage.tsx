@@ -10,7 +10,7 @@ interface Props {
   albums?: Album[];
 }
 
-export function AlbumsListPage(props: Props) {
+export function AlbumsListPage(props: Readonly<Props>): JSX.Element {
   const router = useRouter();
 
   return <AlbumsList {...props} onPageSelect={(newPage) => router.push(`/main/${newPage}`)} />;

@@ -4,6 +4,7 @@ import { Header } from "../FSD/widgets/Header/ui/Header";
 import { ReactQueryProvider } from "../FSD/app/lib/reactQuery/ReactQueryProvider";
 import { SearchProvider } from "../FSD/app/lib/context/searchContext";
 import { BaseProvider } from "../FSD/app/lib/baseProviders/baseProvider";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata: Metadata = {
   title: "Tasty Duo",
@@ -14,7 +15,7 @@ export default function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): JSX.Element {
   return (
     <html lang="en">
       <head>
@@ -27,10 +28,12 @@ export default function RootLayout({
         <ReactQueryProvider>
           <SearchProvider>
             <BaseProvider>
-              <div className="rootContent">
-                <Header />
-                <main className="main">{children}</main>
-              </div>
+              <NextIntlClientProvider>
+                <div className="rootContent">
+                  <Header />
+                  <main className="main">{children}</main>
+                </div>
+              </NextIntlClientProvider>
             </BaseProvider>
           </SearchProvider>
         </ReactQueryProvider>

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { AlbumsListSorting } from "../../../shared/lib/common/galleryTypes";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { SelectOption } from "../../../shared/ui/input/Select/types";
@@ -14,31 +15,34 @@ export function getSortingTypeFromString(str: string | undefined | null): Albums
   return AlbumsListSorting.none;
 }
 
-export function getSortingIconOptions(): SelectOption<IconName>[] {
+export function getSortingIconOptions(intl: ReturnType<typeof useTranslations>): SelectOption<IconName>[] {
   return [
     {
-      label: "By date",
-      value: IconName.Date
+      label: intl("sortByDate"),
+      value: IconName.Calendar
     },
     {
-      label: "Random",
+      label: intl("sortRandom"),
       value: IconName.Random
     }
   ];
 }
 
-export function mapSortingTypeToIconOption(sorting: AlbumsListSorting): SelectOption<IconName> {
+export function mapSortingTypeToIconOption(
+  sorting: AlbumsListSorting,
+  intl: ReturnType<typeof useTranslations>
+): SelectOption<IconName> {
   return sorting === AlbumsListSorting.sample
     ? {
-        label: "Random",
+        label: intl("sortRandom"),
         value: IconName.Random
       }
     : {
-        label: "By date",
-        value: IconName.Date
+        label: intl("sortByDate"),
+        value: IconName.Calendar
       };
 }
 
 export function mapIconOptionToSortingType(option: SelectOption<IconName>): AlbumsListSorting {
-  return option.value === IconName.Date ? AlbumsListSorting.changedDate : AlbumsListSorting.sample;
+  return option.value === IconName.Calendar ? AlbumsListSorting.changedDate : AlbumsListSorting.sample;
 }

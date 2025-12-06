@@ -2,7 +2,7 @@
 import React from "react";
 import classes from "./AlbumsSearchPage.module.scss";
 import { AlbumsListSorting } from "../../../shared/lib/common/galleryTypes";
-import { useDebounce } from "../../../shared/lib/hooks/useDebounce";
+import { useStateWithDebounced } from "../../../shared/lib/hooks/useDebounce";
 import { MultiValue } from "react-select";
 import { SelectOption } from "../../../shared/ui/input/Select/types";
 import { MultiSelect } from "../../../shared/ui/input/Select/MultiSelect";
@@ -27,6 +27,8 @@ import {
   mapSortingTypeToIconOption
 } from "../lib/utils";
 import { IconSelect } from "../../../shared/ui/input/Select/IconSelect";
+import { ReadonlyURLSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 function changeSearchName(
   setSearchName: (str: string) => void,
@@ -45,17 +47,65 @@ function onPageSelect(setPageChanged: (flag: boolean) => void, newPage: number, 
   return newPage;
 }
 
+function initPageNumber(searchParams: ReadonlyURLSearchParams | null): number {
+  const newPage = searchParams?.get(PAGE_PARAM);
+  if (newPage) {
+    const numPage = Number(newPage);
+    return Number.isNaN(numPage) ? 1 : Math.round(numPage);
+  }
+  return 1;
+}
+
+function initPageSize(searchParams: ReadonlyURLSearchParams | null): number {
+  const newPageSize = searchParams?.get(SIZE_PARAM);
+  if (newPageSize) {
+    const numPageSize = Number(newPageSize);
+    return Number.isNaN(numPageSize) ? DEFAULT_PAGE_SIZE : Math.round(numPageSize);
+  }
+  return DEFAULT_PAGE_SIZE;
+}
+
+function initTags(searchParams: ReadonlyURLSearchParams | null): SelectOption<string>[] {
+  const tagsStr = searchParams?.get(TAGS_PARAM);
+  if (tagsStr) {
+    const tagsArray = tagsStr.split(",");
+    return tagsArray.map(mapValueToOption);
+  }
+  return [];
+}
+
+function initSearchName(searchParams: ReadonlyURLSearchParams | null): string {
+  const nameStr = searchParams?.get(NAME_PARAM);
+  if (nameStr) {
+    return nameStr;
+  }
+  return "";
+}
+
 export function AlbumsSearchPage(): JSX.Element {
-  const [pageNumber, setPageNumber] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(DEFAULT_PAGE_SIZE);
-  const [sortBy, setSortBy] = React.useState<AlbumsListSorting>(AlbumsListSorting.none);
-  const [selectedTags, setSelectedTags] = React.useState<readonly SelectOption[]>([]);
+  const [searchParams, setSearchParams] = useRouterSearchParams(0);
+  const [pageNumber, debouncedPageNumber, setPageNumber] = useStateWithDebounced(
+    () => initPageNumber(searchParams),
+    1000
+  );
+  const [pageSize] = React.useState(() => initPageSize(searchParams));
+  const [sortBy, debouncedSortBy, setSortBy] = useStateWithDebounced<AlbumsListSorting>(
+    () => getSortingTypeFromString(searchParams?.get(SORT_PARAM)),
+    1000
+  );
+  const [selectedTags, debouncedSelectedTags, setSelectedTags] = useStateWithDebounced<readonly SelectOption[]>(
+    () => initTags(searchParams),
+    1000
+  );
   const [globalSearchName, setGlobalSearchName] = useSearchName();
-  const [searchName, setSearchName] = React.useState("");
-  const [searchParams, setSearchParams] = useRouterSearchParams();
-  const debouncedSearchParams = useDebounce<URLSearchParams | null>(searchParams, 1000);
+  const [searchName, debouncedSearchName, setSearchName] = useStateWithDebounced(
+    () => initSearchName(searchParams),
+    1000
+  );
+  // const searchParams = useDebounce<URLSearchParams | null>(searchParams, 1000);
   const [tagsFocused, setTagsFocused] = React.useState(false);
   const [pageChanged, setPageChanged] = React.useState(false);
+  const intl = useTranslations("AlbumsSearchPage");
 
   const { data: searchTags, isLoading: searchTagsLoading } = useQuery({
     queryKey: "get-tags",
@@ -65,8 +115,8 @@ export function AlbumsSearchPage(): JSX.Element {
   });
 
   const { data: albumsWithTotal, isLoading: albumsListLoading } = useQuery({
-    queryKey: ["get-albums-list-search", debouncedSearchParams?.toString()],
-    queryFn: () => getAlbumsListQuery(debouncedSearchParams || undefined),
+    queryKey: ["get-albums-list-search", searchParams?.toString()],
+    queryFn: () => getAlbumsListQuery(searchParams || undefined),
     onError: getAlbumsListError,
     refetchOnWindowFocus: false
   });
@@ -76,14 +126,17 @@ export function AlbumsSearchPage(): JSX.Element {
 
   React.useEffect(() => {
     setPageChanged(false);
-  }, [debouncedSearchParams]);
+  }, [searchParams]);
 
   React.useEffect(() => {
+    if (!globalSearchName) {
+      return;
+    }
     setSearchName(globalSearchName);
     setSelectedTags([]);
     setPageNumber(1);
     // listBoxRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-  }, [globalSearchName]);
+  }, [globalSearchName, setPageNumber, setSearchName, setSelectedTags]);
 
   React.useEffect(() => {
     return () => {
@@ -91,61 +144,30 @@ export function AlbumsSearchPage(): JSX.Element {
     };
   }, [setGlobalSearchName]);
 
-  /** Init state hooks with query params */
-  React.useEffect(() => {
-    const newPage = searchParams?.get(PAGE_PARAM);
-    const newPageSize = searchParams?.get(SIZE_PARAM);
-    const tagsStr = searchParams?.get(TAGS_PARAM);
-    const nameStr = searchParams?.get(NAME_PARAM);
-    const sorting = searchParams?.get(SORT_PARAM);
-    if (newPage) {
-      setPageNumber(Math.round(Number(newPage)));
-    } else {
-      setPageNumber(1);
-    }
-    if (newPageSize) {
-      setPageSize(Math.round(Number(newPageSize)));
-    } else {
-      setPageSize(DEFAULT_PAGE_SIZE);
-    }
-    if (tagsStr) {
-      const tagsArray = tagsStr.split(",");
-      setSelectedTags(tagsArray.map(mapValueToOption));
-    } else {
-      setSelectedTags([]);
-    }
-    if (nameStr) {
-      setSearchName(nameStr);
-    } else {
-      setSearchName("");
-    }
-    setSortBy(getSortingTypeFromString(sorting));
-  }, []);
-
   /** Update query params based on state variables */
   React.useEffect(() => {
     const newSearchParams = new URLSearchParams();
-    if (!selectedTags.length) {
+    if (!debouncedSelectedTags.length) {
       newSearchParams.delete(TAGS_PARAM);
     } else {
-      const tagsStr = selectedTags.map(mapOptionToLabel).join(",");
+      const tagsStr = debouncedSelectedTags.map(mapOptionToLabel).join(",");
       newSearchParams.set(TAGS_PARAM, tagsStr);
     }
-    if (!searchName) {
+    if (!debouncedSearchName) {
       newSearchParams.delete(NAME_PARAM);
     } else {
-      newSearchParams.set(NAME_PARAM, searchName);
+      newSearchParams.set(NAME_PARAM, debouncedSearchName);
     }
-    if (sortBy) {
-      newSearchParams.set(SORT_PARAM, sortBy);
+    if (debouncedSortBy) {
+      newSearchParams.set(SORT_PARAM, debouncedSortBy);
     } else {
       newSearchParams.delete(SORT_PARAM);
     }
-    newSearchParams.set(PAGE_PARAM, String(pageNumber));
+    newSearchParams.set(PAGE_PARAM, String(debouncedPageNumber));
     newSearchParams.set(SIZE_PARAM, String(pageSize));
 
-    setSearchParams(newSearchParams);
-  }, [selectedTags, setSearchParams, pageNumber, pageSize, searchName, sortBy]);
+    setSearchParams(newSearchParams as ReadonlyURLSearchParams);
+  }, [debouncedSelectedTags, setSearchParams, debouncedPageNumber, pageSize, debouncedSearchName, debouncedSortBy]);
 
   const onTagsSelectionChange = React.useCallback(
     (newValue: MultiValue<SelectOption>) => {
@@ -172,11 +194,12 @@ export function AlbumsSearchPage(): JSX.Element {
             value={searchName}
             onChange={(newValue: string) => changeSearchName(setSearchName, setPageNumber, newValue)}
             isClearable
+            placeholder={intl("searchNamePlaceholder")}
           />
           <div className={classes.listBoxSpacer} />
           <IconSelect
-            iconOptions={getSortingIconOptions()}
-            value={mapSortingTypeToIconOption(sortBy)}
+            iconOptions={getSortingIconOptions(intl)}
+            value={mapSortingTypeToIconOption(sortBy, intl)}
             onChange={(option) => setSortBy(mapIconOptionToSortingType(option))}
           />
         </div>
@@ -188,7 +211,7 @@ export function AlbumsSearchPage(): JSX.Element {
             onFocus={() => onTagsFocus(setTagsFocused)}
             isClearable
             className="reactSelectTags"
-            placeholder="Tags..."
+            placeholder={intl("tagsPlaceholder")}
             isLoading={searchTagsLoading}
           />
         </div>

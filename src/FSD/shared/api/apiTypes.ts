@@ -1,5 +1,3 @@
-import { Album, GalleryImage } from "../lib/common/galleryTypes";
-
 export interface ApiAlbum {
   _id: string;
   albumName: string;

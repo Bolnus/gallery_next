@@ -1,6 +1,10 @@
 import React from "react";
 import { SpinnerProgressBar } from "./SpinnerProgressBar";
-import { FileLoadState } from "../../lib/common/galleryTypes";
+import {
+  FileLoadStateUploadCanceled,
+  FileLoadStateUploaded,
+  FileLoadStateUploadFailed
+} from "../../lib/common/galleryTypes";
 
 export function ProgressTester(): JSX.Element {
   const [progress, setProgress] = React.useState(0);
@@ -15,9 +19,9 @@ export function ProgressTester(): JSX.Element {
       />
       <SpinnerProgressBar
         percent={progress}
-        isComplete={progress === FileLoadState.uploaded}
-        isFailed={progress === FileLoadState.uploadFailed || progress === FileLoadState.uploadCanceled}
-        onCancel={() => setProgress(FileLoadState.uploadCanceled)}
+        isComplete={progress === FileLoadStateUploaded}
+        isFailed={progress === FileLoadStateUploadFailed || progress === FileLoadStateUploadCanceled}
+        onCancel={() => setProgress(FileLoadStateUploadCanceled)}
       />
     </div>
   );

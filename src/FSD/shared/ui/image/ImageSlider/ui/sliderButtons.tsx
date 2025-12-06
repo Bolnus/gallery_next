@@ -4,7 +4,9 @@ import { ButtonIcon } from "../../../button/ButtonIcon/ButtonIcon";
 import { IconName } from "../../../icons/ReactIcon/types";
 import classes from "./sliderButtons.module.scss";
 
-export function PrevButton(props: { onClick?: () => void }) {
+type CommonButtonProps = Readonly<{ onClick?: () => void }>;
+
+export function PrevButton(props: CommonButtonProps): JSX.Element {
   const { onClick } = props;
   return (
     <div className={getUnitedClassnames([classes.sliderButton, classes.sliderButton_left])}>
@@ -13,7 +15,7 @@ export function PrevButton(props: { onClick?: () => void }) {
   );
 }
 
-export function NextButton(props: { onClick?: () => void }) {
+export function NextButton(props: CommonButtonProps): JSX.Element {
   const { onClick } = props;
   return (
     <div className={getUnitedClassnames([classes.sliderButton, classes.sliderButton_right])}>

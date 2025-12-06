@@ -3,7 +3,7 @@ import classes from "./SpinnerProgressBar.module.scss";
 import { getUnitedClassnames } from "../../lib/common/commonUtils";
 import { ReactIcon } from "../icons/ReactIcon/ReactIcon";
 import { IconName } from "../icons/ReactIcon/types";
-import { FileLoadState } from "../../lib/common/galleryTypes";
+import { FileLoadStateStartedUploading, FileLoadStateUploadPlanned } from "../../lib/common/galleryTypes";
 import { UiSize } from "../../lib/common/commonTypes";
 import { ButtonIcon } from "../button/ButtonIcon/ButtonIcon";
 
@@ -14,6 +14,7 @@ interface ProgressBarProps {
   onCancel?: () => void;
   showCancelButton?: boolean;
   className?: string;
+  cancelTitle?: string;
 }
 
 function autoIncrementProgressBar(intervalId: React.MutableRefObject<NodeJS.Timeout | null>, prev: number): number {
@@ -29,18 +30,18 @@ export function SpinnerProgressBar({
   isComplete,
   isFailed,
   onCancel,
-  className
-}: ProgressBarProps): JSX.Element {
+  className,
+  cancelTitle
+}: Readonly<ProgressBarProps>): JSX.Element {
   const [showCheck, setShowCheck] = React.useState(false);
   const [showFailed, setShowFailed] = React.useState(false);
-  const [isHovering, setIsHovering] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const intervalId = React.useRef<ReturnType<typeof setInterval> | null>(null);
 
   React.useEffect(() => {
     setProgress(Math.max(0, Math.min(100, percent)));
     intervalId.current = null;
-    if (percent === FileLoadState.startedUploading) {
+    if (percent === FileLoadStateStartedUploading) {
       setInterval(() => setProgress((prev) => autoIncrementProgressBar(intervalId, prev)), 400);
     }
   }, [percent]);
@@ -58,11 +59,7 @@ export function SpinnerProgressBar({
   }, [isComplete, isFailed]);
 
   return (
-    <div
-      className={getUnitedClassnames([classes.container, className])}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
+    <div className={getUnitedClassnames([classes.container, className])}>
       <div
         className={getUnitedClassnames([classes.progressBar, isFailed ? classes.progressBarFailed : ""])}
         style={{
@@ -77,13 +74,13 @@ export function SpinnerProgressBar({
           <ReactIcon iconName={IconName.Loader} className={classes.spinner} />
         )}
 
-        {!isComplete && !isFailed && progress === FileLoadState.uploadPlanned && (
+        {!isComplete && !isFailed && progress === FileLoadStateUploadPlanned && (
           <ButtonIcon
             onClick={onCancel}
             className={classes.cancelButton}
             iconName={IconName.Close}
-            aria-label="Cancel upload"
-            title="Cancel upload"
+            aria-label={cancelTitle}
+            title={cancelTitle}
             size={UiSize.SmallAdaptive}
             color="var(--fontColorFirm)"
           />
@@ -94,14 +91,16 @@ export function SpinnerProgressBar({
             className={classes.checkContainer}
             style={
               {
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 "--transform": showCheck || showFailed ? "scale(1)" : "scale(0)",
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 "--opacity": showCheck || showFailed ? "1" : "0"
               } as React.CSSProperties
             }
           >
             <div className={classes.checkIconContainer}>
               <ReactIcon
-                iconName={isFailed ? IconName.Error : IconName.Check}
+                iconName={isFailed ? IconName.LocalError : IconName.Check}
                 color={isFailed ? "red" : "var(--fontColorGreenInverted)"}
               />
             </div>

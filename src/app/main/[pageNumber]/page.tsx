@@ -18,7 +18,7 @@ export async function generateStaticParams(): Promise<AlbumsListParam[]> {
   return paths;
 }
 
-async function AlbumsHome({ pageNumber }: AlbumsListParam): Promise<JSX.Element> {
+async function AlbumsHome({ pageNumber }: Readonly<AlbumsListParam>): Promise<JSX.Element> {
   const searchParams = new URLSearchParams();
   searchParams.set(PAGE_PARAM, pageNumber);
   searchParams.set(SIZE_PARAM, "30");
@@ -35,10 +35,11 @@ async function AlbumsHome({ pageNumber }: AlbumsListParam): Promise<JSX.Element>
   );
 }
 
-export default function Page({ params }: AlbumsListProps): JSX.Element {
+export default async function Page({ params }: Readonly<AlbumsListProps>): Promise<JSX.Element> {
+  const { pageNumber } = await params;
   return (
     <Suspense fallback={<AlbumsListLoading />}>
-      <AlbumsHome pageNumber={params.pageNumber} />
+      <AlbumsHome pageNumber={pageNumber} />
     </Suspense>
   );
 }

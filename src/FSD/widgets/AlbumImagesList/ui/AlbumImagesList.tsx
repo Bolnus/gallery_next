@@ -14,7 +14,13 @@ interface Props {
   moveImage: (dragIndex: number, hoverIndex: number) => void;
 }
 
-export function AlbumImagesList({ images, onDelete, onCancel, deleteDisabled, moveImage }: Props): JSX.Element {
+export function AlbumImagesList({
+  images,
+  onDelete,
+  onCancel,
+  deleteDisabled,
+  moveImage
+}: Readonly<Props>): JSX.Element {
   return (
     <DndProvider options={HTML5toTouch}>
       <div className={classes.galleryContents}>

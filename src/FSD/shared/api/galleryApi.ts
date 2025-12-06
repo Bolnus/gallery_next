@@ -1,16 +1,13 @@
 import axios, { AxiosError } from "axios";
 import { ApiMessage, ApiResponse } from "./apiTypes";
-import { getClientProxyUrl, getProxyHostname, getProxyProtocol } from "./apiUtils";
+import { getClientProxyUrl } from "./apiUtils";
 
 export const axiosClient = axios.create({
   baseURL: getClientProxyUrl()
 });
 
 export function isAxiosError<T = null>(localError: unknown): localError is AxiosError<T> {
-  if (localError?.hasOwnProperty("response")) {
-    return true;
-  }
-  return false;
+  return !!(localError as AxiosError)?.response;
 }
 
 export function isApiError(localError: unknown): localError is AxiosError<ApiMessage> {

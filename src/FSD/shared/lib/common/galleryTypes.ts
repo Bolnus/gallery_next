@@ -40,6 +40,17 @@ export enum FileLoadState {
   uploadCanceled = 107
 }
 
+export const FileLoadStateAdded = 0;
+export const FileLoadStateUploadPlanned = 1;
+export const FileLoadStateStartedUploading = 2;
+export const FileLoadStateDownloadFailed = 101;
+export const FileLoadStateDownloading = 102;
+export const FileLoadStateDownloaded = 103;
+export const FileLoadStateUploaded = 104;
+export const FileLoadStateUploadFailed = 105;
+export const FileLoadStateParsingFailed = 106;
+export const FileLoadStateUploadCanceled = 107;
+
 export interface AlbumParam {
   id: string;
 }
@@ -53,7 +64,7 @@ export interface AlbumsListParam {
 }
 
 export interface AlbumsListProps {
-  params: AlbumsListParam;
+  params: Promise<AlbumsListParam>;
 }
 
 export enum AlbumsListSorting {

@@ -1,10 +1,9 @@
 import { AlbumPage } from "../../../FSD/pages/album/ui/AlbumPage";
-import { AlbumWithImages } from "../../../FSD/shared/api/album/types";
 import { PAGE_PARAM, SIZE_PARAM, SORT_PARAM } from "../../../FSD/pages/albumsSearch/consts/consts";
 import { Suspense } from "react";
-import { useQuery } from "react-query";
 import { AlbumPageProps, AlbumParam, AlbumsListSorting } from "../../../FSD/shared/lib/common/galleryTypes";
 import { getAlbumServerSide, getAlbumsListServerSide } from "../../../FSD/shared/api/album/albumApiServer";
+import { Metadata } from "next";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
   let downloadedCount = 0;
@@ -23,12 +22,15 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
     }
     downloadedCount = 50 * pageNumber;
     pageNumber++;
+    if (pageNumber === 3) {
+      break;
+    }
   }
 
   return paths;
 }
 
-export async function generateMetadata({ params }: AlbumPageProps) {
+export async function generateMetadata({ params }: AlbumPageProps): Promise<Metadata> {
   const { id } = await params;
   const { data } = await getAlbumServerSide(id);
 
@@ -39,7 +41,7 @@ export async function generateMetadata({ params }: AlbumPageProps) {
     openGraph: {
       title: data?.albumName,
       description: data?.description,
-      images: [data?.snapImages?.[0]?.url]
+      images: data?.snapImages?.[0]?.url ? [data?.snapImages?.[0]?.url] : undefined
     },
     robots: {
       index: true, // Allow search engines to index

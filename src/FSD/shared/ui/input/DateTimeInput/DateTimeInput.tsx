@@ -39,7 +39,14 @@ function getInputClass(size: UiSize): string {
   }
 }
 
-export function DateTimeInput({ type, size, value, onChange, disabled, className }: DateTimeInputProps) {
+export function DateTimeInput({
+  type,
+  size,
+  value,
+  onChange,
+  disabled,
+  className
+}: Readonly<DateTimeInputProps>): JSX.Element {
   return (
     <div className={`${className || ""} ${classes.dateTimeInput__container} ${getContainerClass(size)}`}>
       <input

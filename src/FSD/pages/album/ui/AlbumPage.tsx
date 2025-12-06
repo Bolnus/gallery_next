@@ -13,11 +13,10 @@ export function AlbumPage({
   fullImages,
   albumName,
   snapImages,
-  albumSize,
   tags,
   isFetching,
   description
-}: AlbumPageProps) {
+}: Readonly<AlbumPageProps>): JSX.Element {
   return (
     <div className={classes.galleryPage}>
       <div className={classes.scrollWrapper}>

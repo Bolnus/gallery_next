@@ -9,7 +9,7 @@ interface Props {
   deleteDisabled?: boolean;
 }
 
-export function GalleryAlbumImagesList({ images, setImages, deleteDisabled }: Props) {
+export function GalleryAlbumImagesList({ images, setImages, deleteDisabled }: Readonly<Props>): JSX.Element {
   return (
     <AlbumImagesList
       images={images}

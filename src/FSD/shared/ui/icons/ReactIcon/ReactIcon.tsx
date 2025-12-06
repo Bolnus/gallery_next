@@ -1,20 +1,20 @@
 import {
-    HiArrowCircleLeft,
-    HiChevronRight,
-    HiQuestionMarkCircle,
-    HiChevronLeft,
-    HiX,
-    HiSearch,
-    HiPhotograph,
-    HiRefresh,
-    HiPencil,
-    HiOutlineCheckCircle,
-    HiOutlineExclamationCircle,
-    HiTrash
+  HiArrowCircleLeft,
+  HiChevronRight,
+  HiQuestionMarkCircle,
+  HiChevronLeft,
+  HiX,
+  HiSearch,
+  HiPhotograph,
+  HiRefresh,
+  HiPencil,
+  HiOutlineCheckCircle,
+  HiOutlineExclamationCircle,
+  HiTrash
 } from "react-icons/hi";
 import { IconBaseProps } from "react-icons";
 import { FaRandom } from "react-icons/fa";
-import { MdDragHandle, MdDateRange  } from "react-icons/md";
+import { MdDragHandle, MdDateRange } from "react-icons/md";
 import { BiSolidSave } from "react-icons/bi";
 import { TbLoader2 } from "react-icons/tb";
 import { IconName } from "./types";
@@ -25,7 +25,7 @@ interface Props extends IconBaseProps {
   iconName: IconName;
 }
 
-export function ReactIcon({ iconName, className, ...props }: Props) {
+export function ReactIcon({ iconName, className, ...props }: Readonly<Props>): JSX.Element {
   const unitedClassnames = getUnitedClassnames([classes.adaptiveIcon, className || ""]);
   const propsWithClass = { ...props, className: unitedClassnames };
   switch (iconName) {
@@ -56,12 +56,12 @@ export function ReactIcon({ iconName, className, ...props }: Props) {
       return <TbLoader2 {...propsWithClass} />;
     case IconName.Check:
       return <HiOutlineCheckCircle {...propsWithClass} />;
-    case IconName.Error:
+    case IconName.LocalError:
       return <HiOutlineExclamationCircle {...propsWithClass} />;
     case IconName.Random:
-      return <FaRandom {...propsWithClass} />
-    case IconName.Date:
-      return <MdDateRange {...propsWithClass} />
+      return <FaRandom {...propsWithClass} />;
+    case IconName.Calendar:
+      return <MdDateRange {...propsWithClass} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

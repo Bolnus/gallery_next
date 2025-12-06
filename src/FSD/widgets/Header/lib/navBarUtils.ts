@@ -2,7 +2,7 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { MenuItem } from "./types";
 
-export function goBack(router: AppRouterInstance, albumsArrayLoaded: boolean) {
+export function goBack(router: AppRouterInstance, albumsArrayLoaded: boolean): void {
   if (albumsArrayLoaded) {
     router.back();
   } else {
@@ -27,6 +27,8 @@ export function onMenuClick(
       break;
     case MenuItem.ADD:
       router.push("/album");
+      break;
+    default:
       break;
   }
 }

@@ -2,7 +2,7 @@
 import NextImage from "next/image";
 import React from "react";
 import classes from "./AlbumHeader.module.scss";
-import { AlbumHeaders, DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
+import { DefinedTag, GalleryImage } from "../../../shared/lib/common/galleryTypes";
 import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { UiSize } from "../../../shared/lib/common/commonTypes";
@@ -12,6 +12,7 @@ import defaultImage from "../../../shared/ui/image/greyRect.svg";
 import { useRouter } from "next/navigation";
 import { Tag } from "../../../shared/ui/tags/Tag";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { useTranslations } from "next-intl";
 
 interface Props {
   albumId?: string;
@@ -42,6 +43,7 @@ export function AlbumHeader({
   isFetching = false
 }: Props & (OnEditProps | ReadOnlyProps)): JSX.Element {
   const router = useRouter();
+  const intl = useTranslations("AlbumHeader");
 
   return (
     <div className={classes.galleryHeader}>
@@ -68,7 +70,7 @@ export function AlbumHeader({
       <div className={getUnitedClassnames([classes.toolBar, classes.galleryHeader__toolBarArea])}>
         {canEdit ? (
           <ButtonIcon
-            title="Edit"
+            title={intl("editButton")}
             iconName={IconName.Edit}
             onClick={() => router.push(`${window.location.pathname}/edit`)}
             size={UiSize.MediumAdaptive}

@@ -1,8 +1,8 @@
 "use client";
 
 export enum MenuItem {
-  MAIN = "Main",
-  CATEGORIES = "Categories",
-  ENTER = "Login",
-  ADD = "Add"
+  MAIN = "main",
+  CATEGORIES = "categories",
+  ENTER = "login",
+  ADD = "add"
 }

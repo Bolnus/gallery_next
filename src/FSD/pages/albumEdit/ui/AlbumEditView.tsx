@@ -39,7 +39,7 @@ interface Props {
   revalidateAlbum?: (id: string) => void;
 }
 
-export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): JSX.Element {
+export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<Props>): JSX.Element {
   const [unsavedChanges, setUnsavedChanges] = React.useState<ChangesSaveState>(ChangesSaveState.Saved);
   const [oldImages, setOldImages] = React.useState<GalleryImage[]>([]);
   const [newImages, setNewImages] = React.useState<GalleryImage[]>([]);
@@ -56,7 +56,11 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
   const [localAlbumDescription, setLocalAlbumDescription] = React.useState("");
   const router = useRouter();
 
-  const { isLoading: headersLoading, data, refetch } = useQuery({
+  const {
+    isLoading: headersLoading,
+    data,
+    refetch
+  } = useQuery({
     queryKey: ["get-album", albumId],
     queryFn: () => getAlbumQuery(albumId),
     enabled: !!albumId,
@@ -162,20 +166,23 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
   );
 
   React.useEffect(
-    () => resetHeaders(setLocalAlbumName, setLocalAlbumTags, setLocalAlbumDescription, albumName, description, tags),
+    () =>
+      resetHeaders({ setLocalAlbumName, setLocalAlbumTags, setLocalAlbumDescription, albumName, description, tags }),
     [tags, albumName, description]
   );
 
   React.useEffect(() => {
-    const changed = albumName !== localAlbumName ||
-      description !== localAlbumDescription ||
-      tagsChanged(tags || [], localAlbumTags);
+    const changed =
+      albumName !== localAlbumName || description !== localAlbumDescription || tagsChanged(tags || [], localAlbumTags);
     setUnsavedChanges(changed ? ChangesSaveState.Unsaved : ChangesSaveState.Saved);
   }, [albumName, localAlbumName, tags, localAlbumTags, description, localAlbumDescription]);
 
-  React.useEffect(() => () => {
-    clearImagesArray(newImagesRef.current);
-  }, [newImagesRef]);
+  React.useEffect(
+    () => () => {
+      clearImagesArray(newImagesRef.current);
+    },
+    [newImagesRef]
+  );
 
   const headersFetching =
     headersLoading ||
@@ -186,12 +193,11 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Props): J
     postImageIndex !== -1;
 
   const canSave = !!(
-    (
-      unsavedChanges === ChangesSaveState.Saving ||
+    (unsavedChanges === ChangesSaveState.Saving ||
       unsavedChanges === ChangesSaveState.Unsaved ||
       newImages.length ||
-      imagesChanged(oldImages, data?.snapImages)
-    ) && localAlbumName
+      imagesChanged(oldImages, data?.snapImages)) &&
+    localAlbumName
   );
 
   return (

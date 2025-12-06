@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
-import { HiArrowCircleLeft } from "react-icons/hi";
 import { ButtonIconBackground } from "./types";
 import { UiSize } from "../../../lib/common/commonTypes";
-import { TriangleSVG } from "../../icons/Triangle/TriangleSVG";
 import classes from "./ButtonIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 import { getBackgroundClass, getButtonSizeClass } from "./utils";
@@ -25,7 +23,7 @@ interface Props {
 export function ButtonIconInternal(
   { iconName, background, onClick, disabled, size, color, className, title, isFetching }: Props,
   ref: React.ForwardedRef<HTMLButtonElement>
-) {
+): JSX.Element {
   return (
     <button
       onClick={onClick}

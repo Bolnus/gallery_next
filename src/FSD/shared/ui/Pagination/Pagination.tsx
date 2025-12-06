@@ -59,7 +59,7 @@ export function Pagination({
   isFetching,
   loadedAlbumsNumber,
   pageSize = 50
-}: PaginationProps) {
+}: Readonly<PaginationProps>): JSX.Element {
   const [paginationElements, setPaginationElements] = React.useState<number[]>([]);
   // const [currentLoaderId, setCurrentLoaderId] = React.useState<number>(1);
 

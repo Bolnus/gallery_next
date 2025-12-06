@@ -10,7 +10,7 @@ function readTextFileOnLoad(
   if (!fileReader || !fileReader?.result) {
     throw new Error("Error readTextFileOnLoad");
   }
-  const importedText = fileReader.result.toString();
+  const importedText = (fileReader.result as string).toString();
   const relativePath = file?.webkitRelativePath;
   resolve({ content: importedText, name: file.name, relativePath });
 }
@@ -56,11 +56,14 @@ export async function getImageUrlFromFile(file: File): Promise<string> {
 function calculateScale(fileSize: number): number {
   if (fileSize > 5 * 1024 * 1024) {
     return 0.1;
-  } else if (fileSize > 2 * 1024 * 1024) {
+  }
+  if (fileSize > 2 * 1024 * 1024) {
     return 0.25;
-  } else if (fileSize > 1 * 1024 * 1024) {
+  }
+  if (fileSize > 1 * 1024 * 1024) {
     return 0.3;
-  } else if (fileSize > 500 * 1024) {
+  }
+  if (fileSize > 500 * 1024) {
     return 0.6;
   }
   return 1;

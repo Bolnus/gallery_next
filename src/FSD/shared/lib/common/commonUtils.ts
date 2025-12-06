@@ -1,4 +1,4 @@
-import React, { FocusEvent } from "react";
+import React from "react";
 import { SelectOption } from "../../ui/input/Select/types";
 import { DefinedTag } from "./galleryTypes";
 
@@ -6,7 +6,7 @@ function resetScroll() {
   window.scroll({ top: 0, left: 0 });
 }
 
-export function resetScrollOnBlur() {
+export function resetScrollOnBlur(): void {
   // localEvent: FocusEvent<HTMLInputElement>
   // localEvent.preventDefault();
   resetScroll();
@@ -30,45 +30,12 @@ export function getUpcomingDate(): string {
   );
 }
 
-export function toUnsigned(text: string): number {
-  const digitArray: RegExpMatchArray | null = text.match(/^\d+$/);
-  if (digitArray) {
-    return +digitArray.join();
-  }
-  return 0;
-}
-
-export function toInteger(text: string): number {
-  const digitArray: RegExpMatchArray | null = text.match(/^-?\d+$/);
-  if (digitArray) {
-    return +digitArray.join();
-  }
-  return 0;
-}
-
-export function toFloat(text: string): number {
-  const digitArray: RegExpMatchArray | null = text.match(/^-?\d+(\.\d+)?$/);
-  if (digitArray) {
-    return +digitArray.join();
-  }
-  return 0;
-}
-
-// export function onSimpleDispatch(
-//   dispatch: AppDispatch,
-//   actionCreator: () => UnknownAction,
-//   localEvent: React.FormEvent
-// ) {
-//   localEvent.preventDefault();
-//   dispatch(actionCreator());
-// }
-
-export function onCallbackExec(callBack: () => void, localEvent: React.FormEvent) {
+export function onCallbackExec(callBack: () => void, localEvent: React.FormEvent): void {
   localEvent.preventDefault();
   callBack();
 }
 
-export function setStateOnInputChange(callBack: (str: string) => void, localEvent: React.FormEvent) {
+export function setStateOnInputChange(callBack: (str: string) => void, localEvent: React.FormEvent): void {
   localEvent.preventDefault();
   const inputElement = localEvent.target as HTMLInputElement;
   callBack(inputElement.value);
@@ -77,18 +44,6 @@ export function setStateOnInputChange(callBack: (str: string) => void, localEven
 // export function valueDispatch<T>(dispatch: AppDispatch, actionCreator: ActionCreatorWithPayload<T>, value: T) {
 //   dispatch(actionCreator(value));
 // }
-
-export function updateStateValue<T>(setState: (str: T) => void, value: T) {
-  setState(value);
-}
-
-function inverFlag(flag: boolean) {
-  return !flag;
-}
-
-export function invertTrigger(setValue: React.Dispatch<React.SetStateAction<boolean>>) {
-  setValue(inverFlag);
-}
 
 export function mapOptionToLabel(option: SelectOption): string {
   return option.label;
@@ -120,11 +75,14 @@ export function getUnitedClassnames(classNames: (string | undefined)[]): string 
   return classNames.filter((className) => className && typeof className === "string").join(" ");
 }
 
-export function onInputChange(onChange: (newStr: string) => void, localEvent: React.ChangeEvent<HTMLInputElement>) {
+export function onInputChange(
+  onChange: (newStr: string) => void,
+  localEvent: React.ChangeEvent<HTMLInputElement>
+): void {
   onChange(localEvent.target.value);
 }
 
-export function onTagsFocus(setTagsFocused: (flag: boolean) => void) {
+export function onTagsFocus(setTagsFocused: (flag: boolean) => void): void {
   setTagsFocused(true);
 }
 
@@ -132,12 +90,13 @@ function mapIndexToString(el: unknown, index: number) {
   return String(index);
 }
 
-export function getIndexesArray(arrayLength: number) {
+export function getIndexesArray(arrayLength: number): string[] {
   return Array.from({ length: arrayLength }).map(mapIndexToString);
 }
 
 export function shiftArrayElement<T = unknown>(prev: T[]): T[] {
-  const [first, ...rest] = prev;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_unused, ...rest] = prev;
   return rest;
 }
 

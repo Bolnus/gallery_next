@@ -1,5 +1,4 @@
 "use server";
-import { AxiosInstance } from "axios";
 import { AlbumsListWithTotal, ApiAlbumsWithTotal } from "../albumsList/types";
 import { ApiAlbum, ApiResponse } from "../apiTypes";
 import { mapAlbums, mapPictureIdToFullRef } from "../apiUtils";
@@ -7,13 +6,10 @@ import { handleResponseError } from "../galleryApi";
 import { AlbumWithImages } from "./types";
 import { axiosClientServer as axiosClient } from "../apiUtilsServer";
 
-export async function getAlbumServerSide(
-  albumId: string
-): Promise<ApiResponse<AlbumWithImages | null>> {
+export async function getAlbumServerSide(albumId: string): Promise<ApiResponse<AlbumWithImages | null>> {
   const path = "/albums_list/album";
   try {
     const response = await axiosClient.get<ApiAlbum>(`${path}?id=${albumId}`);
-    console.log(axiosClient.getUri());
     return {
       rc: 200,
       data: {

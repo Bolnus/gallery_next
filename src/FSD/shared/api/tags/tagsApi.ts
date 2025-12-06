@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { DefinedTag } from "../../lib/common/galleryTypes";
 import { ApiResponse, ApiTag } from "../apiTypes";
 import { mapTags } from "../apiUtils";

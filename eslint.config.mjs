@@ -28,7 +28,9 @@ export default defineConfig([
     "*.json",
     "node_modules/*",
     "*.mjs",
-    "*.cjs"
+    "*.cjs",
+    ".next/*",
+    "reverse-proxy/*"
   ]),
   {
     languageOptions: {
@@ -164,6 +166,7 @@ export default defineConfig([
       "react/display-name": "off",
       "react/no-unstable-nested-components": "off",
       "react/prefer-stateless-function": "off",
+      "react/jsx-no-constructed-context-values": "off",
 
       // jsx-a11y:
       "jsx-a11y/anchor-is-valid": ["warn", { aspects: ["invalidHref"] }],

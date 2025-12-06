@@ -6,7 +6,7 @@ function onResize() {
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 
-export function BaseProvider({ children }: { children: React.ReactNode }): JSX.Element {
+export function BaseProvider({ children }: Readonly<{ children: React.ReactNode }>): JSX.Element {
   React.useEffect(() => {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);

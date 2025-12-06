@@ -2,6 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import classes from "./Modal.module.scss";
 import { onCallbackExec } from "../../lib/common/commonUtils";
+import { useTranslations } from "next-intl";
 
 export enum ModalType {
   DeleteDialog = 0,
@@ -29,57 +30,47 @@ function onOkClicked(onClose: () => void, onOk?: () => void) {
   onClose();
 }
 
-export function Modal({ modalType, header, onClose, onOk }: ModalProps) {
+export function Modal({ modalType, header, onClose, onOk }: Readonly<ModalProps>): JSX.Element {
+  const intl = useTranslations("Modal");
   const domNode = React.useRef<HTMLDivElement>(document.createElement("div"));
 
-  React.useEffect(function () {
+  React.useEffect(() => {
     const element = domNode.current;
     document.body.appendChild(element);
     element.className = classes.portal;
-    return function () {
+    return () => {
       document.body.removeChild(element);
     };
   }, []);
-
-  let modalContent = null;
-  switch (modalType) {
-    case ModalType.DeleteDialog:
-      modalContent = (
-        <>
-          <button
-            className={`pushButton ${classes.modal__pb} ${classes.modal__pb_left} ${classes.modal__pb_normal}`}
-            onClick={(localEvent: React.MouseEvent) => onCallbackExec(onClose, localEvent)}
-          >
-            Cancel
-          </button>
-          <button
-            className={`pushButton ${classes.modal__pb} ${classes.modal__pb_right} ${classes.modal__pb_alert}`}
-            onClick={() => onOkClicked(onClose, onOk)}
-          >
-            Yes
-          </button>
-        </>
-      );
-      break;
-    case ModalType.Info:
-      modalContent = (
-        <>
-          <button
-            className={`pushButton ${classes.modal__pb} ${classes.modal__pb_wide} ${classes.modal__pb_normal}`}
-            onClick={(localEvent: React.MouseEvent) => onCallbackExec(onClose, localEvent)}
-          >
-            Ok
-          </button>
-        </>
-      );
-      break;
-  }
 
   return createPortal(
     <div onClick={(localEvent: React.MouseEvent) => onBackGroundClicked(onClose, localEvent)} className={classes.root}>
       <div className={classes.modal}>
         <h4>{header}</h4>
-        {modalContent}
+        {modalType === ModalType.DeleteDialog && (
+          <>
+            <button
+              className={`pushButton ${classes.modal__pb} ${classes.modal__pb_left} ${classes.modal__pb_normal}`}
+              onClick={(localEvent: React.MouseEvent) => onCallbackExec(onClose, localEvent)}
+            >
+              {intl("cancelButton")}
+            </button>
+            <button
+              className={`pushButton ${classes.modal__pb} ${classes.modal__pb_right} ${classes.modal__pb_alert}`}
+              onClick={() => onOkClicked(onClose, onOk)}
+            >
+              {intl("yesButton")}
+            </button>
+          </>
+        )}
+        {modalType === ModalType.Info && (
+          <button
+            className={`pushButton ${classes.modal__pb} ${classes.modal__pb_wide} ${classes.modal__pb_normal}`}
+            onClick={(localEvent: React.MouseEvent) => onCallbackExec(onClose, localEvent)}
+          >
+            {intl("okButton")}
+          </button>
+        )}
       </div>
     </div>,
     domNode.current

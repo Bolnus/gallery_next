@@ -5,7 +5,6 @@ import { IconName } from "../../icons/ReactIcon/types";
 import { getUnitedClassnames, onInputChange, resetScrollOnBlur } from "../../../lib/common/commonUtils";
 import classes from "./ExpandableSearchBar.module.scss";
 import { UiSize } from "../../../lib/common/commonTypes";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 function setFocus(inputRef: React.RefObject<HTMLInputElement | null>) {
   inputRef.current?.focus();
@@ -66,7 +65,7 @@ interface Props {
   onSearch: (str: string) => void;
 }
 
-export function ExpandableSearchBar({ onSearch }: Props) {
+export function ExpandableSearchBar({ onSearch }: Readonly<Props>): JSX.Element {
   const [searchActive, setSearchActive] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement | null>(null);

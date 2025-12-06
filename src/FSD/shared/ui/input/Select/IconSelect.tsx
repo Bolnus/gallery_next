@@ -6,24 +6,29 @@ import { IconName } from "../../icons/ReactIcon/types";
 import styles from "./IconSelect.module.scss";
 import { useId } from "react";
 
+const FontColorFirm = "var(--fontColorFirm)";
+const InputBgColor = "var(--inputBgColor)";
+
 interface IconSelectProps {
   value: SelectOption<IconName>;
   onChange: (value: SelectOption<IconName>) => void;
   iconOptions: SelectOption<IconName>[];
 }
 
+// eslint-disable-next-line sonarjs/prefer-read-only-props
 function Option(props: OptionProps<SelectOption<IconName>>): JSX.Element {
   return (
     <components.Option {...props}>
-      <ReactIcon iconName={props.data.value} title={props.data.label} color="var(--fontColorFirm)" />
+      <ReactIcon iconName={props.data.value} title={props.data.label} color={FontColorFirm} />
     </components.Option>
   );
 }
 
+// eslint-disable-next-line sonarjs/prefer-read-only-props
 function SingleValue(props: SingleValueProps<SelectOption<IconName>>): JSX.Element {
   return (
     <components.SingleValue {...props}>
-      <ReactIcon iconName={props.data.value} title={props.data.label} color="var(--fontColorFirm)" />
+      <ReactIcon iconName={props.data.value} title={props.data.label} color={FontColorFirm} />
     </components.SingleValue>
   );
 }
@@ -32,10 +37,10 @@ function getOptionBg(state: OptionProps<SelectOption<IconName>, false>): string 
   if (state.isFocused) {
     return "var(--bgColor)";
   }
-  if (state.isSelected) {
-    return "var(--inputBgColor)";
-  }
-  return "var(--inputBgColor)";
+  // if (state.isSelected) {
+  //   return "var(--inputBgColor)";
+  // }
+  return InputBgColor;
 }
 
 function customStyles(): StylesConfig<SelectOption<IconName>, false> {
@@ -46,7 +51,7 @@ function customStyles(): StylesConfig<SelectOption<IconName>, false> {
     }),
     control: (baseStyles, state) => ({
       ...baseStyles,
-      backgroundColor: "var(--inputBgColor)",
+      backgroundColor: InputBgColor,
       border: "none",
       outline: state.isFocused ? "none" : undefined,
       boxShadow: state.isFocused ? "none" : undefined,
@@ -89,8 +94,8 @@ function customStyles(): StylesConfig<SelectOption<IconName>, false> {
     // }),
     menu: (baseStyles) => ({
       ...baseStyles,
-      background: "var(--inputBgColor)",
-      color: "var(--fontColorFirm)",
+      background: InputBgColor,
+      color: FontColorFirm,
       zIndex: 4,
       boxShadow: "0 3px 3px var(--shadowColor)"
     }),
@@ -106,23 +111,18 @@ function customStyles(): StylesConfig<SelectOption<IconName>, false> {
       justifyContent: "center",
       padding: "8px 12px",
       cursor: "pointer",
-      color: state.isFocused ? "var(--fontColorFirm)" : "grey",
+      color: state.isFocused ? FontColorFirm : "grey",
       background: getOptionBg(state),
       fontSize: "var(--fontSizeMedium)"
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      // "&:active": {
-      //   background: state.isSelected ? "var(--inputBgColor)" : "var(--bgColor)"
-      // }
     }),
     dropdownIndicator: (baseStyles) => ({
       ...baseStyles,
-      color: "var(--fontColorFirm)"
+      color: FontColorFirm
     })
   };
 }
 
 export function IconSelect({ value, onChange, iconOptions }: Readonly<IconSelectProps>): JSX.Element {
-
   return (
     <Select
       className={styles.select}

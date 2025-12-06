@@ -5,6 +5,9 @@ import { axiosClient, handleResponseError, isApiError, isAxiosError } from "../g
 import { AlbumWithImages, PutAlbumHeadersArgs } from "./types";
 import { AlbumHeaders } from "../../lib/common/galleryTypes";
 
+const HEADERS_PATH = "/albums_list/album/headers";
+const UNKNOWN_ERROR = "Unknown error";
+
 export async function getAlbumQuery(albumId: string): Promise<AlbumWithImages> {
   const path = "/albums_list/album";
   const response = await axiosClient.get<ApiAlbum>(`${path}?id=${albumId}`);
@@ -19,9 +22,8 @@ export async function putAlbumHeaders(
   albumName: string,
   tags: string[]
 ): Promise<ApiResponse<ApiMessage | null>> {
-  const path = "/albums_list/album/headers";
   try {
-    await axiosClient.put(path, {
+    await axiosClient.put(HEADERS_PATH, {
       id,
       albumName,
       tags
@@ -31,7 +33,7 @@ export async function putAlbumHeaders(
       data: null
     };
   } catch (localError: unknown) {
-    handleResponseError(localError, path);
+    handleResponseError(localError, HEADERS_PATH);
     if (isApiError(localError)) {
       return {
         rc: localError?.response?.status || 500,
@@ -50,8 +52,8 @@ export async function putAlbumHeaders(
     return {
       rc: 500,
       data: {
-        message: "Unknown error",
-        title: "Unknown error"
+        message: UNKNOWN_ERROR,
+        title: UNKNOWN_ERROR
       }
     };
   }
@@ -65,7 +67,7 @@ export async function saveAlbumHeadersMutation({
 }: PutAlbumHeadersArgs): Promise<AxiosResponse<{ id?: string }>> {
   // const path = "/albums_list/album/headers";
   if (id) {
-    return axiosClient.put<{ id?: string }>("/albums_list/album/headers", {
+    return axiosClient.put<{ id?: string }>(HEADERS_PATH, {
       id,
       albumName,
       tags,
@@ -89,8 +91,7 @@ export async function deleteAlbumMutation(id: string): Promise<AxiosResponse> {
 }
 
 export function putAlbumHeadersError(localError: unknown): ApiResponse<string> {
-  const path = "/albums_list/album/headers";
-  handleResponseError(localError, path);
+  handleResponseError(localError, HEADERS_PATH);
   if (isApiError(localError)) {
     return {
       rc: localError?.response?.status || 500,
@@ -105,6 +106,6 @@ export function putAlbumHeadersError(localError: unknown): ApiResponse<string> {
   }
   return {
     rc: 500,
-    data: "Unknown error"
+    data: UNKNOWN_ERROR
   };
 }

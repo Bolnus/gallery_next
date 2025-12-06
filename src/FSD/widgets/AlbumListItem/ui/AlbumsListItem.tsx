@@ -4,24 +4,23 @@ import Link from "next/link";
 import classes from "./AlbumsListItem.module.scss";
 import { Album, GalleryImage } from "../../../shared/lib/common/galleryTypes";
 import { ImageSnap } from "../../../shared/ui/image/ImageSnap/ImageSnap";
-import { mapTags } from "../../../shared/ui/tags/Tag";
+import { Tag } from "../../../shared/ui/tags/Tag";
 import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
+import { useTranslations } from "next-intl";
 
 interface AlbumListItemProps {
   album: Album;
   isCurrent: boolean;
 }
 
-const monthDict = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sen", "oct", "nov", "dec"];
-
-function getBriefDate(timeT: string): string {
+function getBriefDate(timeT: string, intl: ReturnType<typeof useTranslations>): string {
   const currentDate = new Date();
   const pendingDate = new Date(timeT);
   let briefDate = "";
   if (currentDate.toLocaleDateString() === pendingDate.toLocaleDateString()) {
-    briefDate = "today";
+    briefDate = intl("today");
   } else {
-    briefDate = `${pendingDate.getDate()} ${monthDict[pendingDate.getMonth()]}`;
+    briefDate = `${pendingDate.getDate()} ${intl(String(pendingDate.getMonth()))}`;
   }
   if (currentDate.getFullYear() !== pendingDate.getFullYear()) {
     briefDate = `${briefDate} ${pendingDate.getFullYear()}`;
@@ -36,6 +35,7 @@ function onAlbumClick(setCurrentAlbumId: (id: string) => void, albumId: string) 
 
 function AlbumListItemInternal({ album, isCurrent }: AlbumListItemProps, ref: React.ForwardedRef<HTMLDivElement>) {
   const [, setCurrentAlbumId] = useCurrentAlbumId();
+  const intl = useTranslations("Months");
 
   return (
     <div className={classes.scrollBox_itemWrapper} onClick={() => onAlbumClick(setCurrentAlbumId, album.id)}>
@@ -51,9 +51,13 @@ function AlbumListItemInternal({ album, isCurrent }: AlbumListItemProps, ref: Re
               <span className={`${classes.albumBlock__name} ${isCurrent ? classes.albumBlock__name_current : ""}`}>
                 {album.albumName}
               </span>
-              <span className={classes.albumBlock__time}>{getBriefDate(album.changedDate)}</span>
+              <span className={classes.albumBlock__time}>{getBriefDate(album.changedDate, intl)}</span>
             </div>
-            <div className={classes.albumBlock__tags}>{album.tags.map(mapTags)}</div>
+            <div className={classes.albumBlock__tags}>
+              {album.tags.map((tag) => (
+                <Tag {...tag} key={tag.id} />
+              ))}
+            </div>
           </div>
         </div>
       </Link>

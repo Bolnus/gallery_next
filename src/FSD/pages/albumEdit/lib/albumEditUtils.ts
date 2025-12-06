@@ -19,13 +19,13 @@ export async function addImages(
   setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
   setErrorMessage: React.Dispatch<React.SetStateAction<string[]>>,
   setCurrentSegment: (newSegment: ImagesSegment) => void
-) {
+): Promise<void> {
   let fileRefs: File[] = [];
   try {
     fileRefs = await getReadableFileRefs(ImportType.Multiple);
   } catch (localError) {
     setErrorMessage((prev: string[]) => pushElementToArray("Error reading files from input.", prev));
-    console.log(localError);
+    console.warn(localError);
     return;
   }
   if (!fileRefs.length) {
@@ -84,7 +84,7 @@ export function deleteImageById(
   id: string,
   loadState: FileLoadState,
   setImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>
-) {
+): void {
   setImages((prev: GalleryImage[]) => filterImagesWithId(id, prev));
 }
 
@@ -110,7 +110,7 @@ export function onSaveChanges(
   putAlbumHeaders: () => void,
   setPostImageIndex: (index: number) => void,
   unsavedHeaders: ChangesSaveState
-) {
+): void {
   if (unsavedHeaders !== ChangesSaveState.Saved) {
     putAlbumHeaders();
   } else {
@@ -121,7 +121,7 @@ export function onSaveChanges(
 export function pushServerError(
   setErrorMessage: React.Dispatch<React.SetStateAction<string[]>>,
   localError: AxiosError<ApiMessage | null>
-) {
+): void {
   const errorMessage = isApiError(localError) ? localError?.response?.data.message : localError?.response?.statusText;
   setErrorMessage((prev: string[]) => pushElementToArray(`${localError?.response?.status}: ${errorMessage}`, prev));
 }
@@ -131,7 +131,7 @@ export async function onSaveAlbumHeadersSuccess(
   setUnsavedChanges: (state: ChangesSaveState) => void,
   setPostImageIndex: (index: number) => void,
   data: { id?: string }
-) {
+): Promise<void> {
   if (data.id) {
     setAlbumId(data.id);
   }
@@ -143,14 +143,21 @@ export async function onSaveAlbumHeadersSuccess(
   setPostImageIndex(0);
 }
 
-export function resetHeaders(
-  setLocalAlbumName: (str: string) => void,
-  setLocalAlbumTags: (tags: DefinedTag[]) => void,
-  setLocalAlbumDescription: (str: string) => void,
-  albumName: string,
-  description?: string,
-  tags?: DefinedTag[]
-) {
+export function resetHeaders({
+  setLocalAlbumName,
+  setLocalAlbumDescription,
+  setLocalAlbumTags,
+  albumName,
+  tags,
+  description
+}: {
+  setLocalAlbumName: (str: string) => void;
+  setLocalAlbumTags: (tags: DefinedTag[]) => void;
+  setLocalAlbumDescription: (str: string) => void;
+  albumName: string;
+  description?: string;
+  tags?: DefinedTag[];
+}): void {
   setLocalAlbumTags(tags || []);
   setLocalAlbumName(albumName || "");
   setLocalAlbumDescription(description || "");
@@ -217,7 +224,7 @@ export function onSendImagesError(
   setImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
   setErrorMessages: React.Dispatch<React.SetStateAction<string[]>>,
   setPostImageIndex: (newIndex: number) => void
-) {
+): void {
   pushServerError(setErrorMessages, localError);
   setImages(setFailedImages);
   setPostImageIndex(-1);
@@ -227,7 +234,7 @@ export function onSendImagesSuccess(
   setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
   setPostImageIndex: React.Dispatch<React.SetStateAction<number>>,
   res: SendImagesPortionRes
-) {
+): void {
   const { idsMap, imagesPortion } = res;
   for (const processedImage of imagesPortion) {
     const originalFileName = String(processedImage.data?.name);
@@ -254,7 +261,7 @@ export async function putAlbumPicturesIds(
   return putAlbumPicturesMutation(albumId, oldImageIds.concat(newImageIds));
 }
 
-export function clearImagesArray(prev: GalleryImage[]) {
+export function clearImagesArray(prev: GalleryImage[]): GalleryImage[] {
   for (const image of prev) {
     if (image.url) {
       URL.revokeObjectURL(image.url);
@@ -281,12 +288,12 @@ export async function onArrangePicturesSettled(
   return queryClient.invalidateQueries({ queryKey: ["get-album"] });
 }
 
-export function onReset(
+export async function onReset(
   setNewImages: (images: GalleryImage[]) => void,
   refetch: () => Promise<QueryObserverResult<AlbumWithImages, unknown>>
-) {
+): Promise<void> {
   setNewImages([]);
-  refetch();
+  await refetch();
 }
 
 export function moveImage(dragIndex: number, hoverIndex: number, prevImages: GalleryImage[]): GalleryImage[] {

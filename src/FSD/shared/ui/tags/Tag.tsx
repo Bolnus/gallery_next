@@ -10,11 +10,7 @@ interface Props extends DefinedTag {
   href?: string;
 }
 
-export function mapTags(tag: DefinedTag): JSX.Element {
-  return <Tag {...tag} key={tag.id} />;
-}
-
-export function Tag({ id, tagName, onClick, className, href }: Props) {
+export function Tag({ id, tagName, onClick, className, href }: Readonly<Props>): JSX.Element {
   const tagContent = (
     <div className={`${classes.tagBlock} ${className}`} onClick={() => onClick?.(id)}>
       <span className={classes.tagBlock__label}>{tagName}</span>

@@ -8,7 +8,9 @@
     --shadowColor: rgba(0, 0, 0, 0.2); // rgba(255, 255, 255, 0.2)
     --fontColorLight: grey; // #c4ccce
     --fontColorFirmGreen: #004422; // white
-    --fontColorGreenInverted: #4ed164; // #004422
+    // #4ed164
+    --fontColorGreenInverted: #80eeb0; // grey
+    --fontColorFullGreen: #80eeb0; // #004422
     --mainColorDark: #004422; // #112734
     --checkBoxColor: #4ed164;
     --inputBgColor: #c4ccce; // #112734
@@ -137,6 +139,7 @@ body {
     // background: $subColorGrey; //var(--subColorGrey);
     // color: black;
     display: block;
+    appearance: textfield;
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     min-height: 1.2em;
@@ -164,4 +167,29 @@ body {
     text-align: center;
     white-space: nowrap;
     //justify-self: center;
+}
+
+.singleLine {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notFoundPage {
+    margin: var(--fontSizeBig);
+}
+
+.notFoundPage__header {
+    color: var(--fontColorFirm);
+    font-weight: bold;
+    font-size: var(--fontSizeLargest);
+}
+
+.notFoundPage__text {
+    color: var(--fontColorFirm);
+    font-size: var(--fontSizeMedium);
+}
+
+.notFoundPage__textLink {
+    color: var(--fontColorFullGreen);
 }

@@ -7,12 +7,10 @@ interface Props {
   description?: string;
 }
 
-export function SliderHeader({ title, description }: Props): JSX.Element {
+export function SliderHeader({ title, description }: Readonly<Props>): JSX.Element {
   return (
     <div className={classes.sliderHeader}>
-      <p className={getUnitedClassnames([classes.sliderHeader__text_title, classes.sliderHeader__text])}>
-        {title}
-      </p>
+      <p className={getUnitedClassnames([classes.sliderHeader__text_title, classes.sliderHeader__text])}>{title}</p>
       <p className={getUnitedClassnames([classes.sliderHeader__text_description, classes.sliderHeader__text])}>
         {description}
       </p>

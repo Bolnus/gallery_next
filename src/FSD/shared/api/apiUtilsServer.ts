@@ -1,5 +1,5 @@
 "use server";
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 import { getClientProxyUrl } from "./apiUtils";
 
 export const axiosClientServer = axios.create({
