@@ -5,6 +5,7 @@ import { ReactQueryProvider } from "../FSD/app/lib/reactQuery/ReactQueryProvider
 import { SearchProvider } from "../FSD/app/lib/context/searchContext";
 import { BaseProvider } from "../FSD/app/lib/baseProviders/baseProvider";
 import { NextIntlClientProvider } from "next-intl";
+import { AuthProvider } from "../FSD/app/lib/context/authContext";
 
 export const metadata: Metadata = {
   title: "Tasty Duo",
@@ -29,10 +30,12 @@ export default function RootLayout({
           <SearchProvider>
             <BaseProvider>
               <NextIntlClientProvider>
-                <div className="rootContent">
-                  <Header />
-                  <main className="main">{children}</main>
-                </div>
+                <AuthProvider>
+                  <div className="rootContent">
+                    <Header />
+                    <main className="main">{children}</main>
+                  </div>
+                </AuthProvider>
               </NextIntlClientProvider>
             </BaseProvider>
           </SearchProvider>

@@ -1,12 +1,12 @@
 const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const qs = require("qs");
+// const axios = require("axios");
+// const cors = require("cors");
+// const bodyParser = require("body-parser");
+// const qs = require("qs");
 const https = require("https");
 const fileSystem = require("fs");
-const aFileHandler = require("fs").promises;
-const Blob = require("buffer").Blob;
+// const aFileHandler = require("fs").promises;
+// const Blob = require("buffer").Blob;
 const httpProxy = require('http-proxy');
 
 // -----CONFIG!------
@@ -22,13 +22,48 @@ const keyFilePath = process.env.SSL_KEY_FILE;
 // ------------------
 
 const app = express();
-app.use(
-  cors({
-    origin: "*"
-  })
-);
+// app.use(
+//   cors({
+//     origin: "*"
+//   })
+// );
+
+// Handle preflight OPTIONS requests
+// app.options('*', (req, res) => {
+//   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+//   res.setHeader('Access-Control-Allow-Credentials', 'true');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+//   res.setHeader('Access-Control-Max-Age', '86400');
+//   res.sendStatus(200);
+// });
+
 const apiProxy = httpProxy.createProxyServer();
 apiProxy.on("error", (localError) => console.log(`Proxy error: ${localError?.message}`));
+apiProxy.on("proxyRes", (proxyRes, req, res) => {
+  // Get the origin from the request
+  const origin = req.headers.origin;
+  // console.log(JSON.stringify(req.headers.cookie))
+  // console.log(JSON.stringify(JSON.stringify(res.getHeaders(), null, 2)))
+
+  // If backend already set CORS headers, preserve them
+  // If not, add them
+  if (!proxyRes.headers["access-control-allow-origin"] && origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
+  if (!proxyRes.headers["access-control-allow-credentials"]) {
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+  }
+
+  if (!proxyRes.headers["access-control-allow-methods"]) {
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  }
+
+  if (!proxyRes.headers["access-control-allow-headers"]) {
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  }
+});
 const baseServerEndPoint = `${backendAddr}${baseEndPoint}`;
 
 function getFullTime()
@@ -80,13 +115,15 @@ app.get("/", function (req, res)
   );
 });
 
-app.all(":endpoint([\\/\\w\\.-\\?\\=]*)", function (req, res) {
+app.all(":endpoint([\\/\\w\\.-\\?\\=]*)", (req, res) => {
   const endpoint = `${baseServerEndPoint}${req.params.endpoint}`;
   console.log(`${req.method} | ${getFullTime()} | ${endpoint}`);
 
   apiProxy.web(req, res, {
     target: baseServerEndPoint,
-    changeOrigin: true
+    changeOrigin: true,
+    preserveHeaderKeyCase: true,
+    cookiePathRewrite: false
   });
 });
 

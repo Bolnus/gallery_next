@@ -57,5 +57,13 @@
   },
   "AlbumHeader": {
     "editButton": "Редактировать"
+  },
+  "AuthPage": {
+    "loginLabel": "Логин",
+    "loginPlaceholder": "Введите логин",
+    "passwordLabel": "Пароль",
+    "passwordPlaceholder": "Введите пароль",
+    "enterButton": "Вход",
+    "exitButton": "Выход"
   }
 }

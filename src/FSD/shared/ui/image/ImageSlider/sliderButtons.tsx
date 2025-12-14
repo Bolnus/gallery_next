@@ -1,7 +1,7 @@
-import { UiSize } from "../../../../lib/common/commonTypes";
-import { getUnitedClassnames } from "../../../../lib/common/commonUtils";
-import { ButtonIcon } from "../../../button/ButtonIcon/ButtonIcon";
-import { IconName } from "../../../icons/ReactIcon/types";
+import { UiSize } from "../../../lib/common/commonTypes";
+import { getUnitedClassnames } from "../../../lib/common/commonUtils";
+import { ButtonIcon } from "../../button/ButtonIcon/ButtonIcon";
+import { IconName } from "../../icons/ReactIcon/types";
 import classes from "./sliderButtons.module.scss";
 
 type CommonButtonProps = Readonly<{ onClick?: () => void }>;

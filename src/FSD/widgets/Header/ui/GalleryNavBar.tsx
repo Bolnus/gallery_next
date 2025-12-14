@@ -10,6 +10,8 @@ import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { UiSize } from "../../../shared/lib/common/commonTypes";
 import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
 import { useTranslations } from "next-intl";
+import { PieIcon } from "../../../shared/ui/icons/PieIcon/PieIcon";
+import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 
 export function GalleryNavBar(): JSX.Element {
   const pathname = usePathname();
@@ -32,12 +34,20 @@ export function GalleryNavBar(): JSX.Element {
           <span />
           <span />
           <span />
-          <menu className={`${classes.nav__menu}`}>
+          <menu className={classes.nav__menu}>
             <li
               onClick={(menuClickEvent: React.MouseEvent) =>
                 onMenuClick(router, checkBoxRef, MenuItem.MAIN, menuClickEvent)
               }
-              className={classes.nav__menuItem}
+              className={getUnitedClassnames([classes.nav__menuItem, classes.nav__menuItem_icon])}
+            >
+              <PieIcon />
+            </li>
+            <li
+              onClick={(menuClickEvent: React.MouseEvent) =>
+                onMenuClick(router, checkBoxRef, MenuItem.MAIN, menuClickEvent)
+              }
+              className={getUnitedClassnames([classes.nav__menuItem, classes.nav__menuItem_text])}
             >
               {intl(MenuItem.MAIN)}
             </li>
@@ -45,7 +55,7 @@ export function GalleryNavBar(): JSX.Element {
               onClick={(menuClickEvent: React.MouseEvent) =>
                 onMenuClick(router, checkBoxRef, MenuItem.CATEGORIES, menuClickEvent)
               }
-              className={classes.nav__menuItem}
+              className={getUnitedClassnames([classes.nav__menuItem, classes.nav__menuItem_text])}
             >
               {intl(MenuItem.CATEGORIES)}
             </li>
@@ -53,7 +63,7 @@ export function GalleryNavBar(): JSX.Element {
               onClick={(menuClickEvent: React.MouseEvent) =>
                 onMenuClick(router, checkBoxRef, MenuItem.ADD, menuClickEvent)
               }
-              className={classes.nav__menuItem}
+              className={getUnitedClassnames([classes.nav__menuItem, classes.nav__menuItem_text])}
             >
               {intl(MenuItem.ADD)}
             </li>

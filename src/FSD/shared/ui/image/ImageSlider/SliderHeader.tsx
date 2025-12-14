@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./SliderHeader.module.scss";
-import { getUnitedClassnames } from "../../../../lib/common/commonUtils";
+import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 
 interface Props {
   title?: string;

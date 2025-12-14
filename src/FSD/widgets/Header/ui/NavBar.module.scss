@@ -128,12 +128,22 @@
   padding: 10px 0;
   transition-delay: 2s;
   text-decoration: none;
-  color: var(--fontColorFirmGreen);
   opacity: 1;
-  font-size: var(--fontSizeLarge);
-  font-weight: 600;
   transition: 200ms;
   margin-right: 1rem;
+}
+
+.nav__menuItem_text
+{
+  color: var(--fontColorFirmGreen);
+  font-size: var(--fontSizeLarge);
+  font-weight: 600;
+}
+
+.nav__menuItem_icon
+{
+  width: calc(2 * var(--fontSizeMedium));
+  height: calc(2 * var(--fontSizeMedium));
 }
 
 .nav__menuItem:hover

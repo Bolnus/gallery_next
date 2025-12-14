@@ -3,7 +3,8 @@ import { ApiMessage, ApiResponse } from "./apiTypes";
 import { getClientProxyUrl } from "./apiUtils";
 
 export const axiosClient = axios.create({
-  baseURL: getClientProxyUrl()
+  baseURL: getClientProxyUrl(),
+  withCredentials: true
 });
 
 export function isAxiosError<T = null>(localError: unknown): localError is AxiosError<T> {

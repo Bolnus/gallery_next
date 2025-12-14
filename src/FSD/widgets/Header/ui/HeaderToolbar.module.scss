@@ -1,0 +1,59 @@
+.darkToggleWrapper
+{
+  height: 32px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.userButtonSpacing
+{
+  margin-right: 5px;
+}
+
+.userPopup
+{
+  position: absolute;
+  z-index: 11;
+  top: calc(100% + 10px);
+  right: 0;
+  box-shadow: 0 4px 4px var(--shadowColor);
+  background: var(--bgColor);
+  padding: var(--fontSizeMedium);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 50vw;
+}
+
+.userPopup__userName
+{
+  // display: flex;
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  height: calc(1.2 * var(--fontSizeMedium));
+  // width: fit-content;
+  align-items: center;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  max-width: inherit;
+}
+
+.userPopup__icon
+{
+  // flex: 0 0 34px;
+  width: 34px;
+  margin-right: 10px;
+}
+
+.userPopup__userNameText
+{
+  color: var(--fontColorFirmGreen);
+  font-size: var(--fontSizeMedium);
+  max-width: 30vw;
+  // flex: 1 1 100px;
+  vertical-align: middle;
+  line-height: normal;
+  width: max-content;
+}

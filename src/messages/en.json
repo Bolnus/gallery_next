@@ -60,5 +60,13 @@
   },
   "AlbumHeader": {
     "editButton": "Edit"
+  },
+  "AuthPage": {
+    "loginLabel": "Login",
+    "loginPlaceholder": "Type in login",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Type in password",
+    "enterButton": "Enter",
+    "exitButton": "Exit"
   }
 }

@@ -1,0 +1,106 @@
+.sausageButton {
+    cursor: pointer;
+    outline: none;
+    font-size: var(--fontSizeMedium);
+
+    border-radius: var(--fontSizeMedium);
+    padding: 0 var(--fontSizeMedium);
+    background: var(--mainColor);
+    // margin-right: 1rem;
+    color: white;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+.sausageButton_small {
+    height: calc(2 * var(--fontSizeSmall));
+
+}
+
+.sausageButton_medium {
+    height: calc(2 * var(--fontSizeMedium));
+
+}
+
+.sausageButton_large {
+    height: calc(2 * var(--fontSizeLarge));
+
+}
+
+.sausageButton__iconWrapper {
+    margin-right: 8px;
+    display: flex;
+}
+
+.sausageButton__iconWrapper_medium {
+    height: 24px;
+    width: 24px;
+}
+
+.sausageButton__iconWrapper_large {
+    width: 40px;
+    height: 40px;
+}
+
+.sausageButton__iconWrapper_small {
+    // height: 14px;
+    width: var(--fontSizeSmall);
+}
+
+.sausageButton__iconWrapper_mediumAdaptive {
+    height: calc(2 * var(--fontSizeMedium));
+    width: calc(2 * var(--fontSizeMedium));
+}
+
+.sausageButton__iconWrapper_smallAdaptive {
+    height: calc(1.8 * var(--fontSizeSmall));
+    width: calc(1.8 * var(--fontSizeSmall));
+}
+
+.sausageButton__iconWrapper_largeAdaptive {
+    height: calc(2 * var(--fontSizeLarge));
+    width: calc(2 * var(--fontSizeLarge));
+}
+
+.sausageButton__textWrapper {
+    width: fit-content;
+    position: relative;
+}
+
+.sausageButton__text_invisible {
+    opacity: 0;
+}
+
+.sausageButton__loader {
+    height: var(--fontSizeMedium);
+    position: absolute;
+    font-size: var(--fontSizeMedium);
+}
+
+.sausageButton__text_small {
+    // font-size: 14px;
+    font-size: var(--fontSizeSmall);
+}
+
+.sausageButton__text_medium {
+    // font-size: 24px;
+    font-size: var(--fontSizeMedium);
+}
+
+.sausageButton__text_large {
+    // font-size: 40px;
+    font-size: var(--fontSizeLarge);
+}
+
+.sausageButton__text_smallAdaptive {
+    font-size: var(--fontSizeSmall);
+}
+
+.sausageButton__text_largeAdaptive {
+    font-size: var(--fontSizeLarge);
+}
+
+.sausageButton__text_mediumAdaptive {
+    font-size: var(--fontSizeMedium);
+}

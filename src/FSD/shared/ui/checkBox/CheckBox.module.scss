@@ -1,6 +1,6 @@
-@import "../../../consts/styles.scss";
+@import "../../consts/styles.scss";
 
-.darkToggle
+.checkbox
 {
     position: relative;
     appearance: none;
@@ -14,7 +14,7 @@
     transition-duration: 300ms;
 }
 
-.darkToggle:after
+.checkbox:after
 {
     content: "";
     position: absolute;
@@ -27,18 +27,18 @@
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.darkToggle:hover
+.checkbox:hover
 {
     cursor: pointer;
 }
 
-.darkToggle:checked
+.checkbox:checked
 {
     border-color: var(--checkBoxColor); //$appleGreen
     box-shadow: inset 20px 0 0 0 var(--checkBoxColor); //$appleGreen
 }
 
-.darkToggle:checked:after
+.checkbox:checked:after
 {
     left: 20px;
     box-shadow: -2px 4px 3px rgba(0, 0, 0, 0.05);

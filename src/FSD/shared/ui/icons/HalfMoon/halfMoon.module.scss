@@ -1,0 +1,24 @@
+.darkToggle__icon
+{
+    width: 100%;
+    height: 100%;
+    transition: transform 1s ease;
+}
+
+.darkToggle__icon_rotated
+{
+    transform: rotate(230deg);
+}
+
+.darkToggle__g
+{
+    stroke: none;
+    stroke-width: 0;
+    stroke-dasharray: none;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    stroke-miterlimit: 10;
+    fill: white;
+    fill-rule: nonzero;
+    opacity: 1;
+}

@@ -247,6 +247,7 @@ export default defineConfig([
       "sonarjs/no-clear-text-protocols": "off",
       "sonarjs/different-types-comparison": "off",
       "sonarjs/prefer-read-only-props": "warn",
+      "sonarjs/cognitive-complexity": "warn",
 
       // TypeScript:
       "@typescript-eslint/member-ordering": "error",

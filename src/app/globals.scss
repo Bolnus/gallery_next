@@ -15,6 +15,7 @@
     --checkBoxColor: #4ed164;
     --inputBgColor: #c4ccce; // #112734
 
+    --fontSizeTiny: 10px;
     --fontSizeSmall: 16px;
     --fontSizeMedium: 20px;
     --fontSizeBig: 26px;
@@ -26,7 +27,7 @@
 {
     :root
     {
-        /*--fontSizeSmaller: 14px;*/
+        --fontSizeTiny: 12px;
         --fontSizeSmall: 20px;
         --fontSizeMedium: 25px;
         --fontSizeBig: 30px;
@@ -130,6 +131,7 @@ body {
 .pushButton:disabled
 {
     opacity: 0.5;
+    cursor: default;
 }
 
 .commonInput

@@ -5,11 +5,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import classes from "./ImageSlider.module.scss";
-import { GalleryImage } from "../../../../lib/common/galleryTypes";
-import { getUnitedClassnames } from "../../../../lib/common/commonUtils";
-import { ButtonIcon } from "../../../button/ButtonIcon/ButtonIcon";
-import { UiSize } from "../../../../lib/common/commonTypes";
-import { IconName } from "../../../icons/ReactIcon/types";
+import { GalleryImage } from "../../../lib/common/galleryTypes";
+import { getUnitedClassnames } from "../../../lib/common/commonUtils";
+import { ButtonIcon } from "../../button/ButtonIcon/ButtonIcon";
+import { UiSize } from "../../../lib/common/commonTypes";
+import { IconName } from "../../icons/ReactIcon/types";
 import { NextButton, PrevButton } from "./sliderButtons";
 import { SliderHeader } from "./SliderHeader";
 

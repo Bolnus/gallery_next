@@ -13,6 +13,10 @@ interface TextInputProps {
   disabled?: boolean;
   className?: string;
   placeholder?: string;
+  isPassword?: boolean;
+  autoComplete?: string;
+  name?: string;
+  isFetching?: boolean;
 }
 
 function onInputChange(localEvent: React.ChangeEvent<HTMLInputElement>, onChange?: (str: string) => void) {
@@ -35,7 +39,11 @@ export function TextInput({
   isClearable,
   className,
   disabled,
-  placeholder
+  placeholder,
+  isPassword,
+  name,
+  autoComplete,
+  isFetching
 }: Readonly<TextInputProps>): JSX.Element {
   return (
     <div className={`${className || ""} ${classes.textInput}`}>
@@ -45,7 +53,10 @@ export function TextInput({
         value={value}
         onChange={(localEvent: React.ChangeEvent<HTMLInputElement>) => onInputChange(localEvent, onChange)}
         className={`${classes.textInput__input} commonInput`}
-        disabled={disabled}
+        disabled={disabled || isFetching}
+        type={isPassword ? "password" : "text"}
+        name={name}
+        autoComplete={autoComplete}
       />
       {isClearable && value ? (
         <div className={classes.textInput__indicatorContainer}>
@@ -56,6 +67,7 @@ export function TextInput({
               iconName={IconName.Close}
               size={UiSize.Small}
               color="var(--fontColorFirm)"
+              isFetching={isFetching}
             />
           </div>
         </div>

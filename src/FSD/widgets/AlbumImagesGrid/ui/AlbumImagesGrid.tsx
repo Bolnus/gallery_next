@@ -5,7 +5,7 @@ import { useIntersectionObserver } from "../../../shared/lib/hooks/useIntersecti
 import classes from "./AlbumImagesGrid.module.scss";
 import { SkeletonLoader } from "../../../shared/ui/icons/SkeletonLoader/SkeletonLoader";
 import { ImageSnap } from "../../../shared/ui/image/ImageSnap/ImageSnap";
-import { ImageSlider } from "../../../shared/ui/image/ImageSlider/ui/ImageSlider";
+import { ImageSlider } from "../../../shared/ui/image/ImageSlider/ImageSlider";
 
 function addLocalImages(snapImages: GalleryImage[], prevState: GalleryImage[]) {
   if (snapImages.length <= prevState.length) {

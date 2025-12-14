@@ -1,0 +1,59 @@
+.authPage {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: var(--bgColor);
+}
+
+.imageWrapper {
+    width: 99%;
+    max-width: 100px;
+}
+
+.authPage__loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 500px;
+    height: 240px;
+    margin: 10px;
+}
+
+.formInput {
+    width: 100%;
+}
+
+.formSubmit {
+    min-height: 38px;
+    height: 38px;
+    width: 100%;
+    background: var(--checkBoxColor);
+    border-radius: 4px;
+}
+
+.formSubmit__text {
+    color: white;
+    // font-weight: bold;
+    font-size: var(--fontSizeMedium);
+}
+
+.formInput__label {
+    color: var(--fontColorLight);
+    font-size: var(--fontSizeTiny);
+    font-weight: bold;
+}
+
+.formInput__input {
+    width: 100%;
+}
+
+.errorMessage {
+    color: red;
+    transform: translate();
+}
