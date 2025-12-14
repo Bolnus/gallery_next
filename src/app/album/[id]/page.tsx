@@ -15,6 +15,7 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
     searchParams.set(PAGE_PARAM, String(pageNumber));
     searchParams.set(SIZE_PARAM, "50");
     searchParams.set(SORT_PARAM, AlbumsListSorting.changedDate);
+    console.log("getAlbumsListServerSide")
     const res = await getAlbumsListServerSide(searchParams);
     totalCount = res.data.totalCount;
     for (const album of res.data.albumsList) {

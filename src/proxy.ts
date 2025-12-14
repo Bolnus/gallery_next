@@ -3,6 +3,7 @@ import { validateAuthServerSide } from "./FSD/shared/api/auth/authServer";
 import { isProtectedPath } from "./FSD/shared/lib/common/proxyUtils";
 
 export async function proxy(request: NextRequest): Promise<NextResponse<unknown>> {
+  console.log("isProtectedPath")
   if (isProtectedPath(request.nextUrl.pathname)) {
     const token = request.cookies.get("gallerySessionId")?.value;
 
