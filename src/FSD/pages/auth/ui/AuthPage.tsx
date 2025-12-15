@@ -30,7 +30,8 @@ export function AuthPage(): JSX.Element {
   >(loginMutation, {
     onError: (localError: AxiosError<ApiMessage>) =>
       setErrorMessage(localError?.response?.data?.message || localError?.message || ""),
-    onSuccess: (resp) => onLoginSuccess(resp.data.user, setUser, router)
+    onSuccess: (resp) => onLoginSuccess(resp.data.user, setUser, router),
+    retry: false
   });
 
   React.useEffect(() => setErrorMessage(""), [password, login]);

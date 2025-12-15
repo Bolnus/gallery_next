@@ -19,7 +19,8 @@ export function AuthProvider({ children }: Readonly<React.PropsWithChildren>): J
     queryFn: validateAuth,
     onSuccess: (userData) => setUser(userData?.data?.user || ""),
     refetchOnWindowFocus: false,
-    refetchOnMount: true
+    refetchOnMount: false,
+    retry: false
   });
 
   return (
