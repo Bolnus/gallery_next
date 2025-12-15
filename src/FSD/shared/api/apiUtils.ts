@@ -13,7 +13,7 @@ function mapPictureIdToSnapRef(pictureId: string): GalleryImage {
   return {
     id: pictureId,
     name: pictureId,
-    url: `${getClientProxyUrl()}/albums_list/album/picture?id=${pictureId}&sizing=snap`,
+    url: `${getClientProxyUrl()}/albums_list/album/picture/${pictureId}?sizing=snap`,
     loadState: FileLoadState.downloading
   };
 }
@@ -22,7 +22,7 @@ export function mapPictureIdToFullRef(pictureId: string): GalleryImage {
   return {
     id: pictureId,
     name: pictureId,
-    url: `${getClientProxyUrl()}/albums_list/album/picture?id=${pictureId}`,
+    url: `${getClientProxyUrl()}/albums_list/album/picture/${pictureId}`,
     loadState: FileLoadState.downloading
   };
 }
