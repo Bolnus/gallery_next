@@ -28,11 +28,11 @@ import { useMutation, useQuery } from "react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { ApiMessage } from "../../../shared/api/apiTypes";
 import { deleteAlbumMutation, getAlbumQuery, saveAlbumHeadersMutation } from "../../../shared/api/album/albumApi";
-import { useRouter } from "next/navigation";
 import { ImagesSegment } from "../../../widgets/AlbumHeader/lib/types";
 import { SendImagesPortionRes } from "../lib/types";
 import { FILE_SIZE_LIMIT } from "../../../shared/lib/file/consts";
 import { GalleryAlbumImagesList } from "./GalleryAlbumImagesList";
+import { useRouter } from "../../../../app/navigation";
 
 interface Props {
   onEditAlbumId?: string;

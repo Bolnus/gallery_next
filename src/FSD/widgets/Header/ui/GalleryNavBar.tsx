@@ -1,6 +1,4 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
-// import { useRouter } from "next/router";
 import React from "react";
 import { ButtonIcon } from "../../../shared/ui/button/ButtonIcon/ButtonIcon";
 import classes from "./NavBar.module.scss";
@@ -12,6 +10,7 @@ import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
 import { useTranslations } from "next-intl";
 import { PieIcon } from "../../../shared/ui/icons/PieIcon/PieIcon";
 import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
+import { usePathname, useRouter } from "../../../../app/navigation";
 
 export function GalleryNavBar(): JSX.Element {
   const pathname = usePathname();

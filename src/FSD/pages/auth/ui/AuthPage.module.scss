@@ -12,6 +12,12 @@
 .imageWrapper {
     width: 99%;
     max-width: 100px;
+    background: inherit;
+}
+
+.imageWrapper:hover {
+    opacity: 0.5;
+    cursor: pointer;
 }
 
 .authPage__loginForm {

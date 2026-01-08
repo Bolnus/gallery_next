@@ -10,10 +10,10 @@ import { loginMutation } from "../../../shared/api/auth/auth";
 import { AuthCredentials, AuthUser } from "../../../shared/api/auth/types";
 import { AxiosError, AxiosResponse } from "axios";
 import { ApiMessage } from "../../../shared/api/apiTypes";
-import { useRouter } from "next/navigation";
 import { SkeletonLoader } from "../../../shared/ui/icons/SkeletonLoader/SkeletonLoader";
 import { useAuth } from "../../../app/lib/context/authContext";
 import { PieIcon } from "../../../shared/ui/icons/PieIcon/PieIcon";
+import { Link, useRouter } from "../../../../app/navigation";
 
 export function AuthPage(): JSX.Element {
   const [login, setLogin] = React.useState("");
@@ -38,9 +38,9 @@ export function AuthPage(): JSX.Element {
 
   return (
     <div className={classes.authPage}>
-      <div className={classes.imageWrapper}>
+      <Link className={getUnitedClassnames([classes.imageWrapper, "pushButton"])} href="/">
         <PieIcon />
-      </div>
+      </Link>
       <form
         className={classes.authPage__loginForm}
         onSubmit={(localEvent) => postLoginRequest(login, password, postAuth, localEvent)}

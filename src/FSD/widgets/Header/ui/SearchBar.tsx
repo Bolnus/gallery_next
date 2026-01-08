@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
 import classes from "./SearchBar.module.scss";
 import { ExpandableSearchBar } from "../../../shared/ui/input/ExpandableSearchBar/ExpandableSearchBar";
 import { useSearchName } from "../../../app/lib/context/useSearchName";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "../../../../app/navigation";
 
 function onSearch(setSearchName: (str: string) => void, router: AppRouterInstance, searchValue: string): void {
   router.push(`/search?name=${searchValue}`);

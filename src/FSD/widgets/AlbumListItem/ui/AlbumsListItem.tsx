@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import classes from "./AlbumsListItem.module.scss";
 import { Album, GalleryImage } from "../../../shared/lib/common/galleryTypes";
 import { ImageSnap } from "../../../shared/ui/image/ImageSnap/ImageSnap";
 import { Tag } from "../../../shared/ui/tags/Tag";
 import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
 import { useTranslations } from "next-intl";
+import { Link } from "../../../../app/navigation";
 
 interface AlbumListItemProps {
   album: Album;

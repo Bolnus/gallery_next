@@ -1,9 +1,11 @@
-import { AlbumPage } from "../../../FSD/pages/album/ui/AlbumPage";
-import { PAGE_PARAM, SIZE_PARAM, SORT_PARAM } from "../../../FSD/pages/albumsSearch/consts/consts";
+import { AlbumPage } from "../../../../FSD/pages/album/ui/AlbumPage";
+import { PAGE_PARAM, SIZE_PARAM, SORT_PARAM } from "../../../../FSD/pages/albumsSearch/consts/consts";
 import { Suspense } from "react";
-import { AlbumPageProps, AlbumParam, AlbumsListSorting } from "../../../FSD/shared/lib/common/galleryTypes";
-import { getAlbumServerSide, getAlbumsListServerSide } from "../../../FSD/shared/api/album/albumApiServer";
+import { AlbumPageProps, AlbumParam, AlbumsListSorting } from "../../../../FSD/shared/lib/common/galleryTypes";
+import { getAlbumServerSide, getAlbumsListServerSide } from "../../../../FSD/shared/api/album/albumApiServer";
 import { Metadata } from "next";
+import { routing } from "../../../request";
+import { setRequestLocale } from "next-intl/server";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
   let downloadedCount = 0;
@@ -18,7 +20,9 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
     const res = await getAlbumsListServerSide(searchParams);
     totalCount = res.data.totalCount;
     for (const album of res.data.albumsList) {
-      paths.push({ id: album.id });
+      for (const locale of routing.locales) {
+        paths.push({ id: album.id, locale });
+      }
     }
     downloadedCount = 50 * pageNumber;
     pageNumber++;
@@ -31,8 +35,8 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
 }
 
 export async function generateMetadata({ params }: AlbumPageProps): Promise<Metadata> {
-  const { id } = await params;
-  const { data } = await getAlbumServerSide(id);
+  const { id, locale } = await params;
+  const { data } = await getAlbumServerSide(locale, id);
 
   return {
     title: data?.albumName,
@@ -55,8 +59,8 @@ export async function generateMetadata({ params }: AlbumPageProps): Promise<Meta
   };
 }
 
-async function AlbumWrapper({ id }: Readonly<AlbumParam>): Promise<JSX.Element> {
-  const res = await getAlbumServerSide(id);
+async function AlbumWrapper({ id, locale }: Readonly<AlbumParam>): Promise<JSX.Element> {
+  const res = await getAlbumServerSide(locale, id);
   if (res.rc < 300 && res.rc >= 200 && res.data) {
     return <AlbumPage {...res.data} />;
   }
@@ -75,7 +79,9 @@ async function AlbumWrapper({ id }: Readonly<AlbumParam>): Promise<JSX.Element> 
 }
 
 export default async function Page({ params }: Readonly<AlbumPageProps>): Promise<JSX.Element> {
-  const { id } = await params;
+  const { id, locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <Suspense
       fallback={
@@ -93,7 +99,7 @@ export default async function Page({ params }: Readonly<AlbumPageProps>): Promis
       }
       key={id}
     >
-      <AlbumWrapper id={id} />
+      <AlbumWrapper id={id} locale={locale} />
     </Suspense>
   );
 }

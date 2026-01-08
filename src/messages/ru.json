@@ -64,6 +64,18 @@
     "passwordLabel": "Пароль",
     "passwordPlaceholder": "Введите пароль",
     "enterButton": "Вход",
-    "exitButton": "Выход"
+    "exitButton": "Выход",
+    "language": "Язык",
+    "ruLocale": "русский",
+    "enLocale": "english"
+  },
+  "LayoutMetadata": {
+    "title": "Tasty Duo",
+    "description": "Рецепты от пары русских поваров",
+    "keywords": "рецепты, рецепты для здоровья кишечника, блюда с высоким содержанием клетчатки, рецепты, богатые пробиотиками, адаптогенные продукты, ферментированные овощи, европейская кухня"
+  },
+  "AlbumImagesGrid": {
+    "noImages": "Нет изображений",
+    "notFound": "404: Не найдено"
   }
 }

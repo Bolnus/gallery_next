@@ -7,10 +7,9 @@ import { ReactIcon } from "../../../shared/ui/icons/ReactIcon/ReactIcon";
 import { ButtonIcon } from "../../../shared/ui/button/ButtonIcon/ButtonIcon";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { UiSize } from "../../../shared/lib/common/commonTypes";
-import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "../../../app/lib/context/authContext";
 import { SausageButton } from "../../../shared/ui/button/SausageButton/SausageButton";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 import { useMutation } from "react-query";
@@ -20,6 +19,10 @@ import { logoutMutation } from "../../../shared/api/auth/auth";
 import { Modal, ModalType } from "../../../shared/ui/Modal/Modal";
 import { useOutsideClick } from "../../../shared/lib/hooks/useOutsideClick";
 import { isProtectedPath } from "../../../shared/lib/common/proxyUtils";
+import { usePathname, useRouter } from "../../../../app/navigation";
+import { RadioList } from "../../../shared/ui/input/Radio/RadioList";
+import { SelectOption } from "../../../shared/ui/input/Select/types";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
 function updateStyle(toggleState: boolean): void {
   if (toggleState) {
@@ -73,14 +76,30 @@ function onUserButtonClick(
   }
 }
 
+function onLangSelect(
+  newLocale: string,
+  router: ReturnType<typeof useRouter>,
+  pathname: string,
+  searchParams: ReadonlyURLSearchParams
+) {
+  let fullPath = pathname;
+  const searchString = searchParams.toString();
+  if (searchString) {
+    fullPath = `${pathname}?${searchString}`;
+  }
+  router.push(fullPath, { locale: newLocale });
+}
+
 export function HeaderToolbar(): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isDark, setIsDark] = React.useState(false);
   const [popupOpen, setPopupOpen] = React.useState(false);
   const popupRef = React.useRef<HTMLDivElement>(null);
   const { isLoading, user, setUser } = useAuth();
   const intl = useTranslations("AuthPage");
+  const locale = useLocale();
   const [errorMessage, setErrorMessage] = React.useState("");
 
   React.useEffect(() => setPopupOpen(false), [user, pathname]);
@@ -105,6 +124,11 @@ export function HeaderToolbar(): JSX.Element {
   const closePopup = React.useCallback(() => setPopupOpen(false), []);
 
   useOutsideClick({ ref: popupRef, handler: closePopup, enabled: popupOpen, stopPropagation: true });
+
+  const languageOptions: SelectOption[] = [
+    { value: "en", label: intl("enLocale") },
+    { value: "ru", label: intl("ruLocale") }
+  ];
 
   return (
     <div className={classes.darkToggleWrapper}>
@@ -138,6 +162,17 @@ export function HeaderToolbar(): JSX.Element {
             onClick={() => onUserButtonClick(user, router, pathname, logout, setPopupOpen)}
             size={UiSize.Small}
           />
+          <div className={classes.userPopup__langBlock}>
+            <span className={getUnitedClassnames(["singleLine", classes.userPopup__userNameText])}>
+              {intl("language")}
+            </span>
+            <RadioList
+              name="language-list"
+              options={languageOptions}
+              selectedValue={locale}
+              onChange={(newLocale) => onLangSelect(newLocale, router, pathname, searchParams)}
+            />
+          </div>
         </div>
       )}
       {!!errorMessage && <Modal modalType={ModalType.Info} header={errorMessage} onClose={() => setErrorMessage("")} />}

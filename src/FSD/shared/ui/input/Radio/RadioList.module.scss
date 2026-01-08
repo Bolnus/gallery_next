@@ -1,0 +1,58 @@
+.radioList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// .radioItem {
+//   margin-bottom: 16px;
+// }
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 0 0 0;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radioCustom {
+  width: var(--fontSizeSmall);
+  height: var(--fontSizeSmall);
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  margin-right: 16px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease;
+}
+
+.radioCustomSelected {
+  border-color: var(--fontColorFirmGreen);
+}
+
+.radioDot {
+  width: var(--fontSizeTiny);
+  height: var(--fontSizeTiny);
+  background-color: var(--fontColorFirmGreen);
+  border-radius: 50%;
+}
+
+.radioContent {
+  flex: 1;
+}
+
+.radioMainLabel {
+  font-size: var(--fontSizeSmall);
+  font-weight: 500;
+  color: var(--fontColorFirmGreen);
+  line-height: 1.4;
+}

@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter } from "../../../../app/navigation";
 import { Album } from "../../../shared/lib/common/galleryTypes";
 import { AlbumsList } from "../../../widgets/AlbumListItem/ui/AlbumsList";
 

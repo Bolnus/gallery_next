@@ -1,6 +1,6 @@
 import { AbstractIntlMessages } from "next-intl";
+import { defineRouting } from "next-intl/routing";
 import { getRequestConfig } from "next-intl/server";
-import { headers } from "next/headers";
 
 export async function getMessages(locale: string): Promise<AbstractIntlMessages> {
   switch (locale) {
@@ -13,14 +13,20 @@ export async function getMessages(locale: string): Promise<AbstractIntlMessages>
   }
 }
 
-export default getRequestConfig(async () => {
-  const headersList = await headers();
-  const acceptLanguage = headersList.get("accept-language");
-  const browserLocale = acceptLanguage?.split(",")[0]?.split("-")[0];
+export const routing = defineRouting({
+  locales: ["en", "ru"],
+  defaultLocale: "en"
+});
+
+export default getRequestConfig(async ({ requestLocale }) => {
+  // const headersList = await headers();
+  // const acceptLanguage = headersList.get("accept-language");
+  // const browserLocale = acceptLanguage?.split(",")[0]?.split("-")[0];
+  const browserLocale = await requestLocale;
   const locale = browserLocale || "en";
 
   return {
     locale,
-    messages: getMessages(locale)
+    messages: await getMessages(locale)
   };
 });

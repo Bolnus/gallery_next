@@ -51,21 +51,25 @@ export const FileLoadStateUploadFailed = 105;
 export const FileLoadStateParsingFailed = 106;
 export const FileLoadStateUploadCanceled = 107;
 
-export interface AlbumParam {
+export type ParamsProps<T> = {
+  params: Promise<T>;
+};
+
+export interface LocaleProps {
+  locale: string;
+}
+
+export interface AlbumParam extends LocaleProps {
   id: string;
 }
 
-export interface AlbumPageProps {
-  params: Promise<AlbumParam>;
-}
+export type AlbumPageProps = ParamsProps<AlbumParam>;
 
-export interface AlbumsListParam {
+export interface AlbumsListParam extends LocaleProps {
   pageNumber: string;
 }
 
-export interface AlbumsListProps {
-  params: Promise<AlbumsListParam>;
-}
+export type AlbumsListProps = ParamsProps<AlbumsListParam>;
 
 export enum AlbumsListSorting {
   changedDate = "changedDate",

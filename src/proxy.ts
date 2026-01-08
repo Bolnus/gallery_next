@@ -1,8 +1,12 @@
+import createIntlMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { validateAuthServerSide } from "./FSD/shared/api/auth/authServer";
 import { isProtectedPath } from "./FSD/shared/lib/common/proxyUtils";
+import { routing } from "./app/request";
 
-export async function proxy(request: NextRequest): Promise<NextResponse<unknown>> {
+const intlMiddleware = createIntlMiddleware(routing);
+
+async function checkAuth(request: NextRequest): Promise<NextResponse | null> {
   if (isProtectedPath(request.nextUrl.pathname)) {
     const token = request.cookies.get("gallerySessionId")?.value;
 
@@ -19,19 +23,30 @@ export async function proxy(request: NextRequest): Promise<NextResponse<unknown>
   } else if (request.nextUrl.pathname.startsWith("/auth")) {
     const token = request.cookies.get("gallerySessionId")?.value;
     if (token) {
-      let user = "";
       try {
         const cookieString = request.headers.get("cookie") || "";
         const resp = await validateAuthServerSide(cookieString);
-        user = resp.data.user;
-        if (user) {
+        if (resp.data.user) {
           return NextResponse.redirect(new URL("/", request.url));
         }
       } catch {
-        return NextResponse.next();
+        return null;
       }
     }
   }
 
-  return NextResponse.next();
+  return null;
 }
+
+export async function proxy(request: NextRequest): Promise<NextResponse<unknown>> {
+  const authResponse = await checkAuth(request);
+  if (authResponse) {
+    return authResponse;
+  }
+
+  return intlMiddleware(request);
+}
+
+export const config = {
+  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)"
+};

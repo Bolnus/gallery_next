@@ -9,10 +9,10 @@ import { UiSize } from "../../../shared/lib/common/commonTypes";
 import { ButtonIcon } from "../../../shared/ui/button/ButtonIcon/ButtonIcon";
 import { ButtonIconBackground } from "../../../shared/ui/button/ButtonIcon/types";
 import defaultImage from "../../../shared/ui/image/greyRect.svg";
-import { useRouter } from "next/navigation";
 import { Tag } from "../../../shared/ui/tags/Tag";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useTranslations } from "next-intl";
+import { getPathname, usePathname, useRouter } from "../../../../app/navigation";
 
 interface Props {
   albumId?: string;
@@ -43,6 +43,7 @@ export function AlbumHeader({
   isFetching = false
 }: Props & (OnEditProps | ReadOnlyProps)): JSX.Element {
   const router = useRouter();
+  const pathname = usePathname();
   const intl = useTranslations("AlbumHeader");
 
   return (
@@ -72,7 +73,7 @@ export function AlbumHeader({
           <ButtonIcon
             title={intl("editButton")}
             iconName={IconName.Edit}
-            onClick={() => router.push(`${window.location.pathname}/edit`)}
+            onClick={() => router.push(`${pathname}/edit`)}
             size={UiSize.MediumAdaptive}
             color="white"
             background={ButtonIconBackground.Grey}

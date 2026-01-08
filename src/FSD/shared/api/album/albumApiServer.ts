@@ -1,4 +1,5 @@
 "use server";
+import { AxiosRequestConfig } from "axios";
 import { AlbumsListWithTotal, ApiAlbumsWithTotal } from "../albumsList/types";
 import { ApiAlbum, ApiResponse } from "../apiTypes";
 import { mapAlbums, mapPictureIdToFullRef } from "../apiUtils";
@@ -6,10 +7,19 @@ import { handleResponseError } from "../galleryApi";
 import { AlbumWithImages } from "./types";
 import { axiosClientServer as axiosClient } from "../apiUtilsServer";
 
-export async function getAlbumServerSide(albumId: string): Promise<ApiResponse<AlbumWithImages | null>> {
+function getServerHeaders(lang?: string): AxiosRequestConfig {
+  return {
+    headers: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "Accept-Language": lang || "en"
+    }
+  };
+}
+
+export async function getAlbumServerSide(lang: string, albumId: string): Promise<ApiResponse<AlbumWithImages | null>> {
   const path = "/albums_list/album";
   try {
-    const response = await axiosClient.get<ApiAlbum>(`${path}?id=${albumId}`);
+    const response = await axiosClient.get<ApiAlbum>(`${path}?id=${albumId}`, getServerHeaders(lang));
     return {
       rc: 200,
       data: {
@@ -23,7 +33,8 @@ export async function getAlbumServerSide(albumId: string): Promise<ApiResponse<A
 }
 
 export async function getAlbumsListServerSide(
-  searchParams?: URLSearchParams
+  searchParams?: URLSearchParams,
+  lang?: string
 ): Promise<ApiResponse<AlbumsListWithTotal>> {
   const path = "/albums_list";
   try {
@@ -34,7 +45,7 @@ export async function getAlbumsListServerSide(
       outSearchParams = new URLSearchParams();
     }
     const queryString = outSearchParams.toString().replace(/\+/g, "%20");
-    const response = await axiosClient.get<ApiAlbumsWithTotal>(`${path}?${queryString}`);
+    const response = await axiosClient.get<ApiAlbumsWithTotal>(`${path}?${queryString}`, getServerHeaders(lang));
 
     return {
       rc: 200,

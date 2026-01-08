@@ -67,6 +67,18 @@
     "passwordLabel": "Password",
     "passwordPlaceholder": "Type in password",
     "enterButton": "Enter",
-    "exitButton": "Exit"
+    "exitButton": "Exit",
+    "language": "Language",
+    "ruLocale": "русский",
+    "enLocale": "english"
+  },
+  "LayoutMetadata": {
+    "title": "Tasty Duo",
+    "description": "Recipes by a couple of russian chefs",
+    "keywords": "recipes, gut health recipes, high fiber meals, probiotic-rich recipes, adaptogenic foods, fermented vegetables, european cuisine"
+  },
+  "AlbumImagesGrid": {
+    "noImages": "No images",
+    "notFound": "404: Not found"
   }
 }

@@ -6,6 +6,7 @@ import classes from "./AlbumImagesGrid.module.scss";
 import { SkeletonLoader } from "../../../shared/ui/icons/SkeletonLoader/SkeletonLoader";
 import { ImageSnap } from "../../../shared/ui/image/ImageSnap/ImageSnap";
 import { ImageSlider } from "../../../shared/ui/image/ImageSlider/ImageSlider";
+import { useTranslations } from "next-intl";
 
 function addLocalImages(snapImages: GalleryImage[], prevState: GalleryImage[]) {
   if (snapImages.length <= prevState.length) {
@@ -38,6 +39,7 @@ interface Props {
 }
 
 export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName }: Readonly<Props>): JSX.Element {
+  const intl = useTranslations("AlbumImagesGrid");
   const [localImages, setLocalImages] = React.useState<GalleryImage[]>([]);
   const [currentViewId, setCurrentViewId] = React.useState("");
   const imagesLoaderRef = React.useRef<HTMLDivElement>(null);
@@ -65,7 +67,7 @@ export function AlbumImagesGrid({ snapImages, isFetching, fullImages, albumName 
           ) : null}
         </div>
       ) : (
-        <div className="emptyComment">{albumName ? "No images" : "404 Not found"}</div>
+        <div className="emptyComment">{albumName ? intl("noImages") : intl("notFound")}</div>
       )}
       <ImageSlider
         header={albumName}

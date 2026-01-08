@@ -2,7 +2,7 @@
 import React from "react";
 import classes from "./Tag.module.scss";
 import { DefinedTag } from "../../lib/common/galleryTypes";
-import Link from "next/link";
+import { Link } from "../../../../app/navigation";
 
 interface Props extends DefinedTag {
   onClick?: (id: string) => void;
