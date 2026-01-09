@@ -310,3 +310,52 @@ export function imagesChanged(localImages: GalleryImage[], serverImages?: Galler
   }
   return localImages.some((image, index) => image.id !== serverImages[index].id);
 }
+
+export function onSendImagesFinished(
+  images: GalleryImage[],
+  arrangeAlbumPictures: (savedIds: string[]) => void,
+  setPostImageIndex: (index: number) => void
+): void {
+  const savedIds: string[] = [];
+  for (let i = 0; i < images.length; i++) {
+    if (images[i].loadState === FileLoadState.uploaded) {
+      savedIds.push(images[i].id);
+    }
+  }
+  arrangeAlbumPictures(savedIds);
+  setPostImageIndex(-1);
+}
+
+export function sendPendingImagesPortion(
+  postImageIndex: number,
+  images: GalleryImage[],
+  setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
+  setPostImageIndex: (index: number) => void,
+  postAlbumPictures: (imagesPortion: GalleryImage[]) => void
+): void {
+  let pendingImages = images;
+  if (postImageIndex === 0) {
+    setNewImages(initUploadingImages);
+    pendingImages = initUploadingImages(pendingImages);
+  }
+  const imagesPortion: GalleryImage[] = [];
+  let portionSize = 0;
+  for (let i = postImageIndex; i < pendingImages.length; i++) {
+    if (
+      pendingImages[i].loadState !== FileLoadState.uploaded &&
+      pendingImages[i].loadState !== FileLoadState.uploadCanceled
+    ) {
+      portionSize = portionSize + (pendingImages[i].data as File)?.size;
+      if (portionSize > FILE_SIZE_LIMIT || imagesPortion.length > 8) {
+        break;
+      }
+      imagesPortion.push(pendingImages[i]);
+    }
+  }
+  setNewImages((prev: GalleryImage[]) => updateLoadingPortion(imagesPortion, prev));
+  if (imagesPortion.length) {
+    postAlbumPictures(imagesPortion);
+  } else {
+    setTimeout(() => setPostImageIndex(pendingImages.length), 20);
+  }
+}

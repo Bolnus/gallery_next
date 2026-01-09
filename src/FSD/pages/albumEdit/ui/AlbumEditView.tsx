@@ -13,14 +13,14 @@ import {
   resetHeaders,
   putAlbumPicturesIds,
   onSendImagesError,
-  updateLoadingPortion,
   sendImagesPortion,
   onSendImagesSuccess,
   onArrangePicturesSettled,
-  initUploadingImages,
   clearImagesArray,
   onReset,
-  imagesChanged
+  imagesChanged,
+  onSendImagesFinished,
+  sendPendingImagesPortion
 } from "../lib/albumEditUtils";
 import { AlbumHeaderEdit } from "../../../widgets/AlbumHeader/ui/AlbumHeaderEdit";
 import { ChangesSaveState } from "../../../entities/album/model/albumTypes";
@@ -30,7 +30,6 @@ import { ApiMessage } from "../../../shared/api/apiTypes";
 import { deleteAlbumMutation, getAlbumQuery, saveAlbumHeadersMutation } from "../../../shared/api/album/albumApi";
 import { ImagesSegment } from "../../../widgets/AlbumHeader/lib/types";
 import { SendImagesPortionRes } from "../lib/types";
-import { FILE_SIZE_LIMIT } from "../../../shared/lib/file/consts";
 import { GalleryAlbumImagesList } from "./GalleryAlbumImagesList";
 import { useRouter } from "../../../../app/navigation";
 
@@ -104,38 +103,11 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
   });
 
   React.useEffect(() => {
-    let images = newImagesRef.current;
+    const images = newImagesRef.current;
     if (postImageIndex >= images.length) {
-      const savedIds: string[] = [];
-      for (let i = 0; i < images.length; i++) {
-        if (images[i].loadState === FileLoadState.uploaded) {
-          savedIds.push(images[i].id);
-        }
-      }
-      arrangeAlbumPictures(savedIds);
-      setPostImageIndex(-1);
+      onSendImagesFinished(images, arrangeAlbumPictures, setPostImageIndex);
     } else if (postImageIndex !== -1) {
-      if (postImageIndex === 0) {
-        setNewImages(initUploadingImages);
-        images = initUploadingImages(images);
-      }
-      const imagesPortion: GalleryImage[] = [];
-      let portionSize = 0;
-      for (let i = postImageIndex; i < images.length; i++) {
-        if (images[i].loadState !== FileLoadState.uploaded && images[i].loadState !== FileLoadState.uploadCanceled) {
-          portionSize = portionSize + (images[i].data as File)?.size;
-          if (portionSize > FILE_SIZE_LIMIT || imagesPortion.length > 8) {
-            break;
-          }
-          imagesPortion.push(images[i]);
-        }
-      }
-      setNewImages((prev: GalleryImage[]) => updateLoadingPortion(imagesPortion, prev));
-      if (imagesPortion.length) {
-        postAlbumPictures(imagesPortion);
-      } else {
-        setTimeout(() => setPostImageIndex(images.length), 20);
-      }
+      sendPendingImagesPortion(postImageIndex, images, setNewImages, setPostImageIndex, postAlbumPictures);
     }
   }, [postImageIndex, newImagesRef, postAlbumPictures, arrangeAlbumPictures]);
 

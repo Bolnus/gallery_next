@@ -12,7 +12,7 @@ import defaultImage from "../../../shared/ui/image/greyRect.svg";
 import { Tag } from "../../../shared/ui/tags/Tag";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useTranslations } from "next-intl";
-import { getPathname, usePathname, useRouter } from "../../../../app/navigation";
+import { usePathname, useRouter } from "../../../../app/navigation";
 
 interface Props {
   albumId?: string;
