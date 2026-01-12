@@ -1,6 +1,7 @@
 import React from "react";
 import { SelectOption } from "../Select/types";
 import styles from "./RadioList.module.scss";
+import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 
 interface RadioButtonProps {
   selectedValue: string;
@@ -24,7 +25,7 @@ function RadioButton({ selectedValue, onChange, name, option }: Readonly<RadioBu
           className={styles.radioInput}
         />
         <div className={`${styles.radioCustom} ${isSelected ? styles.radioCustomSelected : ""}`}>
-          {isSelected && <div className={styles.radioDot} />}
+          <div className={getUnitedClassnames([styles.radioDot, isSelected ? styles.radioDot_selected : ""])} />
         </div>
         <div className={styles.radioContent}>
           <div className={styles.radioMainLabel}>{option.label}</div>

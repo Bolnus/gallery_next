@@ -1,3 +1,5 @@
+@import "../../../consts/styles.scss";
+
 .radioList {
   list-style: none;
   padding: 0;
@@ -44,6 +46,22 @@
   height: var(--fontSizeTiny);
   background-color: var(--fontColorFirmGreen);
   border-radius: 50%;
+  opacity: 0;
+}
+
+.radioLabel:hover .radioDot {
+  background-color: $subColorGrey;
+  opacity: 0.5;
+}
+
+.radioDot_selected {
+  background-color: var(--fontColorFirmGreen);
+  opacity: 1;
+}
+
+.radioLabel:hover .radioDot_selected {
+  background-color: var(--fontColorFirmGreen);
+  opacity: 1;
 }
 
 .radioContent {

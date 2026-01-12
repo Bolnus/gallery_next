@@ -13,6 +13,10 @@
     align-items: center;
 }
 
+.sausageButton:hover {
+    opacity: 0.5;
+}
+
 .sausageButton_small {
     height: calc(2 * var(--fontSizeSmall));
 

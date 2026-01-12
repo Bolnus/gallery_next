@@ -207,7 +207,7 @@ export function AlbumHeaderEdit({
           />
         ) : null}
       </div>
-      {!!(oldImages?.length || newImages?.length) && (
+      {!!(oldImages?.length && newImages?.length) && (
         <div className={classes.galleryHeader__segments}>
           <Segment
             isSelected={currentSegment === ImagesSegment.OldImages}
