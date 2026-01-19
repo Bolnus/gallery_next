@@ -1,12 +1,14 @@
 import React from "react";
-import Select, { StylesConfig } from "react-select";
+import Select from "react-select";
 import { SelectOption } from "./types";
-import { resetScrollOnBlur } from "../../../lib/common/commonUtils";
+import { LoadingText } from "./LoadingText";
+import { getSelectStyles, onSelectBlur } from "./utils";
+import { ClearIndicator } from "./ClearIndicator";
 
-interface SingleSelectProps {
-  options: SelectOption[];
-  value: SelectOption;
-  onChange: (newValue: SelectOption | null) => void;
+interface SingleSelectProps<T = string> {
+  options: SelectOption<T>[];
+  value?: SelectOption<T>;
+  onChange: (newValue: SelectOption<T> | null) => void;
   onBlur?: () => void;
   onFocus?: () => void;
   className?: string;
@@ -15,68 +17,6 @@ interface SingleSelectProps {
   isClearable?: boolean;
   isInvalid?: boolean;
   isLoading?: boolean;
-}
-
-enum SingleSelectType {
-  FormSelect = "FormSelect"
-}
-
-function onSelectBlur(onBlur?: () => void) {
-  resetScrollOnBlur();
-  if (onBlur) {
-    onBlur();
-  }
-}
-
-function getStyles(selectType: SingleSelectType, isInvalid?: boolean): StylesConfig<SelectOption, false> {
-  const formSelectStyle: StylesConfig<SelectOption, false> = {
-    control: (baseStyles, state) => ({
-      ...baseStyles,
-      background: isInvalid ? "#f6a89e" : "#e3e4dd",
-      border: "none",
-      outline: state.isFocused ? "none" : undefined,
-      boxShadow: state.isFocused ? "none" : undefined,
-      fontWeight: "normal",
-      height: "100%",
-      boxSizing: "border-box",
-      minHeight: "34px"
-    }),
-    indicatorsContainer: (baseStyles) => ({
-      ...baseStyles,
-      cursor: "pointer"
-    }),
-    menu: (baseStyles) => ({
-      ...baseStyles,
-      background: "#e3e4dd",
-      zIndex: 4
-    }),
-    menuList: (baseStyles) => ({
-      ...baseStyles,
-      overflowX: "hidden"
-    }),
-    option: (baseStyles) => ({
-      ...baseStyles,
-      cursor: "pointer",
-      fontWeight: "normal",
-      color: "black",
-      fontSize: "var(--fontSizeMedium)"
-    }),
-    input: (baseStyles) => ({
-      ...baseStyles,
-      opacity: 1,
-      fontSize: "var(--fontSizeMedium)"
-    })
-  };
-  // switch (selectType)
-  // {
-  //     case SingleSelectType.FormSelect:
-  // }
-
-  return formSelectStyle;
-}
-
-function LoadingMessage() {
-  return <>Loading...</>;
 }
 
 function onInputChange(
@@ -94,16 +34,16 @@ function onInputFocus(setInputValue: (newString: string) => void, localPlaceHold
   }
 }
 
-function onSelectChange(
-  onChange: (newVal: SelectOption | null) => void,
+function onSelectChange<T>(
+  onChange: (newVal: SelectOption<T> | null) => void,
   setInputValue: (newString: string) => void,
-  newValue: SelectOption | null
+  newValue: SelectOption<T> | null
 ) {
   onChange(newValue);
   setInputValue(newValue?.label || "");
 }
 
-export function SingleSelect({
+export function SingleSelect<T>({
   value,
   options,
   onChange,
@@ -115,32 +55,28 @@ export function SingleSelect({
   isLoading,
   onBlur,
   onFocus
-}: Readonly<SingleSelectProps>): JSX.Element {
-  const [styles, setStyles] = React.useState<StylesConfig<SelectOption, false>>();
-  const [inputValue, setInputValue] = React.useState(value.label);
-
-  React.useEffect(() => {
-    setStyles(getStyles(SingleSelectType.FormSelect, isInvalid));
-  }, [isInvalid]);
+}: Readonly<SingleSelectProps<T>>): JSX.Element {
+  const [inputValue, setInputValue] = React.useState(value?.label || "");
 
   return (
     <Select
       options={options}
       value={value}
-      onChange={(newValue: SelectOption | null) => onSelectChange(onChange, setInputValue, newValue)}
+      onChange={(newValue: SelectOption<T> | null) => onSelectChange(onChange, setInputValue, newValue)}
       onBlur={() => onSelectBlur(onBlur)}
       className={className}
       placeholder={placeholder}
       isDisabled={isDisabled}
       isClearable={isClearable}
-      onFocus={() => onInputFocus(setInputValue, value.label, onFocus)}
+      onFocus={() => onInputFocus(setInputValue, value?.label || "", onFocus)}
       isLoading={isLoading}
-      styles={styles}
+      styles={getSelectStyles<false, T>(false, isInvalid)}
       inputValue={inputValue}
-      onInputChange={(newInputValue: string) => onInputChange(setInputValue, value.label, newInputValue)}
+      onInputChange={setInputValue}
       blurInputOnSelect
-      loadingMessage={LoadingMessage}
+      loadingMessage={LoadingText}
       inputId="selectInputId"
+      components={{ ClearIndicator }}
     />
   );
 }

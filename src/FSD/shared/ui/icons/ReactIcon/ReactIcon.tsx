@@ -13,7 +13,9 @@ import {
   HiTrash,
   HiUserCircle,
   HiLogout,
-  HiOutlineUserCircle
+  HiOutlineUserCircle,
+  HiEye,
+  HiEyeOff
 } from "react-icons/hi";
 import { IconBaseProps } from "react-icons";
 import { FaRandom } from "react-icons/fa";
@@ -74,6 +76,10 @@ export function ReactIcon({ iconName, className, ...props }: Readonly<Props>): J
       return <HiLogout {...propsWithClass} />;
     case IconName.Login:
       return <HiOutlineUserCircle {...propsWithClass} />;
+    case IconName.Show:
+      return <HiEye {...propsWithClass} />;
+    case IconName.Hide:
+      return <HiEyeOff {...propsWithClass} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

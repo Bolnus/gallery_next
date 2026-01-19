@@ -45,6 +45,15 @@ export function TextInput({
   autoComplete,
   isFetching
 }: Readonly<TextInputProps>): JSX.Element {
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+  const indicatorsVisible = isClearable || isPassword;
+
+  React.useEffect(() => {
+    if (!value) {
+      setIsPasswordVisible(false);
+    }
+  }, [value]);
+
   return (
     <div className={`${className || ""} ${classes.textInput}`}>
       <input
@@ -54,22 +63,37 @@ export function TextInput({
         onChange={(localEvent: React.ChangeEvent<HTMLInputElement>) => onInputChange(localEvent, onChange)}
         className={`${classes.textInput__input} commonInput`}
         disabled={disabled || isFetching}
-        type={isPassword ? "password" : "text"}
+        type={isPassword && !isPasswordVisible ? "password" : "text"}
         name={name}
         autoComplete={autoComplete}
       />
-      {isClearable && value ? (
+      {indicatorsVisible && value ? (
         <div className={classes.textInput__indicatorContainer}>
           <span className={classes.textInput__spacer} />
-          <div className={classes.textInput__indicatorClose}>
-            <ButtonIcon
-              onClick={() => onClearInput(onChange)}
-              iconName={IconName.Close}
-              size={UiSize.Small}
-              color="var(--fontColorFirm)"
-              isFetching={isFetching}
-            />
-          </div>
+          {isClearable && (
+            <div className={classes.textInput__indicator}>
+              <ButtonIcon
+                onClick={() => onClearInput(onChange)}
+                iconName={IconName.Close}
+                size={UiSize.Small}
+                color="var(--fontColorFirm)"
+                isFetching={isFetching}
+                preventDefault
+              />
+            </div>
+          )}
+          {isPassword && (
+            <div className={classes.textInput__indicator}>
+              <ButtonIcon
+                onClick={() => setIsPasswordVisible((prev) => !prev)}
+                iconName={isPasswordVisible ? IconName.Hide : IconName.Show}
+                size={UiSize.Small}
+                color="var(--fontColorFirm)"
+                isFetching={isFetching}
+                preventDefault
+              />
+            </div>
+          )}
         </div>
       ) : null}
     </div>

@@ -25,12 +25,16 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { Segment } from "../../../shared/ui/segments/Segment";
 import { TextArea } from "../../../shared/ui/input/TextInput/TextArea";
 import { useTranslations } from "next-intl";
+import { useAuth } from "../../../app/lib/context/authContext";
+import { SingleSelect } from "../../../shared/ui/input/Select/SingleSelect";
+import { LanguageOptions, LocaleValue } from "../../../../app/request";
 
 interface Props {
   albumId: string;
   localAlbumName: string;
   localAlbumDescription: string;
   localAlbumTags: readonly DefinedTag[];
+  localLocale?: LocaleValue;
   imageCover?: GalleryImage;
   isFetching?: boolean;
   canSave?: boolean;
@@ -45,9 +49,8 @@ interface Props {
   setLocalAlbumName: (str: string) => void;
   setLocalAlbumTags: React.Dispatch<React.SetStateAction<readonly DefinedTag[]>>;
   setLocalAlbumDescription: (str: string) => void;
+  setLocalLocale: (str?: LocaleValue) => void;
 }
-
-const canEdit = true;
 
 function pushNewAlbumTag(newTag: DefinedTag, prevTags: readonly DefinedTag[]): readonly DefinedTag[] {
   for (const prevTag of prevTags) {
@@ -67,6 +70,13 @@ function onCreateOption(
   );
 }
 
+function mapLocaleToSelectOption(locale?: LocaleValue): SelectOption<LocaleValue> | undefined {
+  if (!locale) {
+    return undefined;
+  }
+  return LanguageOptions.find((option) => option.value === locale);
+}
+
 export function AlbumHeaderEdit({
   imageCover,
   newImages,
@@ -75,6 +85,7 @@ export function AlbumHeaderEdit({
   localAlbumName,
   localAlbumTags,
   localAlbumDescription,
+  localLocale,
   canSave,
   isFetching,
   currentSegment,
@@ -85,11 +96,14 @@ export function AlbumHeaderEdit({
   setLocalAlbumTags,
   setLocalAlbumName,
   setCurrentSegment,
-  setLocalAlbumDescription
+  setLocalAlbumDescription,
+  setLocalLocale
 }: Readonly<Props>): JSX.Element {
   const [tagsFocused, setTagsFocused] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
   const intl = useTranslations("AlbumHeaderEdit");
+  const { user } = useAuth();
+  const canEdit = !!user;
 
   const { data: searchTags, isLoading: searchTagsLoading } = useQuery({
     queryKey: ["get-tags"],
@@ -146,6 +160,16 @@ export function AlbumHeaderEdit({
             isClearable
             placeholder={intl("tagsPlaceholder")}
             isLoading={searchTagsLoading}
+          />
+        </div>
+
+        <div className={classes.galleryHeader__localeArea}>
+          <SingleSelect
+            options={LanguageOptions}
+            value={mapLocaleToSelectOption(localLocale)}
+            onChange={(selectedOption) => setLocalLocale(selectedOption?.value)}
+            isClearable
+            placeholder={intl("localePlaceholder")}
           />
         </div>
 

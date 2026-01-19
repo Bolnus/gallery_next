@@ -1,3 +1,5 @@
+import { LocaleValue, routing } from "../../../../app/request";
+
 export interface DefinedTag {
   id: string;
   tagName: string;
@@ -21,6 +23,7 @@ export interface AlbumHeaders {
   albumSize: number;
   tags: DefinedTag[];
   description: string;
+  locale?: LocaleValue;
 }
 
 export interface Album extends AlbumHeaders {

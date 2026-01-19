@@ -32,6 +32,7 @@ import { ImagesSegment } from "../../../widgets/AlbumHeader/lib/types";
 import { SendImagesPortionRes } from "../lib/types";
 import { GalleryAlbumImagesList } from "./GalleryAlbumImagesList";
 import { useRouter } from "../../../../app/navigation";
+import { LocaleValue } from "../../../../app/request";
 
 interface Props {
   onEditAlbumId?: string;
@@ -53,6 +54,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
   );
   const [postImageIndex, setPostImageIndex] = React.useState(-1);
   const [localAlbumDescription, setLocalAlbumDescription] = React.useState("");
+  const [localLocale, setLocalLocale] = React.useState<LocaleValue | undefined>();
   const router = useRouter();
 
   const {
@@ -69,6 +71,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
   const albumName = data?.albumName || "";
   const tags = data?.tags;
   const description = data?.description;
+  const locale = data?.locale;
 
   React.useEffect(() => {
     if (data?.snapImages) {
@@ -120,7 +123,8 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
         id: albumId,
         albumName: localAlbumName,
         tags: localAlbumTags.map(mapDefinedTagToStr),
-        description: localAlbumDescription
+        description: localAlbumDescription,
+        locale: localLocale
       }),
     {
       onError: (localError: AxiosError<ApiMessage>) => pushServerError(setErrorMessages, localError),
@@ -139,15 +143,27 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
 
   React.useEffect(
     () =>
-      resetHeaders({ setLocalAlbumName, setLocalAlbumTags, setLocalAlbumDescription, albumName, description, tags }),
-    [tags, albumName, description]
+      resetHeaders({
+        setLocalAlbumName,
+        setLocalAlbumTags,
+        setLocalAlbumDescription,
+        setLocalLocale,
+        locale,
+        albumName,
+        description,
+        tags
+      }),
+    [tags, albumName, description, locale]
   );
 
   React.useEffect(() => {
     const changed =
-      albumName !== localAlbumName || description !== localAlbumDescription || tagsChanged(tags || [], localAlbumTags);
+      albumName !== localAlbumName ||
+      description !== localAlbumDescription ||
+      locale !== localLocale ||
+      tagsChanged(tags || [], localAlbumTags);
     setUnsavedChanges(changed ? ChangesSaveState.Unsaved : ChangesSaveState.Saved);
-  }, [albumName, localAlbumName, tags, localAlbumTags, description, localAlbumDescription]);
+  }, [albumName, localAlbumName, tags, localAlbumTags, description, localAlbumDescription, locale, localLocale]);
 
   React.useEffect(
     () => () => {
@@ -194,6 +210,8 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
           setCurrentSegment={setCurrentSegment}
           localAlbumDescription={localAlbumDescription}
           setLocalAlbumDescription={setLocalAlbumDescription}
+          localLocale={localLocale}
+          setLocalLocale={setLocalLocale}
         />
         <GalleryAlbumImagesList
           images={currentSegment === ImagesSegment.OldImages ? oldImages : newImages}

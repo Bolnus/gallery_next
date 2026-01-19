@@ -14,17 +14,18 @@ const AuthContext = React.createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: Readonly<React.PropsWithChildren>): JSX.Element {
   const [user, setUser] = React.useState<string>("");
 
-  const { isLoading: isUserDataLoading, data } = useQuery({
+  const { isLoading: isUserDataLoading, data: resp } = useQuery({
     queryKey: "get-user",
     queryFn: validateAuth,
-    onSuccess: (userData) => setUser(userData?.data?.user || ""),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: false
   });
 
+  React.useEffect(() => setUser(resp?.data?.user || ""), [resp]);
+
   return (
-    <AuthContext.Provider value={{ user: user || data?.data.user || "", isLoading: isUserDataLoading, setUser }}>
+    <AuthContext.Provider value={{ user: user || "", isLoading: isUserDataLoading, setUser }}>
       {children}
     </AuthContext.Provider>
   );

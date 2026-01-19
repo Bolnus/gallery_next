@@ -1,15 +1,19 @@
 import { StylesConfig } from "react-select";
-import { SelectOption, SelectType } from "./types";
+import { SelectOption } from "./types";
 import { resetScrollOnBlur } from "../../../lib/common/commonUtils";
 
 const fontColorFirm = "var(--fontColorFirm)";
 const fontSizeSmall = "var(--fontSizeSmall)";
+const inputBgColor = "var(--inputBgColor)";
 
-export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolean): StylesConfig<SelectOption, true> {
-  const formSelectStyle: StylesConfig<SelectOption, true> = {
+export function getSelectStyles<M extends boolean, V = string>(
+  isMulti: M,
+  isInvalid?: boolean
+): StylesConfig<SelectOption<V>, M> {
+  const formSelectStyle: StylesConfig<SelectOption<V>, M> = {
     control: (baseStyles, state) => ({
       ...baseStyles,
-      background: isInvalid ? "#f6a89e" : "var(--inputBgColor)",
+      background: isInvalid ? "#f6a89e" : inputBgColor,
       border: "none",
       outline: state.isFocused ? "none" : undefined,
       boxShadow: state.isFocused ? "none" : undefined,
@@ -23,7 +27,7 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
     }),
     menu: (baseStyles) => ({
       ...baseStyles,
-      background: "var(--inputBgColor)",
+      background: inputBgColor,
       color: fontColorFirm,
       pointerEvents: "all",
       zIndex: 4,
@@ -39,8 +43,7 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
       fontWeight: "normal",
       color: state.isFocused ? fontColorFirm : "grey",
       background: state.isFocused ? "var(--bgColor)" : undefined,
-      fontSize: "var(--fontSizeMedium)"
-      // opacity: state.isFocused ? 0.5 : 1
+      fontSize: fontSizeSmall
     }),
     input: (baseStyles) => ({
       ...baseStyles,
@@ -53,27 +56,6 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
       "& input": {
         font: "inherit"
       }
-    }),
-    multiValue: (baseStyles, state) => ({
-      ...baseStyles,
-      background: "var(--checkBoxColor)",
-      fontSize: fontSizeSmall,
-      padding: state.isDisabled ? "0 0 0 8px" : "0 8px 0 8px",
-      borderRadius: fontSizeSmall,
-      color: "white",
-      pointerEvents: "all",
-      cursor: "pointer"
-    }),
-    multiValueLabel: (baseStyles) => ({
-      ...baseStyles,
-      color: "white",
-      textWrap: "nowrap",
-      fontWeight: "bold"
-    }),
-    multiValueRemove: (baseStyles, state) => ({
-      ...baseStyles,
-      visibility: state?.isDisabled ? "hidden" : undefined,
-      cursor: "pointer"
     }),
     indicatorSeparator: (baseStyles) => ({
       ...baseStyles,
@@ -93,7 +75,44 @@ export function getMultiSelectStyles(selectType?: SelectType, isInvalid?: boolea
     })
   };
 
-  return formSelectStyle;
+  if (isMulti) {
+    return {
+      ...formSelectStyle,
+      multiValue: (baseStyles, state) => ({
+        ...baseStyles,
+        background: "var(--checkBoxColor)",
+        fontSize: fontSizeSmall,
+        padding: state.isDisabled ? "0 0 0 8px" : "0 8px 0 8px",
+        borderRadius: fontSizeSmall,
+        color: "white",
+        pointerEvents: "all",
+        cursor: "pointer"
+      }),
+      multiValueLabel: (baseStyles) => ({
+        ...baseStyles,
+        color: "white",
+        textWrap: "nowrap",
+        fontWeight: "bold"
+      }),
+      multiValueRemove: (baseStyles, state) => ({
+        ...baseStyles,
+        visibility: state?.isDisabled ? "hidden" : undefined,
+        cursor: "pointer"
+      })
+    };
+  }
+
+  return {
+    ...formSelectStyle,
+    singleValue: (baseStyles) => ({
+      ...baseStyles,
+      color: "white",
+      fontSize: fontSizeSmall,
+      fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI",
+      "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif`
+    })
+  };
 }
 
 export function onSelectBlur(onBlur?: () => void): void {

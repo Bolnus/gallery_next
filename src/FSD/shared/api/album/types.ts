@@ -1,3 +1,4 @@
+import { LocaleValue } from "../../../../app/request";
 import { Album, GalleryImage } from "../../lib/common/galleryTypes";
 
 export interface AlbumWithImages extends Album {
@@ -9,4 +10,5 @@ export interface PutAlbumHeadersArgs {
   albumName: string;
   tags: string[];
   description: string;
+  locale?: LocaleValue;
 }

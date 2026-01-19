@@ -14,6 +14,7 @@ import { getHumanReadableFileSize } from "../../../widgets/AlbumImagesList/lib/u
 import { FILE_SIZE_LIMIT } from "../../../shared/lib/file/consts";
 import { QueryObserverResult } from "react-query";
 import { AlbumWithImages } from "../../../shared/api/album/types";
+import { LocaleValue } from "../../../../app/request";
 
 export async function addImages(
   setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
@@ -147,20 +148,25 @@ export function resetHeaders({
   setLocalAlbumName,
   setLocalAlbumDescription,
   setLocalAlbumTags,
+  setLocalLocale,
   albumName,
   tags,
-  description
+  description,
+  locale
 }: {
   setLocalAlbumName: (str: string) => void;
   setLocalAlbumTags: (tags: DefinedTag[]) => void;
   setLocalAlbumDescription: (str: string) => void;
+  setLocalLocale: (str: LocaleValue | undefined) => void;
   albumName: string;
   description?: string;
   tags?: DefinedTag[];
+  locale?: LocaleValue;
 }): void {
   setLocalAlbumTags(tags || []);
   setLocalAlbumName(albumName || "");
   setLocalAlbumDescription(description || "");
+  setLocalLocale(locale);
 }
 
 function updateImageIds(imageIdsMap: Map<string, string>, prev: GalleryImage[]): GalleryImage[] {

@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
 import Select, { MultiValue } from "react-select";
-import { SelectOption, SelectType } from "./types";
-import { getMultiSelectStyles, onSelectBlur } from "./utils";
+import { SelectOption } from "./types";
+import { getSelectStyles, onSelectBlur } from "./utils";
 import { ClearIndicator } from "./ClearIndicator";
+import { LoadingText } from "./LoadingText";
 
 interface SingleSelectProps {
   options: SelectOption[];
@@ -17,10 +18,6 @@ interface SingleSelectProps {
   isClearable?: boolean;
   isInvalid?: boolean;
   isLoading?: boolean;
-}
-
-function LoadingMessage(): JSX.Element {
-  return <>Loading...</>;
 }
 
 export function MultiSelect({
@@ -49,9 +46,9 @@ export function MultiSelect({
       isClearable={isClearable}
       onFocus={onFocus}
       isLoading={isLoading}
-      styles={getMultiSelectStyles(SelectType.FormSelect, isInvalid)}
+      styles={getSelectStyles(true, isInvalid)}
       blurInputOnSelect
-      loadingMessage={LoadingMessage}
+      loadingMessage={LoadingText}
       inputId="selectInputId"
       components={{ ClearIndicator }}
       instanceId={React.useId()}

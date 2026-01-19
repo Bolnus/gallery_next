@@ -23,6 +23,7 @@ import { usePathname, useRouter } from "../../../../app/navigation";
 import { RadioList } from "../../../shared/ui/input/Radio/RadioList";
 import { SelectOption } from "../../../shared/ui/input/Select/types";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import { LanguageOptions, LocaleValue, routing } from "../../../../app/request";
 
 function updateStyle(toggleState: boolean): void {
   if (toggleState) {
@@ -99,7 +100,7 @@ export function HeaderToolbar(): JSX.Element {
   const popupRef = React.useRef<HTMLDivElement>(null);
   const { isLoading, user, setUser } = useAuth();
   const intl = useTranslations("AuthPage");
-  const locale = useLocale();
+  const locale = useLocale() as LocaleValue;
   const [errorMessage, setErrorMessage] = React.useState("");
 
   React.useEffect(() => setPopupOpen(false), [user, pathname]);
@@ -124,11 +125,6 @@ export function HeaderToolbar(): JSX.Element {
   const closePopup = React.useCallback(() => setPopupOpen(false), []);
 
   useOutsideClick({ ref: popupRef, handler: closePopup, enabled: popupOpen, stopPropagation: true });
-
-  const languageOptions: SelectOption[] = [
-    { value: "en", label: intl("enLocale") },
-    { value: "ru", label: intl("ruLocale") }
-  ];
 
   return (
     <div className={classes.darkToggleWrapper}>
@@ -168,7 +164,7 @@ export function HeaderToolbar(): JSX.Element {
             </span>
             <RadioList
               name="language-list"
-              options={languageOptions}
+              options={LanguageOptions}
               selectedValue={locale}
               onChange={(newLocale) => onLangSelect(newLocale, router, pathname, searchParams)}
             />

@@ -42,7 +42,7 @@
     -ms-flex-negative: 0;
     flex-shrink: 0;
     box-sizing: border-box;
-    width: 37px;
+    // width: 37px;
 }
 
 .textInput__spacer
@@ -51,13 +51,13 @@
     -ms-flex-item-align: stretch;
     align-self: stretch;
     width: 1px;
-    background-color: "var(--fontColorFirm)";
+    background: var(--fontColorFirm);
     margin-bottom: 8px;
     margin-top: 8px;
     box-sizing: border-box;
 }
 
-.textInput__indicatorClose
+.textInput__indicator
 {
     display: -webkit-box;
     display: -webkit-flex;
@@ -70,11 +70,11 @@
     box-sizing: border-box;
     // color: var(--fontColorFirm);
     // font-size: 12px;
-    width: 100%;
+    width: 36px;
     // text-align: center;
 }
 
-.textInput__indicatorClose:hover
+.textInput__indicator:hover
 {
     cursor: pointer;
 }

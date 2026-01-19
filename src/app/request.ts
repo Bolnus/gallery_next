@@ -1,6 +1,7 @@
 import { AbstractIntlMessages } from "next-intl";
 import { defineRouting } from "next-intl/routing";
 import { getRequestConfig } from "next-intl/server";
+import { SelectOption } from "../FSD/shared/ui/input/Select/types";
 
 export async function getMessages(locale: string): Promise<AbstractIntlMessages> {
   switch (locale) {
@@ -30,3 +31,10 @@ export default getRequestConfig(async ({ requestLocale }) => {
     messages: await getMessages(locale)
   };
 });
+
+export type LocaleValue = (typeof routing.locales)[number];
+
+export const LanguageOptions: SelectOption<LocaleValue>[] = [
+  { value: "en", label: "english" },
+  { value: "ru", label: "русский" }
+];

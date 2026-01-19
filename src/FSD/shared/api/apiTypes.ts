@@ -1,3 +1,5 @@
+import { LocaleValue } from "../../../app/request";
+
 export interface ApiAlbum {
   _id: string;
   albumName: string;
@@ -6,6 +8,7 @@ export interface ApiAlbum {
   tags: ApiTag[];
   pictureIds?: string[];
   description?: string;
+  locale?: LocaleValue;
 }
 
 export interface ApiResponse<T> {

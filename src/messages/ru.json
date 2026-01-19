@@ -38,6 +38,7 @@
     "descriptionPlaceholder": "Описание...",
     "tagsPlaceholder": "Теги...",
     "namePlaceholder": "Название...",
+    "localePlaceholder": "Язык...",
     "saveChangesButton": "Сохранить изменения",
     "editImagesButton": "Редактировать изображения",
     "reloadButton": "Перезагрузить",

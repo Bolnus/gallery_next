@@ -3,18 +3,25 @@ import { SelectOption } from "../Select/types";
 import styles from "./RadioList.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 
-interface RadioButtonProps {
-  selectedValue: string;
-  onChange: (value: string) => void;
+type OptionValue = string | number | readonly string[] | undefined;
+
+interface RadioButtonProps<T extends OptionValue> {
+  selectedValue: T;
+  onChange: (value: T) => void;
   name: string;
-  option: SelectOption<string>;
+  option: SelectOption<T>;
 }
 
-function RadioButton({ selectedValue, onChange, name, option }: Readonly<RadioButtonProps>): JSX.Element {
+function RadioButton<T extends OptionValue>({
+  selectedValue,
+  onChange,
+  name,
+  option
+}: Readonly<RadioButtonProps<T>>): JSX.Element {
   const isSelected = selectedValue === option.value;
 
   return (
-    <li key={option.value} className={styles.radioItem}>
+    <li key={String(option.value)} className={styles.radioItem}>
       <label className={styles.radioLabel}>
         <input
           type="radio"
@@ -35,18 +42,29 @@ function RadioButton({ selectedValue, onChange, name, option }: Readonly<RadioBu
   );
 }
 
-interface RadioListProps {
-  options: SelectOption[];
-  selectedValue: string;
-  onChange: (value: string) => void;
+interface RadioListProps<T> {
+  options: SelectOption<T>[];
+  selectedValue: T;
+  onChange: (value: T) => void;
   name: string;
 }
 
-export function RadioList({ options, selectedValue, onChange, name }: Readonly<RadioListProps>): JSX.Element {
+export function RadioList<T extends OptionValue>({
+  options,
+  selectedValue,
+  onChange,
+  name
+}: Readonly<RadioListProps<T>>): JSX.Element {
   return (
     <ul className={styles.radioList}>
       {options.map((option) => (
-        <RadioButton key={option.value} option={option} selectedValue={selectedValue} onChange={onChange} name={name} />
+        <RadioButton
+          key={String(option.value)}
+          option={option}
+          selectedValue={selectedValue}
+          onChange={onChange}
+          name={name}
+        />
       ))}
     </ul>
   );

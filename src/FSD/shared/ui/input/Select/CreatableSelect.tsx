@@ -2,9 +2,10 @@
 import React from "react";
 import Select from "react-select/creatable";
 import { MultiValue } from "react-select";
-import { SelectOption, SelectType } from "./types";
-import { getMultiSelectStyles, onSelectBlur } from "./utils";
+import { SelectOption } from "./types";
+import { getSelectStyles, onSelectBlur } from "./utils";
 import { ClearIndicator } from "./ClearIndicator";
+import { LoadingText } from "./LoadingText";
 
 interface CreateableSelectProps {
   options: SelectOption[];
@@ -19,10 +20,6 @@ interface CreateableSelectProps {
   onFocus?: () => void;
   onChange: (newValue: MultiValue<SelectOption>) => void;
   onCreateOption(inputValue: string): void;
-}
-
-function LoadingMessage() {
-  return <>Loading...</>;
 }
 
 export function CreatableMultiSelect({
@@ -53,9 +50,9 @@ export function CreatableMultiSelect({
       isClearable={isClearable}
       onFocus={onFocus}
       isLoading={isLoading}
-      styles={getMultiSelectStyles(SelectType.FormSelect, isInvalid)}
+      styles={getSelectStyles(true, isInvalid)}
       blurInputOnSelect
-      loadingMessage={LoadingMessage}
+      loadingMessage={LoadingText}
       inputId="selectInputId"
       components={{ ClearIndicator }}
       instanceId={React.useId()}

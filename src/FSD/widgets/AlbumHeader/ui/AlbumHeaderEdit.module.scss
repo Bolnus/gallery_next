@@ -4,12 +4,13 @@
     min-height: calc(5 * var(--fontSizeLargest));
     position: relative;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
     grid-template-columns: 1fr auto;
     grid-template-areas: 
     "a c"
     "d c"
-    "b c";
+    "b c"
+    "e c";
     // align-items: center;
     // justify-content: space-between;
     margin: var(--fontSizeLargest) 15% var(--fontSizeLargest) 15%;
@@ -28,6 +29,7 @@
     grid-area: a;
     z-index: 2;
     align-self: end;
+    margin-top: calc(2 * var(--fontSizeLargest));
 }
 
 .galleryHeader__toolBarArea
@@ -56,12 +58,21 @@
 .galleryHeader__tagsArea
 {
     grid-area: b;
-    z-index: 2;
-    // margin-top: 3px;
+    z-index: 3;
     margin-left: var(--fontSizeLargest);
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: space-between;
+    @media all and (max-width: 700px)
+    {
+        margin-left: var(--fontSizeSmall);
+    }
+}
+
+.galleryHeader__localeArea
+{
+    grid-area: e;
+    z-index: 2;
+    padding: 4px 0 4px 0;
+    margin-left: var(--fontSizeLargest);
+    margin-bottom: calc(2 * var(--fontSizeLargest));
     @media all and (max-width: 700px)
     {
         margin-left: var(--fontSizeSmall);

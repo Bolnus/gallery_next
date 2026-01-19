@@ -63,7 +63,8 @@ export async function saveAlbumHeadersMutation({
   id,
   albumName,
   tags,
-  description
+  description,
+  locale
 }: PutAlbumHeadersArgs): Promise<AxiosResponse<{ id?: string }>> {
   // const path = "/albums_list/album/headers";
   if (id) {
@@ -71,13 +72,15 @@ export async function saveAlbumHeadersMutation({
       id,
       albumName,
       tags,
-      description
+      description,
+      locale
     });
   }
   return axiosClient.post<{ id?: string }>("/albums_list/album", {
     albumName,
     tags,
-    description
+    description,
+    locale
   });
 }
 

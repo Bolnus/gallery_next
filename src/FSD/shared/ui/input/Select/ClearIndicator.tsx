@@ -4,8 +4,10 @@ import { SelectOption } from "./types";
 import { IconName } from "../../icons/ReactIcon/types";
 import { ReactIcon } from "../../icons/ReactIcon/ReactIcon";
 
-// eslint-disable-next-line sonarjs/prefer-read-only-props
-export function ClearIndicator(props: ClearIndicatorProps<SelectOption, true, GroupBase<SelectOption>>): JSX.Element {
+export function ClearIndicator<M extends boolean, V = string>(
+  // eslint-disable-next-line sonarjs/prefer-read-only-props
+  props: ClearIndicatorProps<SelectOption<V>, M, GroupBase<SelectOption<V>>>
+): JSX.Element {
   return (
     <components.ClearIndicator {...props}>
       <ReactIcon iconName={IconName.Close} color="var(--fontColorFirm)" />

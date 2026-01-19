@@ -35,7 +35,8 @@ export function mapAlbums(albumApi: ApiAlbum): Album {
     snapImages: [],
     albumSize: albumApi.albumSize,
     tags: albumApi.tags.map(mapTags),
-    description: albumApi.description || ""
+    description: albumApi.description || "",
+    locale: albumApi.locale
   };
   if (albumApi.pictureIds?.length) {
     album.snapImages = albumApi.pictureIds.map(mapPictureIdToSnapRef);

@@ -19,15 +19,20 @@ interface Props {
   title?: string;
   isFetching?: boolean;
   stopPropagation?: boolean;
+  preventDefault?: boolean;
 }
 
-function onCLickLocal(
+function onClickLocal(
   localEvent: React.MouseEvent<HTMLButtonElement>,
   onClick?: () => void,
-  stopPropagation?: boolean
+  stopPropagation?: boolean,
+  preventDefault?: boolean
 ) {
   if (stopPropagation) {
     localEvent.stopPropagation();
+  }
+  if (preventDefault) {
+    localEvent.preventDefault();
   }
   if (onClick) {
     onClick();
@@ -35,12 +40,24 @@ function onCLickLocal(
 }
 
 export function ButtonIconInternal(
-  { iconName, background, onClick, disabled, size, color, className, title, isFetching, stopPropagation }: Props,
+  {
+    iconName,
+    background,
+    onClick,
+    disabled,
+    size,
+    color,
+    className,
+    title,
+    isFetching,
+    stopPropagation,
+    preventDefault
+  }: Props,
   ref: React.ForwardedRef<HTMLButtonElement>
 ): JSX.Element {
   return (
     <button
-      onClick={(localEvent) => onCLickLocal(localEvent, onClick, stopPropagation)}
+      onClick={(localEvent) => onClickLocal(localEvent, onClick, stopPropagation, preventDefault)}
       disabled={disabled || isFetching}
       className={getUnitedClassnames([
         "pushButton",
@@ -52,6 +69,7 @@ export function ButtonIconInternal(
       title={title}
       id={iconName}
       ref={ref}
+      type="button"
     >
       {isFetching ? "•" : <ReactIcon iconName={iconName} color={color} />}
     </button>

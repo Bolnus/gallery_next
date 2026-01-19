@@ -8,11 +8,11 @@ The app is designed with Feature Sliced Design.
 
 ### Desktop resolution preview
 
-![Desktop](https://github.com/Bolnus/gallery_rtx/blob/master/public/gallery_desktop_2.gif?raw=true)
+[Desktop](https://github.com/Bolnus/gallery_rtx/blob/master/public/gallery_desktop_2.gif?raw=true)
 
 ### Mobile resolution preview
 
-![Mobile](https://github.com/Bolnus/gallery_rtx/blob/master/public/gallery_mobile.gif?raw=true)
+[Mobile](https://github.com/Bolnus/gallery_rtx/blob/master/public/gallery_mobile.gif?raw=true)
 
 ## Preinst
 

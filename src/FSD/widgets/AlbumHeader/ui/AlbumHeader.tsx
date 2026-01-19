@@ -13,6 +13,7 @@ import { Tag } from "../../../shared/ui/tags/Tag";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "../../../../app/navigation";
+import { useAuth } from "../../../app/lib/context/authContext";
 
 interface Props {
   albumId?: string;
@@ -34,8 +35,6 @@ interface ReadOnlyProps {
   newImages?: undefined;
 }
 
-const canEdit = true;
-
 export function AlbumHeader({
   imageCover,
   tags,
@@ -45,6 +44,8 @@ export function AlbumHeader({
   const router = useRouter();
   const pathname = usePathname();
   const intl = useTranslations("AlbumHeader");
+  const { user } = useAuth();
+  const canEdit = !!user;
 
   return (
     <div className={classes.galleryHeader}>

@@ -28,7 +28,7 @@ import {
 } from "../lib/utils";
 import { IconSelect } from "../../../shared/ui/input/Select/IconSelect";
 import { ReadonlyURLSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 function changeSearchName(
   setSearchName: (str: string) => void,
@@ -106,6 +106,7 @@ export function AlbumsSearchPage(): JSX.Element {
   const [tagsFocused, setTagsFocused] = React.useState(false);
   const [pageChanged, setPageChanged] = React.useState(false);
   const intl = useTranslations("AlbumsSearchPage");
+  const locale = useLocale();
 
   const { data: searchTags, isLoading: searchTagsLoading } = useQuery({
     queryKey: "get-tags",
@@ -115,7 +116,7 @@ export function AlbumsSearchPage(): JSX.Element {
   });
 
   const { data: albumsWithTotal, isLoading: albumsListLoading } = useQuery({
-    queryKey: ["get-albums-list-search", searchParams?.toString()],
+    queryKey: ["get-albums-list-search", searchParams?.toString(), locale],
     queryFn: () => getAlbumsListQuery(searchParams || undefined),
     onError: getAlbumsListError,
     refetchOnWindowFocus: false

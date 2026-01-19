@@ -38,6 +38,7 @@
     "descriptionPlaceholder": "Description...",
     "tagsPlaceholder": "Tags...",
     "namePlaceholder": "Name...",
+    "localePlaceholder": "Language...",
     "saveChangesButton": "Save changes",
     "editImagesButton": "Edit images",
     "reloadButton": "Reload",

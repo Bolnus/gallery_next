@@ -19,5 +19,7 @@ export enum IconName {
   Dot = "Dot",
   User = "User",
   Login = "Login",
-  Logout = "Logout"
+  Logout = "Logout",
+  Show = "Show",
+  Hide = "Hide"
 }
