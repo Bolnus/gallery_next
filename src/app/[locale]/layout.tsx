@@ -63,6 +63,8 @@ export default async function RootLayout({ children, params }: Readonly<Props>):
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1.0, user-scalable=no "
         />
+        <meta name="google-site-verification" content="4NwmTDdTYLuwiPV81bYu44vFv6GjMzgT3ASLwyQ7Sf4" />
+        <meta name="yandex-verification" content="f07ce128a9d74a97" />
       </head>
       <body>
         <ReactQueryProvider>
