@@ -7,6 +7,11 @@ export const axiosClient = axios.create({
   withCredentials: true
 });
 
+axiosClient.interceptors.request.use((config) => {
+  config.headers["Accept-Language"] = global.document ? document.documentElement.lang : "en-US";
+  return config;
+});
+
 export function isAxiosError<T = null>(localError: unknown): localError is AxiosError<T> {
   return !!(localError as AxiosError)?.response;
 }

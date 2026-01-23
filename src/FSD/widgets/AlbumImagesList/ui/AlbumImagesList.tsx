@@ -9,6 +9,7 @@ import { ImagesListItem } from "./ImagesListItem";
 interface Props {
   images: GalleryImage[];
   deleteDisabled?: boolean;
+  isCopyUrlEnabled?: boolean;
   onDelete: (id: string, loadState: FileLoadState) => void;
   onCancel: (id: string) => void;
   moveImage: (dragIndex: number, hoverIndex: number) => void;
@@ -19,7 +20,8 @@ export function AlbumImagesList({
   onDelete,
   onCancel,
   deleteDisabled,
-  moveImage
+  moveImage,
+  isCopyUrlEnabled
 }: Readonly<Props>): JSX.Element {
   return (
     <DndProvider options={HTML5toTouch}>
@@ -34,6 +36,7 @@ export function AlbumImagesList({
               onCancel={onCancel}
               moveImage={moveImage}
               index={index}
+              isCopyUrlEnabled={isCopyUrlEnabled}
             />
           ))}
         </div>

@@ -21,5 +21,6 @@ export enum IconName {
   Login = "Login",
   Logout = "Logout",
   Show = "Show",
-  Hide = "Hide"
+  Hide = "Hide",
+  Copy = "Copy"
 }

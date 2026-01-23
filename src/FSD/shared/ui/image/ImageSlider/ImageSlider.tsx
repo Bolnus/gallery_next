@@ -5,13 +5,14 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import classes from "./ImageSlider.module.scss";
-import { GalleryImage } from "../../../lib/common/galleryTypes";
+import { FileLoadState, GalleryImage } from "../../../lib/common/galleryTypes";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
 import { ButtonIcon } from "../../button/ButtonIcon/ButtonIcon";
 import { UiSize } from "../../../lib/common/commonTypes";
 import { IconName } from "../../icons/ReactIcon/types";
 import { NextButton, PrevButton } from "./sliderButtons";
 import { SliderHeader } from "./SliderHeader";
+import { useImageSrc } from "../../../lib/hooks/useImgSrc";
 
 interface ImageSliderProps {
   images: GalleryImage[];
@@ -20,12 +21,22 @@ interface ImageSliderProps {
   onClose: () => void;
 }
 
-function mapViewImages(setToolBarActive: React.Dispatch<React.SetStateAction<boolean>>, element: GalleryImage) {
+interface FullImageProps {
+  setToolBarActive: React.Dispatch<React.SetStateAction<boolean>>;
+  element: GalleryImage;
+}
+
+function FullImage({ setToolBarActive, element }: Readonly<FullImageProps>) {
+  const { localSrc, setLocalLoadState } = useImageSrc({
+    url: element.url,
+    startLoadState: element.loadState
+  });
+
   return (
-    <div key={element.id} className={classes.imageWrapper}>
+    <div className={classes.imageWrapper}>
       <NextImage
         alt={element.name || "not found"}
-        src={element.url || ""}
+        src={localSrc}
         width={0}
         height={0}
         fill
@@ -33,6 +44,7 @@ function mapViewImages(setToolBarActive: React.Dispatch<React.SetStateAction<boo
         quality="100"
         onClick={() => setToolBarActive((prev) => !prev)}
         className={classes.image}
+        onError={() => setLocalLoadState(FileLoadState.downloadFailed)}
       />
     </div>
   );
@@ -112,7 +124,9 @@ export function ImageSlider({
           prevArrow={prevVisible ? <PrevButton /> : undefined}
           nextArrow={nextVisible ? <NextButton /> : undefined}
         >
-          {images.map((element: GalleryImage) => mapViewImages(setToolBarActive, element))}
+          {images.map((element: GalleryImage) => (
+            <FullImage setToolBarActive={setToolBarActive} element={element} key={element.id} />
+          ))}
         </Slider>
         {/* {modalVisible ? (
         <Modal

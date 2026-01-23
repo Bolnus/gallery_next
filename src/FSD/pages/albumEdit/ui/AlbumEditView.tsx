@@ -218,6 +218,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
           images={currentSegment === ImagesSegment.OldImages ? oldImages : newImages}
           setImages={currentSegment === ImagesSegment.OldImages ? setOldImages : setNewImages}
           deleteDisabled={headersFetching}
+          isCopyUrlEnabled={currentSegment === ImagesSegment.OldImages}
         />
       </div>
       {errorMessages?.length ? (

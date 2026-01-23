@@ -2,7 +2,7 @@
 import React from "react";
 import classes from "./AlbumsSearchPage.module.scss";
 import { AlbumsListSorting } from "../../../shared/lib/common/galleryTypes";
-import { useStateWithDebounced } from "../../../shared/lib/hooks/useDebounce";
+import { useDebounce, useStateWithDebounced } from "../../../shared/lib/hooks/useDebounce";
 import { MultiValue } from "react-select";
 import { SelectOption } from "../../../shared/ui/input/Select/types";
 import { MultiSelect } from "../../../shared/ui/input/Select/MultiSelect";
@@ -107,6 +107,7 @@ export function AlbumsSearchPage(): JSX.Element {
   const [pageChanged, setPageChanged] = React.useState(false);
   const intl = useTranslations("AlbumsSearchPage");
   const locale = useLocale();
+  const debouncedLocale = useDebounce(locale, 500);
 
   const { data: searchTags, isLoading: searchTagsLoading } = useQuery({
     queryKey: "get-tags",
@@ -116,7 +117,7 @@ export function AlbumsSearchPage(): JSX.Element {
   });
 
   const { data: albumsWithTotal, isLoading: albumsListLoading } = useQuery({
-    queryKey: ["get-albums-list-search", searchParams?.toString(), locale],
+    queryKey: ["get-albums-list-search", searchParams?.toString(), debouncedLocale],
     queryFn: () => getAlbumsListQuery(searchParams || undefined),
     onError: getAlbumsListError,
     refetchOnWindowFocus: false

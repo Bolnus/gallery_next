@@ -20,6 +20,7 @@ interface Props {
   image: GalleryImage;
   index: number;
   deleteDisabled?: boolean;
+  isCopyUrlEnabled?: boolean;
   onDelete: (id: string, loadState: FileLoadState) => void;
   onCancel: (id: string) => void;
   moveImage: (dragIndex: number, hoverIndex: number) => void;
@@ -31,7 +32,8 @@ export function ImagesListItem({
   onCancel,
   deleteDisabled,
   moveImage,
-  index
+  index,
+  isCopyUrlEnabled
 }: Readonly<Props>): JSX.Element {
   const listItemRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -126,6 +128,15 @@ export function ImagesListItem({
           cancelTitle={intl("cancelUploadButton")}
         />
       </div>
+      {isCopyUrlEnabled && (
+        <ButtonIcon
+          onClick={() => navigator.clipboard?.writeText(image.url || "")}
+          iconName={IconName.Copy}
+          size={UiSize.MediumAdaptive}
+          color="var(--fontColorFirm)"
+          title={intl("copyButton")}
+        />
+      )}
       {deleteDisabled ? null : (
         <ButtonIcon
           onClick={() => onDelete(image.id, image.loadState)}

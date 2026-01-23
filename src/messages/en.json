@@ -57,6 +57,7 @@
   },
   "ImagesListItem": {
     "deleteButton": "Delete",
+    "copyButton": "Copy url",
     "cancelUploadButton": "Cancel upload"
   },
   "AlbumHeader": {

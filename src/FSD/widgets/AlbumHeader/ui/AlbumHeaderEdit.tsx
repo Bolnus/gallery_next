@@ -2,7 +2,7 @@
 import NextImage from "next/image";
 import React from "react";
 import classes from "./AlbumHeaderEdit.module.scss";
-import { DefinedTag, GalleryImage } from "../../../shared/lib/common/galleryTypes";
+import { DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
 import { TextInput } from "../../../shared/ui/input/TextInput/TextInput";
 import {
   getUnitedClassnames,
@@ -28,6 +28,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "../../../app/lib/context/authContext";
 import { SingleSelect } from "../../../shared/ui/input/Select/SingleSelect";
 import { LanguageOptions, LocaleValue } from "../../../../app/request";
+import { useImageSrc } from "../../../shared/lib/hooks/useImgSrc";
 
 interface Props {
   albumId: string;
@@ -101,6 +102,10 @@ export function AlbumHeaderEdit({
 }: Readonly<Props>): JSX.Element {
   const [tagsFocused, setTagsFocused] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
+  const { localSrc, setLocalLoadState } = useImageSrc({
+    url: imageCover?.url,
+    startLoadState: imageCover?.loadState
+  });
   const intl = useTranslations("AlbumHeaderEdit");
   const { user } = useAuth();
   const canEdit = !!user;
@@ -117,13 +122,13 @@ export function AlbumHeaderEdit({
       <div className={classes.galleryHeader}>
         <div className={classes.galleryHeader__backgroundImage}>
           <NextImage
-            src={(!isFetching && imageCover?.url) || (defaultImage as StaticImport)}
+            src={(!isFetching && localSrc) || (defaultImage as StaticImport)}
             alt={imageCover?.name || ""}
             className={getUnitedClassnames([
               classes.galleryHeader__backgroundImage,
               classes.galleryHeader__backgroundImage_appearence
             ])}
-            // onError={() => onImageError(dispatch, imageCover)}
+            onError={() => setLocalLoadState(FileLoadState.downloadFailed)}
             fill
             sizes="99vw"
             quality="100"

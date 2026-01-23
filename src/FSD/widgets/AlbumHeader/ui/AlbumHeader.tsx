@@ -2,7 +2,7 @@
 import NextImage from "next/image";
 import React from "react";
 import classes from "./AlbumHeader.module.scss";
-import { DefinedTag, GalleryImage } from "../../../shared/lib/common/galleryTypes";
+import { DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
 import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 import { UiSize } from "../../../shared/lib/common/commonTypes";
@@ -14,6 +14,7 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "../../../../app/navigation";
 import { useAuth } from "../../../app/lib/context/authContext";
+import { useImageSrc } from "../../../shared/lib/hooks/useImgSrc";
 
 interface Props {
   albumId?: string;
@@ -41,6 +42,11 @@ export function AlbumHeader({
   albumName = "",
   isFetching = false
 }: Props & (OnEditProps | ReadOnlyProps)): JSX.Element {
+  const { localSrc, setLocalLoadState } = useImageSrc({
+    url: imageCover?.url,
+    startLoadState: imageCover?.loadState
+  });
+
   const router = useRouter();
   const pathname = usePathname();
   const intl = useTranslations("AlbumHeader");
@@ -51,13 +57,13 @@ export function AlbumHeader({
     <div className={classes.galleryHeader}>
       <div className={classes.galleryHeader__backgroundImage}>
         <NextImage
-          src={(!isFetching && imageCover?.url) || (defaultImage as StaticImport)}
+          src={(!isFetching && localSrc) || (defaultImage as StaticImport)}
           alt={imageCover?.name || ""}
           className={getUnitedClassnames([
             classes.galleryHeader__backgroundImage,
             classes.galleryHeader__backgroundImage_appearence
           ])}
-          // onError={() => onImageError(dispatch, imageCover)}
+          onError={() => setLocalLoadState(FileLoadState.downloadFailed)}
           fill
           sizes="99vw"
           quality="100"

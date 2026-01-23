@@ -23,6 +23,7 @@ import { MdDragHandle, MdDateRange } from "react-icons/md";
 import { BiSolidSave } from "react-icons/bi";
 import { TbLoader2 } from "react-icons/tb";
 import { GoDotFill } from "react-icons/go";
+import { TbCopy } from "react-icons/tb";
 import { IconName } from "./types";
 import classes from "./ReactIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
@@ -80,6 +81,8 @@ export function ReactIcon({ iconName, className, ...props }: Readonly<Props>): J
       return <HiEye {...propsWithClass} />;
     case IconName.Hide:
       return <HiEyeOff {...propsWithClass} />;
+    case IconName.Copy:
+      return <TbCopy {...propsWithClass} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }
