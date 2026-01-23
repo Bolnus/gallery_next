@@ -12,6 +12,10 @@
     margin: 4px;
 }
 
+.buttonIcon:active svg {
+  transform: scale(1.2);
+}
+
 .buttonIcon_transparent {
     background: inherit;
 }

@@ -104,7 +104,6 @@ export function ImagesListItem({
       data-handler-id={handlerId}
     >
       <ButtonIcon
-        // onClick={() => console.log("dnd")}
         iconName={IconName.DragAndDrop}
         size={UiSize.MediumAdaptive}
         color="var(--fontColorFirm)"

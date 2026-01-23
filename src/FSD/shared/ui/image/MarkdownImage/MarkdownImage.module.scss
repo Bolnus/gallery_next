@@ -2,9 +2,10 @@
 .markdownImage {
     border-radius: var(--fontSizeMedium);
     height: auto !important;
-    margin: 0 25%;
     position: static !important;
+    margin: 0 25%;
     max-width: 50% !important;
+    max-height: 50vh;
     @media (orientation: portrait) {
         max-width: 100% !important;
         margin: 0;
