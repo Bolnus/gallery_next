@@ -129,7 +129,8 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
     {
       onError: (localError: AxiosError<ApiMessage>) => pushServerError(setErrorMessages, localError),
       onSuccess: (response: AxiosResponse<{ id?: string }>) =>
-        onSaveAlbumHeadersSuccess(setAlbumId, setUnsavedChanges, setPostImageIndex, response.data)
+        onSaveAlbumHeadersSuccess(setAlbumId, setUnsavedChanges, setPostImageIndex, response.data),
+      retry: false
     }
   );
 
