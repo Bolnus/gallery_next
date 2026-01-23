@@ -3,7 +3,9 @@ import { SelectOption } from "../../ui/input/Select/types";
 import { DefinedTag } from "./galleryTypes";
 
 function resetScroll() {
-  window.scroll({ top: 0, left: 0 });
+  if (global.window) {
+    window.scroll({ top: 0, left: 0 });
+  }
 }
 
 export function resetScrollOnBlur(): void {

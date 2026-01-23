@@ -23,7 +23,7 @@ export function isApiError(localError: unknown): localError is AxiosError<ApiMes
 export function handleResponseError<T = null>(localError: unknown, endPoint: string): ApiResponse<T | null> {
   if (isAxiosError<T>(localError)) {
     console.warn(`Fetch error ${endPoint}: ${localError?.status} ${localError?.code}`);
-    if (localError.response?.status === 401) {
+    if (localError.response?.status === 401 && global.window) {
       localStorage.removeItem("AccessToken");
       window.location.href = "/auth";
     }

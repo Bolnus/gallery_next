@@ -150,6 +150,7 @@ export function sanitizeAHref(url?: string, options: AHrefOptions = {}): Sanitiz
   // Add rel="noopener noreferrer" for external links if enabled
   if (
     options.addNoopener !== false &&
+    global.window &&
     !sanitized.startsWith(window.location.origin) &&
     (sanitized.startsWith("http:") || sanitized.startsWith("https:"))
   ) {

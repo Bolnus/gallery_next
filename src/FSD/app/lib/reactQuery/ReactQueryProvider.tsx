@@ -3,7 +3,9 @@ import { MutationCache, QueryClient, QueryClientProvider } from "react-query";
 import { isAxiosError } from "../../../shared/api/galleryApi";
 
 function globalRedirect() {
-  window.location.href = "/auth";
+  if (global.window) {
+    window.location.href = "/auth";
+  }
 }
 
 const mutationCache = new MutationCache({

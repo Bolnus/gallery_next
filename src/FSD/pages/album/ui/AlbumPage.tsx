@@ -3,7 +3,7 @@ import classes from "./AlbumPage.module.scss";
 import { AlbumHeader } from "../../../widgets/AlbumHeader/ui/AlbumHeader";
 import { AlbumImagesGrid } from "../../../widgets/AlbumImagesGrid/ui/AlbumImagesGrid";
 import { AlbumWithImages } from "../../../shared/api/album/types";
-import {  sanitizeAHref } from "../../../shared/lib/sanitizer/sanitizeUrl";
+import { sanitizeAHref } from "../../../shared/lib/sanitizer/sanitizeUrl";
 import { MarkdownImage } from "../../../shared/ui/image/MarkdownImage/MarkdownImage";
 
 interface AlbumPageProps extends AlbumWithImages {

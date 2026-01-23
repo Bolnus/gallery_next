@@ -21,9 +21,8 @@ import { useOutsideClick } from "../../../shared/lib/hooks/useOutsideClick";
 import { isProtectedPath } from "../../../shared/lib/common/proxyUtils";
 import { usePathname, useRouter } from "../../../../app/navigation";
 import { RadioList } from "../../../shared/ui/input/Radio/RadioList";
-import { SelectOption } from "../../../shared/ui/input/Select/types";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
-import { LanguageOptions, LocaleValue, routing } from "../../../../app/request";
+import { LanguageOptions, LocaleValue } from "../../../../app/request";
 
 function updateStyle(toggleState: boolean): void {
   if (toggleState) {
