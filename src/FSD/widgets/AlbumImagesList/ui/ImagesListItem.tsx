@@ -130,7 +130,7 @@ export function ImagesListItem({
       </div>
       {isCopyUrlEnabled && (
         <ButtonIcon
-          onClick={() => navigator.clipboard?.writeText(image.url || "")}
+          onClick={() => navigator.clipboard?.writeText(`![image_${index}](${image.url})`)}
           iconName={IconName.Copy}
           size={UiSize.MediumAdaptive}
           color="var(--fontColorFirm)"
