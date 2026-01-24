@@ -8,26 +8,26 @@ import { routing } from "../../../request";
 import { setRequestLocale } from "next-intl/server";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
-  let downloadedCount = 0;
-  let totalCount = 1;
-  let pageNumber = 1;
   const paths: AlbumParam[] = [];
-  while (downloadedCount < totalCount) {
-    const searchParams = new URLSearchParams();
-    searchParams.set(PAGE_PARAM, String(pageNumber));
-    searchParams.set(SIZE_PARAM, "50");
-    searchParams.set(SORT_PARAM, AlbumsListSorting.changedDate);
-    const res = await getAlbumsListServerSide(searchParams);
-    totalCount = res.data.totalCount;
-    for (const album of res.data.albumsList) {
-      for (const locale of routing.locales) {
+  for (const locale of routing.locales) {
+    let downloadedCount = 0;
+    let totalCount = 1;
+    let pageNumber = 1;
+    while (downloadedCount < totalCount) {
+      const searchParams = new URLSearchParams();
+      searchParams.set(PAGE_PARAM, String(pageNumber));
+      searchParams.set(SIZE_PARAM, "50");
+      searchParams.set(SORT_PARAM, AlbumsListSorting.changedDate);
+      const res = await getAlbumsListServerSide(searchParams, locale);
+      totalCount = res.data.totalCount;
+      for (const album of res.data.albumsList) {
         paths.push({ id: album.id, locale });
       }
-    }
-    downloadedCount = 50 * pageNumber;
-    pageNumber++;
-    if (pageNumber === 3) {
-      break;
+      downloadedCount = 50 * pageNumber;
+      pageNumber++;
+      if (pageNumber === 3) {
+        break;
+      }
     }
   }
 

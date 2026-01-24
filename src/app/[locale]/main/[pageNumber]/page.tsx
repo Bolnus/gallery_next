@@ -9,13 +9,13 @@ import { setRequestLocale } from "next-intl/server";
 
 export async function generateStaticParams(): Promise<AlbumsListParam[]> {
   const paths: AlbumsListParam[] = [];
-  const searchParams = new URLSearchParams();
-  searchParams.set(PAGE_PARAM, "0");
-  searchParams.set(SIZE_PARAM, "30");
-  const res = await getAlbumsListServerSide(searchParams);
-  const { totalCount } = res.data;
-  for (let i = 1; i <= Math.ceil(totalCount / 30); i++) {
-    for (const locale of routing.locales) {
+  for (const locale of routing.locales) {
+    const searchParams = new URLSearchParams();
+    searchParams.set(PAGE_PARAM, "0");
+    searchParams.set(SIZE_PARAM, "30");
+    const res = await getAlbumsListServerSide(searchParams, locale);
+    const { totalCount } = res.data;
+    for (let i = 1; i <= Math.ceil(totalCount / 30); i++) {
       paths.push({ pageNumber: String(i), locale });
     }
   }
