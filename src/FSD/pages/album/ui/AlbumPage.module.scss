@@ -22,7 +22,13 @@
     margin: var(--fontSizeLargest) 15% var(--fontSizeLargest) 15%;
     color: var(--fontColorFirm);
     font-size: var(--fontSizeMedium);
-    white-space: pre-wrap;
+    // white-space: pre-wrap;
+    white-space: normal;
+}
+
+.galleryPage__description p {
+    font-style: normal;
+    line-height: normal;
 }
 
 .galleryPage__description code {
@@ -42,10 +48,22 @@
 
 .galleryPage__description ul {
     display: inline flow;
+    display: flex;
+    flex-direction: column;
 }
 
 .galleryPage__description li {
-    line-height: 1.5rem;
-    display: inline flow list-item;
+    line-height: 2rem;
+    list-style-position: inside;
 }
 
+.galleryPage__description a {
+    color: #10B981; // #0077CC
+}
+
+.galleryPage__description p + p,
+.galleryPage__description p + pre,
+.galleryPage__description ul + p,
+.galleryPage__description pre + p {
+  margin-top: 1.25rem;
+}
