@@ -45,6 +45,7 @@ function FullImage({ setToolBarActive, element }: Readonly<FullImageProps>) {
         onClick={() => setToolBarActive((prev) => !prev)}
         className={classes.image}
         onError={() => setLocalLoadState(FileLoadState.downloadFailed)}
+        onLoad={() => setLocalLoadState(FileLoadState.downloaded)}
       />
     </div>
   );

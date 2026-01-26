@@ -5,6 +5,7 @@ import { AlbumImagesGrid } from "../../../widgets/AlbumImagesGrid/ui/AlbumImages
 import { AlbumWithImages } from "../../../shared/api/album/types";
 import { sanitizeAHref } from "../../../shared/lib/sanitizer/sanitizeUrl";
 import { MarkdownImage } from "../../../shared/ui/image/MarkdownImage/MarkdownImage";
+import { getUnitedClassnames } from "../../../shared/lib/common/commonUtils";
 
 interface AlbumPageProps extends AlbumWithImages {
   isFetching?: boolean;
@@ -20,8 +21,8 @@ export function AlbumPage({
   description
 }: Readonly<AlbumPageProps>): JSX.Element {
   return (
-    <div className={classes.galleryPage}>
-      <div className={classes.scrollWrapper}>
+    <div className={getUnitedClassnames(["main__scrollWrapper", classes.galleryPage])}>
+      <div className="main__page">
         <AlbumHeader
           albumName={albumName}
           tags={tags}
@@ -35,7 +36,7 @@ export function AlbumPage({
             components={{
               img: (props) => <MarkdownImage url={props.src} />,
               a: (props) => (
-                <a {...props} href={sanitizeAHref(props.href)?.url || ""}>
+                <a {...props} href={sanitizeAHref(props.href)?.url || ""} className="textLink">
                   {props.children}
                 </a>
               )

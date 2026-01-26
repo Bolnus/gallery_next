@@ -1,4 +1,11 @@
-import { Album, AlbumHeaders, DefinedTag, FileLoadState, GalleryImage } from "../lib/common/galleryTypes";
+import {
+  Album,
+  AlbumHeaders,
+  AlbumsCategory,
+  DefinedTag,
+  FileLoadState,
+  GalleryImage
+} from "../lib/common/galleryTypes";
 import { ApiAlbum, ApiTag } from "./apiTypes";
 
 export function mapTags(tagApi: ApiTag): DefinedTag {
@@ -24,6 +31,13 @@ export function mapPictureIdToFullRef(pictureId: string): GalleryImage {
     name: pictureId,
     url: `${getClientProxyUrl()}/albums_list/album/picture/${pictureId}`,
     loadState: FileLoadState.downloading
+  };
+}
+
+export function mapApiTagToCategory(tagApi: ApiTag): AlbumsCategory {
+  return {
+    ...mapTags(tagApi),
+    coverSnap: mapPictureIdToSnapRef(tagApi.coverId || "")
   };
 }
 

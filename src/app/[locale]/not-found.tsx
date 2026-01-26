@@ -6,7 +6,7 @@ export default function NotFound(): JSX.Element {
       <h1 className="notFoundPage__header">404: Not found</h1>
       <p className="notFoundPage__text">
         Back to{" "}
-        <Link href="/" className="notFoundPage__textLink">
+        <Link href="/" className="textLink">
           main
         </Link>
       </p>

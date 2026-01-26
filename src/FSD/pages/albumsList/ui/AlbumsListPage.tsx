@@ -8,10 +8,17 @@ interface Props {
   pageNumber: number;
   pageSize: number;
   albums?: Album[];
+  category?: string;
 }
 
 export function AlbumsListPage(props: Readonly<Props>): JSX.Element {
+  const { category } = props;
   const router = useRouter();
 
-  return <AlbumsList {...props} onPageSelect={(newPage) => router.push(`/main/${newPage}`)} />;
+  return (
+    <AlbumsList
+      {...props}
+      onPageSelect={(newPage) => router.push(category ? `/categories/${category}/${newPage}` : `/main/${newPage}`)}
+    />
+  );
 }

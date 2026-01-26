@@ -1,11 +1,11 @@
 "use server";
-import { AxiosRequestConfig } from "axios";
 import { AlbumsListWithTotal, ApiAlbumsWithTotal } from "../albumsList/types";
 import { ApiAlbum, ApiResponse } from "../apiTypes";
 import { mapAlbums, mapPictureIdToFullRef } from "../apiUtils";
 import { handleResponseError } from "../galleryApi";
 import { AlbumWithImages } from "./types";
 import { axiosClientServer as axiosClient } from "../apiUtilsServer";
+import { AxiosRequestConfig } from "axios";
 
 function getServerHeaders(lang?: string): AxiosRequestConfig {
   return {

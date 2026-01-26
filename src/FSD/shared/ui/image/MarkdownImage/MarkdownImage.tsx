@@ -27,6 +27,7 @@ export function MarkdownImage({ url }: Readonly<Props>): JSX.Element {
       alt="incorrect image url"
       className={classes.markdownImage}
       onError={() => setLocalLoadState(FileLoadState.downloadFailed)}
+      onLoad={() => setLocalLoadState(FileLoadState.downloaded)}
     />
   );
 }

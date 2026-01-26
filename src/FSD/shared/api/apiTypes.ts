@@ -26,4 +26,5 @@ export interface ApiTag {
   _id: string;
   tagName: string;
   albumsCount: number;
+  coverId?: string;
 }

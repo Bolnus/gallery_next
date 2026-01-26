@@ -64,6 +64,7 @@ export function AlbumHeader({
             classes.galleryHeader__backgroundImage_appearence
           ])}
           onError={() => setLocalLoadState(FileLoadState.downloadFailed)}
+          onLoad={() => setLocalLoadState(FileLoadState.downloaded)}
           fill
           sizes="99vw"
           quality="100"

@@ -11,8 +11,8 @@ export async function generateStaticParams(): Promise<AlbumsListParam[]> {
   const paths: AlbumsListParam[] = [];
   for (const locale of routing.locales) {
     const searchParams = new URLSearchParams();
-    searchParams.set(PAGE_PARAM, "0");
-    searchParams.set(SIZE_PARAM, "30");
+    searchParams.set(PAGE_PARAM, "1");
+    searchParams.set(SIZE_PARAM, String(DEFAULT_PAGE_SIZE));
     const res = await getAlbumsListServerSide(searchParams, locale);
     const { totalCount } = res.data;
     for (let i = 1; i <= Math.ceil(totalCount / 30); i++) {
@@ -25,7 +25,7 @@ export async function generateStaticParams(): Promise<AlbumsListParam[]> {
 async function AlbumsHome({ pageNumber, locale }: Readonly<AlbumsListParam>): Promise<JSX.Element> {
   const searchParams = new URLSearchParams();
   searchParams.set(PAGE_PARAM, pageNumber);
-  searchParams.set(SIZE_PARAM, "30");
+  searchParams.set(SIZE_PARAM, String(DEFAULT_PAGE_SIZE));
   const res = await getAlbumsListServerSide(searchParams, locale);
   const { totalCount, albumsList } = res.data;
 

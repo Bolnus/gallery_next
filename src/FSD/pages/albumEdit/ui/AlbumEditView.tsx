@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import classes from "./NewAlbumPage.module.scss";
 import { Modal, ModalType } from "../../../shared/ui/Modal/Modal";
 import { DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
 import { shiftArrayElement, tagsChanged } from "../../../shared/lib/common/commonUtils";
@@ -190,8 +189,8 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
   );
 
   return (
-    <div className={classes.newAlbumPage}>
-      <div className={classes.scrollWrapper}>
+    <div className="main__scrollWrapper">
+      <div className="main__page">
         <AlbumHeaderEdit
           imageCover={data?.fullImages?.length ? data?.fullImages?.[0] : newImages?.[0]}
           newImages={newImages}

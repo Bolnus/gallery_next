@@ -24,6 +24,7 @@ export function onMenuClick(
       router.push("/main/1");
       break;
     case MenuItem.CATEGORIES:
+      router.push("/categories");
       break;
     case MenuItem.ADD:
       router.push("/album");

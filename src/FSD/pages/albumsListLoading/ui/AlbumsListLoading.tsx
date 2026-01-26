@@ -9,8 +9,8 @@ interface Props {
 
 export function AlbumsListLoading({ hasSearch }: Readonly<Props>): JSX.Element {
   return (
-    <div className={`${classes.albumsListPage}`}>
-      <div className={classes.scrollBox}>
+    <div className="main__scrollWrapper">
+      <div className="main__page">
         {hasSearch && (
           <div className={`${classes.searchBlock} ${classes.scrollBox_itemWrapper}`}>
             <div className={`${classes.inputWrapper}`}>

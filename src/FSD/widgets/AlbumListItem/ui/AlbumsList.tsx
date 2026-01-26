@@ -98,8 +98,8 @@ export function AlbumsList({
   }, [scrollAlbumBlockRef, listBoxRef]);
 
   return (
-    <div className={`${classes.albumsListPage}`}>
-      <div className={classes.scrollBox} ref={listBoxRef}>
+    <div className="main__scrollWrapper">
+      <div className="main__page" ref={listBoxRef}>
         {children}
         {albums?.length ? (
           <Pagination

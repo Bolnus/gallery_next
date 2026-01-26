@@ -66,10 +66,29 @@ body {
 .main
 {
     flex-grow: 1;
+    // width: 1300px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 60%;
+    min-height: 50px;
+    background: var(--bgColor);
+}
+
+.main__scrollWrapper
+{
+    height: 100%;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.main__page
+{
     width: 1300px;
     max-width: 100%;
     min-width: 60%;
-    background: var(--bgColor);
+    margin: 0 auto;
+    padding-bottom: var(--fontSizeLargest);
 }
 
 ::-webkit-scrollbar
@@ -178,7 +197,12 @@ body {
 }
 
 .notFoundPage {
-    margin: var(--fontSizeBig);
+    margin: var(--fontSizeBig) auto;
+    width: 1300px;
+    max-width: 100%;
+    min-width: 60%;
+    padding: 0 var(--fontSizeBig);
+    box-sizing: border-box;
 }
 
 .notFoundPage__header {
@@ -192,6 +216,6 @@ body {
     font-size: var(--fontSizeMedium);
 }
 
-.notFoundPage__textLink {
+.textLink {
     color: var(--fontColorFullGreen);
 }

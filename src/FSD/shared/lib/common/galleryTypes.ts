@@ -1,9 +1,22 @@
-import { LocaleValue, routing } from "../../../../app/request";
+import { LocaleValue } from "../../../../app/request";
 
 export interface DefinedTag {
   id: string;
   tagName: string;
   albumsCount: number;
+}
+
+export enum FileLoadState {
+  added = 0,
+  uploadPlanned = 1,
+  startedUploading = 2,
+  downloadFailed = 101,
+  downloading = 102,
+  downloaded = 103,
+  uploaded = 104,
+  uploadFailed = 105,
+  parsingFailed = 106,
+  uploadCanceled = 107
 }
 
 export interface GalleryImage {
@@ -14,6 +27,10 @@ export interface GalleryImage {
   data?: File;
   pictureNumber?: number;
   loadState: FileLoadState;
+}
+
+export interface AlbumsCategory extends DefinedTag {
+  coverSnap: GalleryImage;
 }
 
 export interface AlbumHeaders {
@@ -30,18 +47,6 @@ export interface Album extends AlbumHeaders {
   snapImages: GalleryImage[];
 }
 
-export enum FileLoadState {
-  added = 0,
-  uploadPlanned = 1,
-  startedUploading = 2,
-  downloadFailed = 101,
-  downloading = 102,
-  downloaded = 103,
-  uploaded = 104,
-  uploadFailed = 105,
-  parsingFailed = 106,
-  uploadCanceled = 107
-}
 
 export const FileLoadStateAdded = 0;
 export const FileLoadStateUploadPlanned = 1;
@@ -70,6 +75,10 @@ export type AlbumPageProps = ParamsProps<AlbumParam>;
 
 export interface AlbumsListParam extends LocaleProps {
   pageNumber: string;
+}
+
+export interface CategoryAlbumsParam extends AlbumsListParam {
+  category: string;
 }
 
 export type AlbumsListProps = ParamsProps<AlbumsListParam>;

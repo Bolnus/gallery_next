@@ -1,19 +1,6 @@
 .galleryPage
 {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    transition: all 0.5s;
-    background: var(--bgColor);
-}
 
-.scrollWrapper
-{
-    height: 2px;
-    flex: 1 1 auto;
-    overflow-y: auto;
 }
 
 .galleryPage__description
@@ -57,9 +44,9 @@
     list-style-position: inside;
 }
 
-.galleryPage__description a {
-    color: #10B981; // #0077CC
-}
+// .galleryPage__description a {
+//     color: #10B981; // #0077CC
+// }
 
 .galleryPage__description p + p,
 .galleryPage__description p + pre,
