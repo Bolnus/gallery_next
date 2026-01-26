@@ -7,14 +7,14 @@ import {
   TAGS_PARAM
 } from "../../../../../FSD/pages/albumsSearch/consts/consts";
 import { getAlbumsListServerSide } from "../../../../../FSD/shared/api/album/albumApiServer";
-import { AlbumsListParam, CategoryAlbumsParam, ParamsProps } from "../../../../../FSD/shared/lib/common/galleryTypes";
+import { CategoryAlbumsParam, ParamsProps } from "../../../../../FSD/shared/lib/common/galleryTypes";
 import { AlbumsListLoading } from "../../../../../FSD/pages/albumsListLoading/ui/AlbumsListLoading";
 import { AlbumsListPage } from "../../../../../FSD/pages/albumsList/ui/AlbumsListPage";
 import { routing } from "../../../../request";
 import { getCategoriesServerSide } from "../../../../../FSD/shared/api/tags/tagsApiServerside";
 
-export async function generateStaticParams(): Promise<AlbumsListParam[]> {
-  const paths: AlbumsListParam[] = [];
+export async function generateStaticParams(): Promise<CategoryAlbumsParam[]> {
+  const paths: CategoryAlbumsParam[] = [];
   for (const locale of routing.locales) {
     const tags = await getCategoriesServerSide(locale);
     if (!tags.data) {
@@ -22,7 +22,7 @@ export async function generateStaticParams(): Promise<AlbumsListParam[]> {
     }
     for (const tag of tags.data) {
       for (let i = 1; i <= Math.ceil(tag.albumsCount / 30); i++) {
-        paths.push({ pageNumber: String(i), locale });
+        paths.push({ pageNumber: String(i), locale, category: tag.tagName });
       }
     }
   }
