@@ -1,13 +1,15 @@
+import { useTranslations } from "next-intl";
 import { Link } from "../navigation";
 
 export default function NotFound(): JSX.Element {
+  const intl = useTranslations("NotFound");
   return (
     <div className="notFoundPage">
-      <h1 className="notFoundPage__header">404: Not found</h1>
+      <h1 className="notFoundPage__header">{intl("title")}</h1>
       <p className="notFoundPage__text">
-        Back to{" "}
+        {intl("description")}
         <Link href="/" className="textLink">
-          main
+          {intl("mainRef")}
         </Link>
       </p>
     </div>

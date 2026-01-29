@@ -6,6 +6,7 @@ import { AlbumsListLoading } from "../../../../FSD/pages/albumsListLoading/ui/Al
 import { AlbumsListPage } from "../../../../FSD/pages/albumsList/ui/AlbumsListPage";
 import { routing } from "../../../request";
 import { setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams(): Promise<AlbumsListParam[]> {
   const paths: AlbumsListParam[] = [];
@@ -28,6 +29,10 @@ async function AlbumsHome({ pageNumber, locale }: Readonly<AlbumsListParam>): Pr
   searchParams.set(SIZE_PARAM, String(DEFAULT_PAGE_SIZE));
   const res = await getAlbumsListServerSide(searchParams, locale);
   const { totalCount, albumsList } = res.data;
+
+  if (Number(pageNumber) > 1 && !albumsList.length) {
+    notFound();
+  }
 
   return (
     <AlbumsListPage

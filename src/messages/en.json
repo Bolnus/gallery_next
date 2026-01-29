@@ -82,5 +82,8 @@
   "AlbumImagesGrid": {
     "noImages": "No images",
     "notFound": "404: Not found"
+  },
+  "Pagination": {
+    "outOf": "out of"
   }
 }

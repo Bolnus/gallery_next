@@ -1,12 +1,12 @@
 "use client";
 import React, { PropsWithChildren } from "react";
-import { Pagination } from "../../../shared/ui/Pagination/Pagination";
 import { useCurrentAlbumId } from "../../../app/lib/context/useCurrentAlbumId";
 import { Album } from "../../../shared/lib/common/galleryTypes";
 import classes from "./AlbumsList.module.scss";
 import { ALBUM_ITEM_LOADER_ARRAY } from "../../../pages/albumsSearch/consts/consts";
 import { mapLoaders } from "../../../pages/albumsSearch/lib/mappers";
 import { AlbumListItem } from "./AlbumsListItem";
+import { PaginationV2 } from "../../PaginationV2/ui/PaginationV2";
 
 interface Props {
   albums?: Album[];
@@ -102,7 +102,7 @@ export function AlbumsList({
       <div className="main__page" ref={listBoxRef}>
         {children}
         {albums?.length ? (
-          <Pagination
+          <PaginationV2
             albumsCount={totalCount}
             page={pageNumber}
             pageSize={pageSize}
@@ -123,7 +123,7 @@ export function AlbumsList({
           </div>
         ) : null}
         {albums?.length ? (
-          <Pagination
+          <PaginationV2
             albumsCount={totalCount}
             page={pageNumber}
             pageSize={pageSize}

@@ -79,5 +79,8 @@
   "AlbumImagesGrid": {
     "noImages": "Нет изображений",
     "notFound": "404: Не найдено"
+  },
+  "Pagination": {
+    "outOf": "из"
   }
 }

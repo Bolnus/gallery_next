@@ -1,0 +1,20 @@
+.pagination {
+    background: var(--mainColor);
+    padding: 4px var(--fontSizeMedium);
+    margin: var(--fontSizeMedium) auto;
+    display: flex;
+    gap: var(--fontSizeSmall);
+    width: min-content;
+    box-sizing: border-box;
+    align-items: center;
+    border-radius: 10px;
+    max-width: 100%;
+}
+
+.pagination__label
+{
+    color: var(--fontColorFirm);
+    font-size: var(--fontSizeSmall);
+    max-height: 1.5rem;
+    flex: 1 1 0;
+}

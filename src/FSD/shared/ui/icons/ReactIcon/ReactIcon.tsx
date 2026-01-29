@@ -1,8 +1,10 @@
 import {
   HiArrowCircleLeft,
-  HiChevronRight,
   HiQuestionMarkCircle,
+  HiChevronDoubleRight,
+  HiChevronRight,
   HiChevronLeft,
+  HiChevronDoubleLeft,
   HiX,
   HiSearch,
   HiPhotograph,
@@ -37,12 +39,15 @@ export function ReactIcon({ iconName, className, ...props }: Readonly<Props>): J
   const propsWithClass = { ...props, className: unitedClassnames };
   switch (iconName) {
     case IconName.NavBack:
-      // iconElement = <TriangleSVG />;
       return <HiArrowCircleLeft {...propsWithClass} />;
     case IconName.ChevronLeft:
       return <HiChevronLeft {...propsWithClass} />;
     case IconName.ChevronRight:
       return <HiChevronRight {...propsWithClass} />;
+    case IconName.ChevronDoubleLeft:
+      return <HiChevronDoubleLeft {...propsWithClass} />;
+    case IconName.ChevronDoubleRight:
+      return <HiChevronDoubleRight {...propsWithClass} />;
     case IconName.Close:
       return <HiX {...propsWithClass} />;
     case IconName.Search:
