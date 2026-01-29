@@ -31,6 +31,9 @@
     "sortByDate": "По дате",
     "sortRandom": "Случайно"
   },
+  "AlbumsList": {
+    "notFound": "Не найдено"
+  },
   "AlbumListItem": {
     "today": "сегодня"
   },

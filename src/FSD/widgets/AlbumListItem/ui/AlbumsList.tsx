@@ -7,6 +7,7 @@ import { ALBUM_ITEM_LOADER_ARRAY } from "../../../pages/albumsSearch/consts/cons
 import { mapLoaders } from "../../../pages/albumsSearch/lib/mappers";
 import { AlbumListItem } from "./AlbumsListItem";
 import { PaginationV2 } from "../../PaginationV2/ui/PaginationV2";
+import { useTranslations } from "next-intl";
 
 interface Props {
   albums?: Album[];
@@ -66,6 +67,7 @@ export function AlbumsList({
   const listBoxRef = React.useRef<HTMLDivElement>(null);
   const [scrollBlockNumber, setScrollBlockNumber] = React.useState(-1);
   const [currentAlbumId] = useCurrentAlbumId();
+  const intl = useTranslations("AlbumsList");
 
   /** Selected block number update */
   React.useEffect(() => {
@@ -119,7 +121,7 @@ export function AlbumsList({
         {!albums?.length && isFetching ? ALBUM_ITEM_LOADER_ARRAY.map(mapLoaders) : null}
         {!albums?.length && !isFetching ? (
           <div className={`${classes.albumBlock} ${classes.scrollBox_itemWrapper}`} key="last">
-            <div className="emptyComment">Not found</div>
+            <div className="emptyComment">{intl("notFound")}</div>
           </div>
         ) : null}
         {albums?.length ? (

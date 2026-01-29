@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import {
   DEFAULT_PAGE_SIZE,
@@ -37,6 +38,10 @@ async function CategoryAlbums({ pageNumber, locale, category }: Readonly<Categor
   searchParams.set(TAGS_PARAM, decodedCategory);
   const res = await getAlbumsListServerSide(searchParams, locale);
   const { totalCount, albumsList } = res.data;
+
+  if (Number(pageNumber) > 1 && !albumsList.length) {
+    notFound();
+  }
 
   return (
     <AlbumsListPage

@@ -31,6 +31,9 @@
     "sortByDate": "By date",
     "sortRandom": "Random"
   },
+  "AlbumsList": {
+    "notFound": "Not found"
+  },
   "AlbumListItem": {
     "today": "today"
   },
