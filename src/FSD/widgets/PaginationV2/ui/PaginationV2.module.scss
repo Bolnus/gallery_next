@@ -11,10 +11,17 @@
     max-width: 100%;
 }
 
+.pagination__labelBlock
+{
+    max-height: 1.5rem;
+    height: 1.5rem;
+    min-width: calc(2 * var(--fontSizeSmall));
+    font-size: var(--fontSizeSmall);
+    flex: 1 1 0;
+}
+
 .pagination__label
 {
-    color: var(--fontColorFirm);
+    color: white;
     font-size: var(--fontSizeSmall);
-    max-height: 1.5rem;
-    flex: 1 1 0;
 }
