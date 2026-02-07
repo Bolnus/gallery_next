@@ -5,7 +5,7 @@ import { AlbumPageProps, AlbumParam, AlbumsListSorting } from "../../../../FSD/s
 import { getAlbumServerSide, getAlbumsListServerSide } from "../../../../FSD/shared/api/album/albumApiServer";
 import { Metadata } from "next";
 import { routing } from "../../../request";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
   const paths: AlbumParam[] = [];
@@ -37,24 +37,18 @@ export async function generateStaticParams(): Promise<AlbumParam[]> {
 export async function generateMetadata({ params }: AlbumPageProps): Promise<Metadata> {
   const { id, locale } = await params;
   const { data } = await getAlbumServerSide(locale, id);
+  const intl = await getTranslations({ locale, namespace: "LayoutMetadata" });
 
+  const title = `${data?.albumName} | ${intl("title")}`;
+  const description = `${data?.description} | ${intl("description")}`;
   return {
-    title: data?.albumName,
-    description: data?.description,
+    title,
+    description,
     keywords: data?.tags?.map((tag) => tag.tagName),
     openGraph: {
-      title: data?.albumName,
-      description: data?.description,
+      title,
+      description,
       images: data?.snapImages?.[0]?.url ? [data?.snapImages?.[0]?.url] : undefined
-    },
-    robots: {
-      index: true, // Allow search engines to index
-      follow: true, // Allow following links on the page
-      nocache: false, // Prevent caching (rarely used)
-      noarchive: false, // Prevent showing cached version in search
-      nosnippet: false, // Prevent showing snippets in search
-      noimageindex: false, // Prevent indexing images on the page
-      notranslate: false // Prevent Google from offering translation
     }
   };
 }

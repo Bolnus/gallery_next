@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   DEFAULT_PAGE_SIZE,
   PAGE_PARAM,
@@ -13,6 +13,7 @@ import { AlbumsListLoading } from "../../../../../FSD/pages/albumsListLoading/ui
 import { AlbumsListPage } from "../../../../../FSD/pages/albumsList/ui/AlbumsListPage";
 import { routing } from "../../../../request";
 import { getCategoriesServerSide } from "../../../../../FSD/shared/api/tags/tagsApiServerside";
+import { Metadata } from "next";
 
 export async function generateStaticParams(): Promise<CategoryAlbumsParam[]> {
   const paths: CategoryAlbumsParam[] = [];
@@ -28,6 +29,23 @@ export async function generateStaticParams(): Promise<CategoryAlbumsParam[]> {
     }
   }
   return paths;
+}
+
+export async function generateMetadata({ params }: ParamsProps<CategoryAlbumsParam>): Promise<Metadata> {
+  const { locale, category, pageNumber } = await params;
+  const intl = await getTranslations({ locale, namespace: "LayoutMetadata" });
+
+  const title = `${category} | ${intl("title")}`;
+  const description = `${category} | ${intl("description")}`;
+  return {
+    title,
+    description,
+    keywords: `${category},${pageNumber},${intl("keywords")}`,
+    openGraph: {
+      title,
+      description
+    }
+  };
 }
 
 async function CategoryAlbums({ pageNumber, locale, category }: Readonly<CategoryAlbumsParam>): Promise<JSX.Element> {
