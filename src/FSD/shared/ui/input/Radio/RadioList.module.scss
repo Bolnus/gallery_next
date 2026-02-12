@@ -38,13 +38,13 @@
 }
 
 .radioCustomSelected {
-  border-color: var(--fontColorFirmGreen);
+  border-color: var(--fontColorFirmAccent);
 }
 
 .radioDot {
   width: var(--fontSizeTiny);
   height: var(--fontSizeTiny);
-  background-color: var(--fontColorFirmGreen);
+  background-color: var(--fontColorFirmAccent);
   border-radius: 50%;
   opacity: 0;
 }
@@ -55,12 +55,12 @@
 }
 
 .radioDot_selected {
-  background-color: var(--fontColorFirmGreen);
+  background-color: var(--fontColorFirmAccent);
   opacity: 1;
 }
 
 .radioLabel:hover .radioDot_selected {
-  background-color: var(--fontColorFirmGreen);
+  background-color: var(--fontColorFirmAccent);
   opacity: 1;
 }
 
@@ -71,6 +71,6 @@
 .radioMainLabel {
   font-size: var(--fontSizeSmall);
   font-weight: 500;
-  color: var(--fontColorFirmGreen);
+  color: var(--fontColorFirmAccent);
   line-height: 1.4;
 }

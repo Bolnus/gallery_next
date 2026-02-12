@@ -7,10 +7,10 @@
     --fontColorFirm: black; // white
     --shadowColor: rgba(0, 0, 0, 0.2); // rgba(255, 255, 255, 0.2)
     --fontColorLight: grey; // #c4ccce
-    --fontColorFirmGreen: #004422; // white
+    --fontColorFirmAccent: #004422; // white
     // #4ed164
     --fontColorGreenInverted: #80eeb0; // grey
-    --fontColorFullGreen: #80eeb0; // #004422
+    --activeLinkColor: #80eeb0; // #004422
     --mainColorDark: #004422; // #112734
     --checkBoxColor: #4ed164;
     --inputBgColor: #c4ccce; // #112734
@@ -221,5 +221,5 @@ img {
 }
 
 .textLink {
-    color: var(--fontColorFullGreen);
+    color: var(--activeLinkColor);
 }

@@ -24,28 +24,30 @@ import { RadioList } from "../../../shared/ui/input/Radio/RadioList";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import { LanguageOptions, LocaleValue } from "../../../../app/request";
 
-function updateStyle(toggleState: boolean): void {
-  if (toggleState) {
-    document.documentElement.style.setProperty("--mainColor", "#112734");
-    document.documentElement.style.setProperty("--bgColor", "#021e2a");
-    document.documentElement.style.setProperty("--fontColorFirm", "white");
-    document.documentElement.style.setProperty("--shadowColor", "rgba(255, 255, 255, 0.2)");
-    document.documentElement.style.setProperty("--fontColorFirmGreen", "white");
-    document.documentElement.style.setProperty("--fontColorGreenInverted", "#004422");
-    document.documentElement.style.setProperty("--fontColorFullGreen", "#80eeb0");
-    document.documentElement.style.setProperty("--fontColorLight", "#c4ccce");
-    document.documentElement.style.setProperty("--mainColorDark", "#112734");
-    document.documentElement.style.setProperty("--inputBgColor", "#112734");
+function updateStyle(isDark: boolean): void {
+  if (isDark) {
+    document.documentElement.style.setProperty("--mainColor", "#0f6a5a"); // old: #112734
+    document.documentElement.style.setProperty("--bgColor", "#0d1117"); // old: #021e2a
+    document.documentElement.style.setProperty("--mainColorDark", "#08443a"); // old: #112734
+
+    document.documentElement.style.setProperty("--fontColorFirm", "#f1f5f9"); // old: white
+    document.documentElement.style.setProperty("--fontColorLight", "#94a3b8"); // old: #c4ccce
+    document.documentElement.style.setProperty("--fontColorFirmAccent", "#6ee7c2"); // old: white
+    document.documentElement.style.setProperty("--activeLinkColor", "#5eead4"); // old: #80eeb0
+
+    document.documentElement.style.setProperty("--shadowColor", "rgba(255, 255, 255, 0.1)");
+    document.documentElement.style.setProperty("--inputBgColor", "#1e293b"); // old: #112734
   } else {
-    document.documentElement.style.setProperty("--mainColor", "#80eeb0");
-    document.documentElement.style.setProperty("--bgColor", "#f5f6fa");
-    document.documentElement.style.setProperty("--fontColorFirm", "black");
-    document.documentElement.style.setProperty("--shadowColor", "rgba(0, 0, 0, 0.2)");
-    document.documentElement.style.setProperty("--fontColorFirmGreen", "#004422");
-    document.documentElement.style.setProperty("--fontColorGreenInverted", "grey");
-    document.documentElement.style.setProperty("--fontColorFullGreen", "#4ed164");
-    document.documentElement.style.setProperty("--fontColorLight", "grey");
-    document.documentElement.style.setProperty("--mainColorDark", "#004422");
+    document.documentElement.style.setProperty("--mainColor", "#10b981"); // old: #80eeb0
+    document.documentElement.style.setProperty("--bgColor", "#fafcff"); // old: #f5f6fa
+    document.documentElement.style.setProperty("--mainColorDark", "#047857"); // old: #004422
+
+    document.documentElement.style.setProperty("--fontColorFirm", "#0f172a"); // old: black
+    document.documentElement.style.setProperty("--fontColorLight", "#64748b"); // old: grey
+    document.documentElement.style.setProperty("--fontColorFirmAccent", "#004422");
+    document.documentElement.style.setProperty("--activeLinkColor", "#4ed164");
+
+    document.documentElement.style.setProperty("--shadowColor", "rgba(0, 0, 0, 0.1)");
     document.documentElement.style.setProperty("--inputBgColor", "#c4ccce");
   }
 }
@@ -145,7 +147,7 @@ export function HeaderToolbar(): JSX.Element {
           {!!user && (
             <div className={getUnitedClassnames([classes.userPopup__userName])}>
               <span className={classes.userPopup__icon}>
-                <ReactIcon color="var(--fontColorFirmGreen)" iconName={IconName.User} />
+                <ReactIcon color="var(--fontColorFirmAccent)" iconName={IconName.User} />
               </span>
               <span className={getUnitedClassnames(["singleLine", classes.userPopup__userNameText])}>{user}</span>
             </div>

@@ -101,7 +101,7 @@ export function SpinnerProgressBar({
             <div className={classes.checkIconContainer}>
               <ReactIcon
                 iconName={isFailed ? IconName.LocalError : IconName.Check}
-                color={isFailed ? "red" : "var(--fontColorGreenInverted)"}
+                color={isFailed ? "red" : "var(--activeLinkColor)"}
               />
             </div>
           </div>

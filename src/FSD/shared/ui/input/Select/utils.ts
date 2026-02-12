@@ -80,7 +80,7 @@ export function getSelectStyles<M extends boolean, V = string>(
       ...formSelectStyle,
       multiValue: (baseStyles, state) => ({
         ...baseStyles,
-        background: "var(--checkBoxColor)",
+        background: "var(--mainColor)",
         fontSize: fontSizeSmall,
         padding: state.isDisabled ? "0 0 0 8px" : "0 8px 0 8px",
         borderRadius: fontSizeSmall,
@@ -106,7 +106,7 @@ export function getSelectStyles<M extends boolean, V = string>(
     ...formSelectStyle,
     singleValue: (baseStyles) => ({
       ...baseStyles,
-      color: "white",
+      color: "var(--fontColorFirm)",
       fontSize: fontSizeSmall,
       fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI",
       "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",

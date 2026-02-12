@@ -21,7 +21,7 @@
 }
 
 .segment_selected {
-  border-bottom: 2px solid $appleGreen;
+  border-bottom: 2px solid var(--mainColor);
   // border-bottom: 2px solid $appleGreen;
   // opacity: 1;
 }
@@ -42,7 +42,7 @@
   // top: 0px;
   // right: 0px;
   align-self: flex-start;
-  background: $appleGreen;
+  background: var(--mainColor);
   color: white;
   font-size: var(--fontSizeSmall);
   height: calc(var(--fontSizeSmall) + 6px);
