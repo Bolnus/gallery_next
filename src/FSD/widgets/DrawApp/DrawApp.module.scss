@@ -1,0 +1,194 @@
+.portal
+{
+    position: relative;
+}
+
+.root
+{
+    background: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    //z-index: 200;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drawApp
+{
+    // position: fixed;
+    // inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--bgColor);
+    // z-index: 5;
+    width: 95%;
+    height: 95%;
+    box-sizing: border-box;
+    padding: var(--fontSizeMedium);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px var(--shadowColor);
+}
+
+.drawApp__toolBar
+{
+    // padding: var(--fontSizeSmall);
+    width: 100%;
+    // box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: calc(2 * var(--fontSizeLarge));
+    gap: 6px;
+}
+
+.drawApp__canvasContainer
+{
+    flex: 1 0 auto;
+    padding: 10px;
+    cursor: crosshair;
+}
+
+.drawApp__colorInput {
+    height: calc(2 * var(--fontSizeMedium));
+    width: calc(2 * var(--fontSizeMedium));
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.drawApp__colorInput::-webkit-color-swatch-wrapper {
+  background: var(--mainColor);
+  padding: 8px;
+}
+
+.drawApp__colorInput::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
+}
+
+.drawApp__colorInput::-moz-color-swatch {
+  border: none;
+}
+
+.drawApp__rangeInputContainer {
+  flex: 1 1 var(--fontSizeLarge);               /* Remove focus outline if you add custom */
+  min-width: 10px;
+}
+
+.drawApp__rangeInput {
+  -webkit-appearance: none;           /* Crucial for WebKit */
+  appearance: none;
+  min-width: 10px;
+  width: 90%;
+  height: 12px;                       /* Track thickness */
+  background: transparent;
+  cursor: pointer;
+  outline: none;                      /* Remove focus outline if you add custom */
+}
+
+/* ────────────────────────────────────────────────
+   Track (the bar)
+───────────────────────────────────────────────── */
+
+/* WebKit/Blink (Chrome, Edge, Safari, Opera) */
+.drawApp__rangeInput::-webkit-slider-runnable-track {
+  min-width: 10px;
+  width: 90%;
+  height: 8px;
+  background: var(--fontColorLight);                /* Gray track */
+  border-radius: 9999px;
+  border: none;
+}
+
+/* Firefox */
+.drawApp__rangeInput::-moz-range-track {
+  min-width: 10px;
+  width: 90%;
+  height: 8px;
+  background: var(--fontColorLight);
+  border-radius: 9999px;
+  border: none;
+}
+
+/* Legacy Edge/IE (rarely needed in 2026) */
+.drawApp__rangeInput::-ms-track {
+  min-width: 10px;
+  width: 90%;
+  height: 8px;
+  background: transparent;            /* Hide default track */
+  border-color: transparent;
+  color: transparent;
+}
+
+/* ────────────────────────────────────────────────
+   Thumb (the handle)
+───────────────────────────────────────────────── */
+
+/* WebKit/Blink */
+.drawApp__rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 24px;
+  width: 24px;
+  margin-top: -8px;                   /* Center on track (height diff / 2) */
+  background: var(--mainColor);                /* Indigo thumb */
+  border-radius: 50%;
+  border: 3px solid var(--mainColorDark);;
+  box-shadow: 0 2px 8px var(--shadowColor);;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+/* Firefox */
+.drawApp__rangeInput::-moz-range-thumb {
+  height: 24px;
+  width: 24px;
+  background: var(--mainColor);
+  border-radius: 50%;
+  border: 3px solid var(--mainColorDark);
+  box-shadow: 0 2px 8px var(--shadowColor);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+/* Legacy Edge/IE */
+.drawApp__rangeInput::-ms-thumb {
+  height: 24px;
+  width: 24px;
+  background: var(--mainColor);
+  border-radius: 50%;
+  border: 3px solid var(--mainColorDark);;
+  box-shadow: 0 2px 8px var(--shadowColor);;
+  cursor: pointer;
+}
+
+/* ────────────────────────────────────────────────
+   Hover / Focus / Active states
+───────────────────────────────────────────────── */
+.drawApp__rangeInput:hover::-webkit-slider-thumb,
+.drawApp__rangeInput:focus::-webkit-slider-thumb {
+  background: var(--mainColor);
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.drawApp__rangeInput:hover::-moz-range-thumb,
+.drawApp__rangeInput:focus::-moz-range-thumb {
+  background: var(--mainColor);
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* Optional: Progress fill (left of thumb) — popular for audio/video seek bars */
+// .drawApp__rangeInput::-webkit-slider-runnable-track {
+//   background: linear-gradient(to right, #6366f1 0%, #6366f1 var(--progress, 50%), var(--subColorGrey) var(--progress, 50%), var(--subColorGrey) 100%);
+// }
+
+.drawApp__rangeInput::-moz-range-progress {
+  background: var(--mainColor);
+  height: 8px;
+  border-radius: 9999px;
+}

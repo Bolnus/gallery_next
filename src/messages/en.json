@@ -46,6 +46,7 @@
     "editImagesButton": "Edit images",
     "reloadButton": "Reload",
     "deleteButton": "Delete",
+    "drawButton": "Draw",
     "deleteConfirm": "Delete album with all its images?",
     "segmentOld": "Old",
     "segmentNew": "New"

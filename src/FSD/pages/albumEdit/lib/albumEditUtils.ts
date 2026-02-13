@@ -1,6 +1,6 @@
 import { pushElementToArray } from "../../../shared/lib/common/commonUtils";
 import { DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
-import { getCompressedImageURL, getImageUrlFromFile, getReadableFileRefs } from "../../../shared/lib/file/filePromises";
+import { base64ToFileFetch, getCompressedImageURL, getImageUrlFromFile, getReadableFileRefs } from "../../../shared/lib/file/filePromises";
 import { ImageLoadError, ImportType } from "../../../shared/lib/file/types";
 import { ChangesSaveState } from "../../../entities/album/model/albumTypes";
 import { queryClient } from "../../../app/lib/reactQuery/ReactQueryProvider";
@@ -51,7 +51,7 @@ export async function addImages(
             id: file.name,
             url: pendingURL,
             data: file,
-            pictureNumber: i + 1,
+            pictureNumber: prev.length + 1,
             loadState: FileLoadState.added
           },
           prev
@@ -74,6 +74,63 @@ export async function addImages(
       }
     }
   }
+  setCurrentSegment(ImagesSegment.NewImages);
+}
+
+export async function addDrawImage(
+  fileData: string,
+  setNewImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string[]>>,
+  setCurrentSegment: (newSegment: ImagesSegment) => void
+): Promise<void> {
+  let fileRef: File;
+  try {
+    fileRef = await base64ToFileFetch(fileData, "drawing");
+  } catch (localError) {
+    setErrorMessage((prev: string[]) => pushElementToArray("Error converting drawing to image.", prev));
+    console.warn(localError);
+    return;
+  }
+  if (!fileRef) {
+    return;
+  }
+
+  try {
+    let pendingURL: string;
+    if (fileRef.size < 500 * 1024) {
+      pendingURL = await getImageUrlFromFile(fileRef);
+    } else {
+      pendingURL = await getCompressedImageURL(fileRef);
+    }
+    setNewImages((prev: GalleryImage[]) =>
+      pushElementToArray(
+        {
+          id: fileRef.name,
+          url: pendingURL,
+          data: fileRef,
+          pictureNumber: prev.length + 1,
+          loadState: FileLoadState.added
+        },
+        prev
+      )
+    );
+  } catch (localError) {
+    if (localError === ImageLoadError.PARSE) {
+      setErrorMessage((prev: string[]) => pushElementToArray(`Error. Could not parse ${fileRef.name} as image.`, prev));
+    } else if (localError === ImageLoadError.SIZE_LIMIT) {
+      setErrorMessage((prev: string[]) =>
+        pushElementToArray(
+          `Error. File ${fileRef.name} exceeds ${getHumanReadableFileSize(FILE_SIZE_LIMIT)} limit.`,
+          prev
+        )
+      );
+    } else if (typeof localError === "string") {
+      setErrorMessage((prev: string[]) => pushElementToArray(localError, prev));
+    } else {
+      console.warn(localError);
+    }
+  }
+
   setCurrentSegment(ImagesSegment.NewImages);
 }
 

@@ -17,11 +17,14 @@ import {
   HiLogout,
   HiOutlineUserCircle,
   HiEye,
-  HiEyeOff
+  HiEyeOff,
+  HiDocumentText,
+  HiOutlinePaperClip
 } from "react-icons/hi";
+import { HiMiniPaintBrush } from "react-icons/hi2";
 import { IconBaseProps } from "react-icons";
-import { FaRandom } from "react-icons/fa";
-import { MdDragHandle, MdDateRange } from "react-icons/md";
+import { FaEraser, FaRandom, FaTools } from "react-icons/fa";
+import { MdDragHandle, MdDateRange, MdWorkHistory } from "react-icons/md";
 import { BiSolidSave } from "react-icons/bi";
 import { TbLoader2 } from "react-icons/tb";
 import { GoDotFill } from "react-icons/go";
@@ -29,6 +32,7 @@ import { TbCopy } from "react-icons/tb";
 import { IconName } from "./types";
 import classes from "./ReactIcon.module.scss";
 import { getUnitedClassnames } from "../../../lib/common/commonUtils";
+import { RiMailSendFill } from "react-icons/ri";
 
 interface Props extends IconBaseProps {
   iconName: IconName;
@@ -37,6 +41,7 @@ interface Props extends IconBaseProps {
 export function ReactIcon({ iconName, className, ...props }: Readonly<Props>): JSX.Element {
   const unitedClassnames = getUnitedClassnames([classes.adaptiveIcon, className || ""]);
   const propsWithClass = { ...props, className: unitedClassnames };
+
   switch (iconName) {
     case IconName.NavBack:
       return <HiArrowCircleLeft {...propsWithClass} />;
@@ -88,6 +93,20 @@ export function ReactIcon({ iconName, className, ...props }: Readonly<Props>): J
       return <HiEyeOff {...propsWithClass} />;
     case IconName.Copy:
       return <TbCopy {...propsWithClass} />;
+    case IconName.Brush:
+      return <HiMiniPaintBrush {...propsWithClass} />;
+    case IconName.TextDoc:
+      return <HiDocumentText {...propsWithClass} />;
+    case IconName.Attachments:
+      return <HiOutlinePaperClip {...propsWithClass} />;
+    case IconName.Work:
+      return <MdWorkHistory {...propsWithClass} />;
+    case IconName.Tools:
+      return <FaTools {...propsWithClass} />;
+    case IconName.SendMail:
+      return <RiMailSendFill {...propsWithClass} />;
+    case IconName.Eraser:
+      return <FaEraser {...propsWithClass} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

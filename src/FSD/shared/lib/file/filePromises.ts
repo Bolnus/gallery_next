@@ -204,3 +204,12 @@ export async function getSingleTextFile(): Promise<string> {
   const files = await getTextFiles();
   return files?.[0]?.content;
 }
+
+export async function base64ToFileFetch(base64String: string, fileName: string): Promise<File> {
+  const response = await fetch(
+    base64String.startsWith("data:") ? base64String : `data:application/octet-stream;base64,${base64String}`
+  );
+
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: blob.type });
+}

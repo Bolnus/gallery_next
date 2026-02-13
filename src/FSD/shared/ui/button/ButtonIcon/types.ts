@@ -1,4 +1,5 @@
 export enum ButtonIconBackground {
   Transparent = "Transparent",
-  Grey = "Grey"
+  Grey = "Grey",
+  MainColor = "MainColor"
 }

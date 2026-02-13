@@ -29,6 +29,7 @@ import { useAuth } from "../../../app/lib/context/authContext";
 import { SingleSelect } from "../../../shared/ui/input/Select/SingleSelect";
 import { LanguageOptions, LocaleValue } from "../../../../app/request";
 import { useImageSrc } from "../../../shared/lib/hooks/useImgSrc";
+import { DrawingApp } from "../../DrawApp/DrawApp";
 
 interface Props {
   albumId: string;
@@ -51,6 +52,7 @@ interface Props {
   setLocalAlbumTags: React.Dispatch<React.SetStateAction<readonly DefinedTag[]>>;
   setLocalAlbumDescription: (str: string) => void;
   setLocalLocale: (str?: LocaleValue) => void;
+  onAddDrawing: (fileData: string) => void;
 }
 
 function pushNewAlbumTag(newTag: DefinedTag, prevTags: readonly DefinedTag[]): readonly DefinedTag[] {
@@ -98,10 +100,12 @@ export function AlbumHeaderEdit({
   setLocalAlbumName,
   setCurrentSegment,
   setLocalAlbumDescription,
-  setLocalLocale
+  setLocalLocale,
+  onAddDrawing
 }: Readonly<Props>): JSX.Element {
   const [tagsFocused, setTagsFocused] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
+  const [isDrawAppOpen, setIsDrawAppOpen] = React.useState(false);
   const { localSrc, setLocalLoadState } = useImageSrc({
     url: imageCover?.url,
     startLoadState: imageCover?.loadState
@@ -226,6 +230,18 @@ export function AlbumHeaderEdit({
               className={classes.toolBar__button}
             />
           ) : null}
+          {canEdit ? (
+            <ButtonIcon
+              title={intl("drawButton")}
+              iconName={IconName.Brush}
+              onClick={() => setIsDrawAppOpen(true)}
+              size={UiSize.MediumAdaptive}
+              color="white"
+              isFetching={isFetching}
+              background={ButtonIconBackground.Grey}
+              className={classes.toolBar__button}
+            />
+          ) : null}
         </div>
 
         {deleteConfirmOpen ? (
@@ -236,6 +252,7 @@ export function AlbumHeaderEdit({
             onOk={onDelete}
           />
         ) : null}
+        {isDrawAppOpen && <DrawingApp onClose={() => setIsDrawAppOpen(false)} onExport={onAddDrawing} />}
       </div>
       {!!(oldImages?.length && newImages?.length) && (
         <div className={classes.galleryHeader__segments}>

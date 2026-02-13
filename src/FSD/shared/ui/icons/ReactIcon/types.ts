@@ -24,5 +24,12 @@ export enum IconName {
   Logout = "Logout",
   Show = "Show",
   Hide = "Hide",
-  Copy = "Copy"
+  Copy = "Copy",
+  Brush = "Brush",
+  TextDoc = "TextDoc",
+  Attachments = "Attachments",
+  Work = "Work",
+  Tools = "Tools",
+  SendMail = "SendMail",
+  Eraser = "Eraser"
 }

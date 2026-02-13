@@ -58,3 +58,11 @@
 .buttonIcon_grey:hover {
     background-color: rgba(227, 228, 221);
 }
+
+.buttonIcon_mainColor {
+    background: var(--mainColor);
+}
+
+.buttonIcon_mainColor:hover {
+    opacity: 0.5;
+}

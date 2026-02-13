@@ -19,7 +19,8 @@ import {
   onReset,
   imagesChanged,
   onSendImagesFinished,
-  sendPendingImagesPortion
+  sendPendingImagesPortion,
+  addDrawImage
 } from "../lib/albumEditUtils";
 import { AlbumHeaderEdit } from "../../../widgets/AlbumHeader/ui/AlbumHeaderEdit";
 import { ChangesSaveState } from "../../../entities/album/model/albumTypes";
@@ -201,7 +202,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
           setLocalAlbumName={setLocalAlbumName}
           setLocalAlbumTags={setLocalAlbumTags}
           onSaveChanges={() => onSaveChanges(saveAlbumHeaders, setPostImageIndex, unsavedChanges)}
-          onAddImages={() => void addImages(setNewImages, setErrorMessages, setCurrentSegment)}
+          onAddImages={() => addImages(setNewImages, setErrorMessages, setCurrentSegment)}
           onReset={() => onReset(setNewImages, refetch)}
           isFetching={headersFetching}
           canSave={canSave}
@@ -212,6 +213,7 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
           setLocalAlbumDescription={setLocalAlbumDescription}
           localLocale={localLocale}
           setLocalLocale={setLocalLocale}
+          onAddDrawing={(fileData) => addDrawImage(fileData, setNewImages, setErrorMessages, setCurrentSegment)}
         />
         <GalleryAlbumImagesList
           images={currentSegment === ImagesSegment.OldImages ? oldImages : newImages}

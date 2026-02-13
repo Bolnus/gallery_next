@@ -46,6 +46,7 @@
     "editImagesButton": "Редактировать изображения",
     "reloadButton": "Перезагрузить",
     "deleteButton": "Удалить",
+    "drawButton": "Рисование",
     "deleteConfirm": "Удалить альбом со всеми изображениями?",
     "segmentOld": "Старые",
     "segmentNew": "Новые"
