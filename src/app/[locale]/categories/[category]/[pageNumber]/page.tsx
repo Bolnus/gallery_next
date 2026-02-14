@@ -77,7 +77,7 @@ export default async function Page({ params }: Readonly<ParamsProps<CategoryAlbu
   setRequestLocale(locale);
 
   return (
-    <Suspense fallback={<AlbumsListLoading />}>
+    <Suspense fallback={<AlbumsListLoading category={category} />}>
       <CategoryAlbums pageNumber={pageNumber} locale={locale} category={category} />
     </Suspense>
   );

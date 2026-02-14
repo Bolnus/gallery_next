@@ -29,6 +29,7 @@ import {
 import { IconSelect } from "../../../shared/ui/input/Select/IconSelect";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { IconName } from "../../../shared/ui/icons/ReactIcon/types";
 
 function changeSearchName(
   setSearchName: (str: string) => void,
@@ -203,6 +204,7 @@ export function AlbumsSearchPage(): JSX.Element {
             iconOptions={getSortingIconOptions(intl)}
             value={mapSortingTypeToIconOption(sortBy, intl)}
             onChange={(option) => setSortBy(mapIconOptionToSortingType(option))}
+            staticIconName={IconName.SortingDesc}
           />
         </div>
         <div className={`${classes.inputWrapper}`}>

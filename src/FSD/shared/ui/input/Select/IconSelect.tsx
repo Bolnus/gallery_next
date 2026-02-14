@@ -13,6 +13,11 @@ interface IconSelectProps {
   value: SelectOption<IconName>;
   onChange: (value: SelectOption<IconName>) => void;
   iconOptions: SelectOption<IconName>[];
+  staticIconName?: IconName;
+}
+
+interface CustomSelectProps {
+  selectProps: { staticIconName?: IconName };
 }
 
 // eslint-disable-next-line sonarjs/prefer-read-only-props
@@ -32,9 +37,10 @@ function Option(props: OptionProps<SelectOption<IconName>>): JSX.Element {
 
 // eslint-disable-next-line sonarjs/prefer-read-only-props
 function SingleValue(props: SingleValueProps<SelectOption<IconName>>): JSX.Element {
+  const { staticIconName } = (props as CustomSelectProps).selectProps;
   return (
     <components.SingleValue {...props}>
-      <ReactIcon iconName={props.data.value} title={props.data.label} color={FontColorFirm} />
+      <ReactIcon iconName={staticIconName || props.data.value} title={props.data.label} color={FontColorFirm} />
     </components.SingleValue>
   );
 }
@@ -133,7 +139,7 @@ function customStyles(): StylesConfig<SelectOption<IconName>, false> {
   };
 }
 
-export function IconSelect({ value, onChange, iconOptions }: Readonly<IconSelectProps>): JSX.Element {
+export function IconSelect({ value, onChange, iconOptions, staticIconName }: Readonly<IconSelectProps>): JSX.Element {
   return (
     <Select
       className={styles.select}
@@ -147,9 +153,12 @@ export function IconSelect({ value, onChange, iconOptions }: Readonly<IconSelect
         IndicatorSeparator: null,
         Option,
         SingleValue,
-        Input: () => null
+        Input: () => null,
+        Placeholder: () => null
       }}
       instanceId={useId()}
+      // @ts-ignore
+      staticIconName={staticIconName}
     />
   );
 }

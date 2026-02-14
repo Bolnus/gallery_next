@@ -1,0 +1,19 @@
+.categoryHeader {
+    font-size: var(--fontSizeLargest);
+    color: var(--fontColorFirm);
+}
+
+.categoryHeader_spacing
+{
+    width: 60%;
+    margin: var(--fontSizeLargest) auto 0 auto;
+    border-bottom: 1px solid var(--fontColorLight);
+    @media all and (max-width: 1000px)
+    {
+        width: 80%;
+    }
+    @media all and (max-width: 700px)
+    {
+        width: 90%;
+    }
+}

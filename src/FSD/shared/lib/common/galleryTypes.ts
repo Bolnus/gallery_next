@@ -47,7 +47,6 @@ export interface Album extends AlbumHeaders {
   snapImages: GalleryImage[];
 }
 
-
 export const FileLoadStateAdded = 0;
 export const FileLoadStateUploadPlanned = 1;
 export const FileLoadStateStartedUploading = 2;

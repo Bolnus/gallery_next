@@ -24,7 +24,7 @@ import {
 import { HiMiniPaintBrush } from "react-icons/hi2";
 import { IconBaseProps } from "react-icons";
 import { FaEraser, FaRandom, FaTools } from "react-icons/fa";
-import { MdDragHandle, MdDateRange, MdWorkHistory } from "react-icons/md";
+import { MdDragHandle, MdDateRange, MdWorkHistory, MdSort } from "react-icons/md";
 import { BiSolidSave } from "react-icons/bi";
 import { TbLoader2 } from "react-icons/tb";
 import { GoDotFill } from "react-icons/go";
@@ -107,6 +107,8 @@ export function ReactIcon({ iconName, className, ...props }: Readonly<Props>): J
       return <RiMailSendFill {...propsWithClass} />;
     case IconName.Eraser:
       return <FaEraser {...propsWithClass} />;
+    case IconName.SortingDesc:
+      return <MdSort {...propsWithClass} />;
     default:
       return <HiQuestionMarkCircle {...props} />;
   }

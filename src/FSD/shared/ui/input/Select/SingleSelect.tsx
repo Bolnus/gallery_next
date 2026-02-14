@@ -19,16 +19,7 @@ interface SingleSelectProps<T = string> {
   isLoading?: boolean;
 }
 
-function onInputChange(
-  setInputValue: React.Dispatch<React.SetStateAction<string>>,
-  selectedValue: string,
-  value: string
-) {
-  setInputValue(value);
-}
-
 function onInputFocus(setInputValue: (newString: string) => void, localPlaceHolder: string, onFocus?: () => void) {
-  setInputValue(localPlaceHolder);
   if (onFocus) {
     onFocus();
   }

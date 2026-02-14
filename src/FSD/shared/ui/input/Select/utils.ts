@@ -37,14 +37,22 @@ export function getSelectStyles<M extends boolean, V = string>(
       ...baseStyles,
       overflowX: "hidden"
     }),
-    option: (baseStyles, state) => ({
-      ...baseStyles,
-      cursor: "pointer",
-      fontWeight: "normal",
-      color: state.isFocused ? fontColorFirm : "grey",
-      background: state.isFocused ? "var(--bgColor)" : undefined,
-      fontSize: fontSizeSmall
-    }),
+    option: (baseStyles, state) => {
+      let background: string | undefined;
+      if (state.isFocused) {
+        background = "var(--bgColor)";
+      } else if (state.isSelected) {
+        background = "var(--mainColor)";
+      }
+      return {
+        ...baseStyles,
+        cursor: "pointer",
+        fontWeight: "normal",
+        color: state.isFocused ? fontColorFirm : "grey",
+        background,
+        fontSize: fontSizeSmall
+      };
+    },
     input: (baseStyles) => ({
       ...baseStyles,
       opacity: 1,

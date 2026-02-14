@@ -31,5 +31,6 @@ export enum IconName {
   Work = "Work",
   Tools = "Tools",
   SendMail = "SendMail",
-  Eraser = "Eraser"
+  Eraser = "Eraser",
+  SortingDesc = "SortingDesc"
 }

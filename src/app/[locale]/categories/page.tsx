@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 
 async function CategoriesWrapper({ locale }: Readonly<LocaleProps>): Promise<JSX.Element> {
   const { rc, data } = await getCategoriesServerSide(locale);
-  if (!data || rc > 300 || rc < 200) {
+  if (!data || !data.length || rc > 300 || rc < 200) {
     notFound();
   }
   return <CategoriesPage categories={data} />;

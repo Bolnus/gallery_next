@@ -1,6 +1,11 @@
 import { pushElementToArray } from "../../../shared/lib/common/commonUtils";
 import { DefinedTag, FileLoadState, GalleryImage } from "../../../shared/lib/common/galleryTypes";
-import { base64ToFileFetch, getCompressedImageURL, getImageUrlFromFile, getReadableFileRefs } from "../../../shared/lib/file/filePromises";
+import {
+  base64ToFileFetch,
+  getCompressedImageURL,
+  getImageUrlFromFile,
+  getReadableFileRefs
+} from "../../../shared/lib/file/filePromises";
 import { ImageLoadError, ImportType } from "../../../shared/lib/file/types";
 import { ChangesSaveState } from "../../../entities/album/model/albumTypes";
 import { queryClient } from "../../../app/lib/reactQuery/ReactQueryProvider";

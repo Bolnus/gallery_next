@@ -8,6 +8,7 @@ import { mapLoaders } from "../../../pages/albumsSearch/lib/mappers";
 import { AlbumListItem } from "./AlbumsListItem";
 import { PaginationV2 } from "../../PaginationV2/ui/PaginationV2";
 import { useTranslations } from "next-intl";
+import { CategoryHeader } from "../../../shared/ui/text/CategoryHeader/CategoryHeader";
 
 interface Props {
   albums?: Album[];
@@ -15,6 +16,7 @@ interface Props {
   totalCount: number;
   pageNumber: number;
   pageSize: number;
+  category?: string;
   onPageSelect: (newPage: number) => void;
 }
 
@@ -61,7 +63,8 @@ export function AlbumsList({
   isFetching,
   totalCount,
   pageNumber,
-  pageSize
+  pageSize,
+  category
 }: PropsWithChildren<Props>): JSX.Element {
   const scrollAlbumBlockRef = React.useRef<HTMLDivElement>(null);
   const listBoxRef = React.useRef<HTMLDivElement>(null);
@@ -102,6 +105,7 @@ export function AlbumsList({
   return (
     <div className="main__scrollWrapper">
       <div className="main__page" ref={listBoxRef}>
+        {!!category && <CategoryHeader category={category} />}
         {children}
         {albums?.length ? (
           <PaginationV2
