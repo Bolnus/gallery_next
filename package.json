@@ -6,7 +6,7 @@
     "dev": "next dev -p 80",
     "dev-turbo": "next dev --turbo -p 80",
     "build": "next build",
-    "postbuild": "next-sitemap",
+    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "start": "next start -p 80",
     "lint": "next lint",
     "type-check": "tsc --pretty --noEmit --watch"
