@@ -125,3 +125,14 @@
 {
     margin: 4px;
 }
+
+.toolBar__time
+{
+    color: white;
+    font-weight: lighter;
+    display: inline;
+    white-space: nowrap;
+    margin-right: 3px;
+    margin-left: var(--fontSizeLargest);
+    width: auto;
+}

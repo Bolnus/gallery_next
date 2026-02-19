@@ -15,6 +15,7 @@ import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "../../../../app/navigation";
 import { useAuth } from "../../../app/lib/context/authContext";
 import { useImageSrc } from "../../../shared/lib/hooks/useImgSrc";
+import { getBriefDate } from "../../../shared/lib/common/translations";
 
 interface Props {
   albumId?: string;
@@ -22,6 +23,7 @@ interface Props {
   albumName?: string;
   tags?: DefinedTag[];
   isFetching?: boolean;
+  changedDate?: string;
 }
 
 interface OnEditProps {
@@ -39,6 +41,7 @@ interface ReadOnlyProps {
 export function AlbumHeader({
   imageCover,
   tags,
+  changedDate = "",
   albumName = "",
   isFetching = false
 }: Props & (OnEditProps | ReadOnlyProps)): JSX.Element {
@@ -46,10 +49,10 @@ export function AlbumHeader({
     url: imageCover?.url,
     startLoadState: imageCover?.loadState
   });
-
   const router = useRouter();
   const pathname = usePathname();
   const intl = useTranslations("AlbumHeader");
+  const intlMonths = useTranslations("Months");
   const { user } = useAuth();
   const canEdit = !!user;
 
@@ -74,6 +77,7 @@ export function AlbumHeader({
         <h1 className={getUnitedClassnames([classes.galleryHeader__headerText, classes.galleryHeader__leftContent])}>
           {isFetching ? "--" : albumName}
         </h1>
+        <span className={classes.toolBar__time}>{getBriefDate(changedDate, intlMonths)}</span>
       </div>
 
       <div className={getUnitedClassnames([classes.toolBar, classes.galleryHeader__toolBarArea])}>

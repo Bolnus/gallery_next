@@ -18,7 +18,8 @@ export function AlbumPage({
   snapImages,
   tags,
   isFetching,
-  description
+  description,
+  changedDate
 }: Readonly<AlbumPageProps>): JSX.Element {
   return (
     <div className={getUnitedClassnames(["main__scrollWrapper", classes.galleryPage])}>
@@ -29,6 +30,7 @@ export function AlbumPage({
           imageCover={fullImages?.[0]}
           isFetching={isFetching}
           albumId={id}
+          changedDate={changedDate}
         />
         <div className={classes.galleryPage__description}>
           <ReactMarkdown

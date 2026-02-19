@@ -77,11 +77,6 @@
     border-bottom: 1px solid $subColorGrey;
 }
 
-.albumBlock_current
-{
-    // background: $subColorLightGrey;
-}
-
 .albumBlock:hover
 {
     cursor: pointer;
@@ -130,13 +125,10 @@
 {
     color: var(--fontColorLight);
     font-weight: lighter;
-    //float: right;
     display: inline;
     white-space: nowrap;
-    //text-overflow: ellipsis;
     margin-right: 3px;
     margin-left: 3px;
-    //justify-self: end;
     width: auto;
 }
 
