@@ -26,5 +26,8 @@ export function getBackgroundClass(background?: ButtonIconBackground): string {
   if (background === ButtonIconBackground.MainColor) {
     return classes.buttonIcon_mainColor;
   }
+  if (background === ButtonIconBackground.TransparentMainColor) {
+    return classes.buttonIcon_transparentMainColor;
+  }
   return classes.buttonIcon_transparent;
 }

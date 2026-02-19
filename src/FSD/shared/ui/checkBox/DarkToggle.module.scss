@@ -5,6 +5,12 @@
   position: relative;
 }
 
+.darkToggle:hover svg {
+  filter: drop-shadow(0 0 8px var(--activeLinkColor)) 
+          drop-shadow(0 0 12px var(--activeLinkColor))
+          brightness(1.2);
+}
+
 .darkToggle__checkBox
 {
   width: 32px;

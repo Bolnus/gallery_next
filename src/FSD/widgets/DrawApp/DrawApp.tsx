@@ -54,18 +54,18 @@ export function DrawingApp({ onClose, onExport }: Readonly<Props>): JSX.Element 
             />
           </div>
           <ButtonIcon
-            background={ButtonIconBackground.MainColor}
+            background={ButtonIconBackground.TransparentMainColor}
             onClick={() => canvasRef.current?.undo()}
             iconName={IconName.ChevronLeft}
             size={UiSize.MediumAdaptive}
-            color="white"
+            color="var(--fontColorFirm)"
           />
           <ButtonIcon
-            background={ButtonIconBackground.MainColor}
+            background={ButtonIconBackground.TransparentMainColor}
             onClick={() => canvasRef.current?.redo()}
             iconName={IconName.ChevronRight}
             size={UiSize.MediumAdaptive}
-            color="white"
+            color="var(--fontColorFirm)"
           />
           <input
             type="color"
@@ -74,18 +74,18 @@ export function DrawingApp({ onClose, onExport }: Readonly<Props>): JSX.Element 
             onChange={(localEvent) => setColor(localEvent.target.value)}
           />
           <ButtonIcon
-            background={ButtonIconBackground.MainColor}
+            background={ButtonIconBackground.TransparentMainColor}
             onClick={() => setIsEraser((prev) => !prev)}
             iconName={isEraser ? IconName.Eraser : IconName.Edit}
             size={UiSize.MediumAdaptive}
-            color="white"
+            color="var(--fontColorFirm)"
           />
           <ButtonIcon
-            background={ButtonIconBackground.MainColor}
+            background={ButtonIconBackground.TransparentMainColor}
             onClick={onClose}
             iconName={IconName.Close}
             size={UiSize.MediumAdaptive}
-            color="white"
+            color="var(--fontColorFirm)"
           />
         </div>
         <div className={classes.drawApp__canvasContainer}>
@@ -101,11 +101,11 @@ export function DrawingApp({ onClose, onExport }: Readonly<Props>): JSX.Element 
         </div>
         <div className={classes.drawApp__toolBar}>
           <ButtonIcon
-            background={ButtonIconBackground.MainColor}
+            background={ButtonIconBackground.TransparentMainColor}
             onClick={() => onExportLocal(canvasRef.current, onExport, onClose)}
             iconName={IconName.Check}
             size={UiSize.MediumAdaptive}
-            color="white"
+            color="var(--fontColorFirm)"
           />
         </div>
       </div>

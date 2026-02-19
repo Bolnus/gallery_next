@@ -44,10 +44,24 @@
     border-radius: 4px;
 }
 
+.formSubmit span {
+  transition: filter 0.3s ease;
+}
+
+.formSubmit:hover span {
+    filter: drop-shadow(0 0 8px var(--activeLinkColor)) 
+          drop-shadow(0 0 12px var(--activeLinkColor))
+          brightness(1.2);
+}
+
 .formSubmit__text {
     color: white;
     // font-weight: bold;
     font-size: var(--fontSizeMedium);
+}
+
+.formSubmit:disabled:hover span {
+    filter: none;
 }
 
 .formInput__label {

@@ -13,8 +13,32 @@
     align-items: center;
 }
 
-.sausageButton:hover {
-    opacity: 0.5;
+.sausageButton svg {
+  transition: filter 0.3s ease;
+}
+
+.sausageButton:hover svg {
+    filter: drop-shadow(0 0 8px var(--activeLinkColor)) 
+          drop-shadow(0 0 12px var(--activeLinkColor))
+          brightness(1.2);
+}
+
+.sausageButton:hover:disabled svg {
+    filter: none;
+}
+
+.sausageButton span {
+  transition: filter 0.3s ease;
+}
+
+.sausageButton:hover span {
+    filter: drop-shadow(0 0 8px var(--activeLinkColor)) 
+          drop-shadow(0 0 12px var(--activeLinkColor))
+          brightness(1.2);
+}
+
+.sausageButton:hover:disabled span {
+    filter: none;
 }
 
 .sausageButton_small {

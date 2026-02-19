@@ -57,11 +57,17 @@
     width: calc(2 * var(--fontSizeMedium));
     border-radius: 10px;
     cursor: pointer;
+    border: none;
+    background: transparent;
 }
 
 .drawApp__colorInput::-webkit-color-swatch-wrapper {
-  background: var(--mainColor);
   padding: 8px;
+  background: transparent;
+}
+
+.drawApp__colorInput:hover {
+  background: var(--mainColor);
 }
 
 .drawApp__colorInput::-webkit-color-swatch {
@@ -136,8 +142,8 @@
   margin-top: -8px;                   /* Center on track (height diff / 2) */
   background: var(--mainColor);                /* Indigo thumb */
   border-radius: 50%;
-  border: 3px solid var(--mainColorDark);;
-  box-shadow: 0 2px 8px var(--shadowColor);;
+  border: 3px solid var(--mainColorDark);
+  box-shadow: 0 2px 8px var(--shadowColor);
   cursor: pointer;
   transition: all 0.15s ease;
 }
@@ -160,8 +166,8 @@
   width: 24px;
   background: var(--mainColor);
   border-radius: 50%;
-  border: 3px solid var(--mainColorDark);;
-  box-shadow: 0 2px 8px var(--shadowColor);;
+  border: 3px solid var(--mainColorDark);
+  box-shadow: 0 2px 8px var(--shadowColor);
   cursor: pointer;
 }
 
