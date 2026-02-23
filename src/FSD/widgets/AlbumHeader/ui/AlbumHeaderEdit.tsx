@@ -146,6 +146,7 @@ export function AlbumHeaderEdit({
               onChange={(newValue: string) => setLocalAlbumName(newValue)}
               placeholder={intl("namePlaceholder")}
               isClearable
+              isFetching={isFetching}
             />
           </div>
         </div>
@@ -154,9 +155,10 @@ export function AlbumHeaderEdit({
           <TextArea
             value={localAlbumDescription}
             onChange={setLocalAlbumDescription}
-            rows={5}
+            rows={8}
             containerClassName={classes.descriptionTextArea}
             placeholder={intl("descriptionPlaceholder")}
+            isFetching={isFetching}
           />
         </div>
 
@@ -170,6 +172,7 @@ export function AlbumHeaderEdit({
             isClearable
             placeholder={intl("tagsPlaceholder")}
             isLoading={searchTagsLoading}
+            isDisabled={isFetching}
           />
         </div>
 
@@ -180,6 +183,7 @@ export function AlbumHeaderEdit({
             onChange={(selectedOption) => setLocalLocale(selectedOption?.value)}
             isClearable
             placeholder={intl("localePlaceholder")}
+            isDisabled={isFetching}
           />
         </div>
 

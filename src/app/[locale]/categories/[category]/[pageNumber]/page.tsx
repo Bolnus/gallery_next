@@ -34,13 +34,14 @@ export async function generateStaticParams(): Promise<CategoryAlbumsParam[]> {
 export async function generateMetadata({ params }: ParamsProps<CategoryAlbumsParam>): Promise<Metadata> {
   const { locale, category, pageNumber } = await params;
   const intl = await getTranslations({ locale, namespace: "LayoutMetadata" });
+  const decodedCategory = decodeURIComponent(category);
 
-  const title = `${category} | ${intl("title")}`;
-  const description = `${category} | ${intl("description")}`;
+  const title = `${decodedCategory} | ${intl("title")}`;
+  const description = `${decodedCategory} | ${intl("description")}`;
   return {
     title,
     description,
-    keywords: `${category},${pageNumber},${intl("keywords")}`,
+    keywords: `${decodedCategory},${pageNumber},${intl("keywords")}`,
     openGraph: {
       title,
       description

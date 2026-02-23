@@ -57,10 +57,12 @@ export function TextInput({
   return (
     <div className={`${className || ""} ${classes.textInput}`}>
       <input
-        placeholder={placeholder}
+        placeholder={isFetching ? "" : placeholder}
         onBlur={resetScrollOnBlur}
-        value={value}
-        onChange={(localEvent: React.ChangeEvent<HTMLInputElement>) => onInputChange(localEvent, onChange)}
+        value={isFetching ? "" : value}
+        onChange={(localEvent: React.ChangeEvent<HTMLInputElement>) =>
+          !isFetching && onInputChange(localEvent, onChange)
+        }
         className={`${classes.textInput__input} commonInput`}
         disabled={disabled || isFetching}
         type={isPassword && !isPasswordVisible ? "password" : "text"}

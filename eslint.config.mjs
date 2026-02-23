@@ -139,6 +139,8 @@ export default defineConfig([
       "no-shadow": ["warn", { builtinGlobals: true, hoist: "functions", ignoreOnInitialization: false }],
       "prefer-arrow-callback": "off",
       "no-fallthrough": "off",
+      "prefer-promise-reject-errors": "warn",
+      "no-implied-eval": "error",
 
       // React:
       "react/jsx-filename-extension": "off",

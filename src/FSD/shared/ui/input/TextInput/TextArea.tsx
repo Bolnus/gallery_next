@@ -10,6 +10,7 @@ interface TextInputProps {
   inputClassName?: string;
   rows?: number;
   placeholder?: string;
+  isFetching?: boolean;
 }
 
 export function TextArea({
@@ -19,17 +20,18 @@ export function TextArea({
   containerClassName,
   inputClassName,
   rows,
-  placeholder
+  placeholder,
+  isFetching
 }: Readonly<TextInputProps>): JSX.Element {
   return (
     <div className={getUnitedClassnames([classes.textArea, containerClassName])}>
       <textarea
-        value={value}
-        onChange={(localEv) => onChange?.(localEv.target.value || "")}
-        disabled={disabled}
+        value={isFetching ? "" : value}
+        onChange={(localEv) => !isFetching && onChange?.(localEv.target.value || "")}
+        disabled={disabled || isFetching}
         rows={rows}
         onKeyDown={(localEv) => localEv.stopPropagation()}
-        placeholder={placeholder}
+        placeholder={isFetching ? "" : placeholder}
         className={getUnitedClassnames([classes.textArea__input, "commonInput", inputClassName])}
       />
     </div>
