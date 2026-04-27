@@ -20,7 +20,8 @@ import {
   imagesChanged,
   onSendImagesFinished,
   sendPendingImagesPortion,
-  addDrawImage
+  addDrawImage,
+  updateCurrentSegmentOnImagesChange
 } from "../lib/albumEditUtils";
 import { AlbumHeaderEdit } from "../../../widgets/AlbumHeader/ui/AlbumHeaderEdit";
 import { ChangesSaveState } from "../../../entities/album/model/albumTypes";
@@ -188,6 +189,10 @@ export function AlbumEditView({ onEditAlbumId = "", revalidateAlbum }: Readonly<
       imagesChanged(oldImages, data?.snapImages)) &&
     localAlbumName
   );
+
+  React.useEffect(() => {
+    setCurrentSegment((prev) => updateCurrentSegmentOnImagesChange(newImages, oldImages, prev));
+  }, [newImages, oldImages]);
 
   return (
     <div className="main__scrollWrapper">

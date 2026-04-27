@@ -427,3 +427,20 @@ export function sendPendingImagesPortion(
     setTimeout(() => setPostImageIndex(pendingImages.length), 20);
   }
 }
+
+export function updateCurrentSegmentOnImagesChange(
+  newImages: GalleryImage[],
+  oldImages: GalleryImage[],
+  prev: ImagesSegment
+): ImagesSegment {
+  if (prev === ImagesSegment.OldImages) {
+    if (!oldImages.length && newImages.length) {
+      return ImagesSegment.NewImages;
+    }
+    return ImagesSegment.OldImages;
+  }
+  if (oldImages.length && !newImages.length) {
+    return ImagesSegment.OldImages;
+  }
+  return ImagesSegment.NewImages;
+}

@@ -82,6 +82,7 @@
 {
     z-index: 2;
     margin-left: var(--fontSizeLargest);
+    margin-top: var(--fontSizeLargest);
     flex-grow: 1;
     @media all and (max-width: 700px)
     {
