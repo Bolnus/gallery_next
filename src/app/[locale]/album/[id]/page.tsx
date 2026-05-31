@@ -6,6 +6,7 @@ import { getAlbumServerSide, getAlbumsListServerSide } from "../../../../FSD/sha
 import { Metadata } from "next";
 import { routing } from "../../../request";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
   const paths: AlbumParam[] = [];
@@ -58,18 +59,7 @@ async function AlbumWrapper({ id, locale }: Readonly<AlbumParam>): Promise<JSX.E
   if (res.rc < 300 && res.rc >= 200 && res.data) {
     return <AlbumPage {...res.data} />;
   }
-  return (
-    <AlbumPage
-      id={id}
-      fullImages={[]}
-      albumName="404: Not found"
-      snapImages={[]}
-      albumSize={0}
-      tags={[]}
-      changedDate=""
-      description=""
-    />
-  );
+  return notFound();
 }
 
 export default async function Page({ params }: Readonly<AlbumPageProps>): Promise<JSX.Element> {

@@ -2,5 +2,13 @@
 module.exports = {
   siteUrl: "https://recipes-rho-ten.vercel.app",
   generateRobotsTxt: true,
-  exclude: ["[locale]/album/[id]/edit", "[locale]/album"]
+  exclude: [
+    "[locale]/album/[id]/edit",
+    "[locale]/album",
+    "[locale]/main/[pageNumber]",
+    "[locale]/categories/[category]",
+    "[locale]/categories/[category]/[pageNumber]",
+    "[locale]/auth",
+    "[locale]/search"
+  ]
 };
