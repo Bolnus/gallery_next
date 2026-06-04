@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { routing } from "../../../request";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { buildAlbumMetaDescription } from "../../../../FSD/shared/lib/common/metaDescription";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
   const paths: AlbumParam[] = [];
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: AlbumPageProps): Promise<Meta
   const intl = await getTranslations({ locale, namespace: "LayoutMetadata" });
 
   const title = `${data?.albumName} | ${intl("title")}`;
-  const description = `${data?.description} | ${intl("description")}`;
+  const description = buildAlbumMetaDescription(data?.description ?? "", intl("description"));
   return {
     title,
     description,
