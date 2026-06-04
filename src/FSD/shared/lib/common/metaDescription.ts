@@ -15,8 +15,8 @@ export function stripMarkdownForPlainText(markdown: string): string {
 
   text = text.replace(/```[\s\S]*?```/g, " ");
   text = text.replace(/`[^`\n]+`/g, " ");
-  text = text.replace(/!\[[^\]]*]\([^)]*\)/g, " ");
-  text = text.replace(/\[([^\]]+)]\([^)]*\)/g, "$1");
+  text = text.replace(/!\[[^\]]{0,500}]\([^)]{0,500}\)/g, " ");
+  text = text.replace(/\[([^\]]{1,500})]\([^)]{0,500}\)/g, "$1");
   text = text.replace(/^#{1,6}\s+/gm, "");
   text = text.replace(/\*\*([^*]+)\*\*/g, "$1");
   text = text.replace(/__([^_]+)__/g, "$1");
@@ -24,9 +24,9 @@ export function stripMarkdownForPlainText(markdown: string): string {
   text = text.replace(/_([^_]+)_/g, "$1");
   text = text.replace(/^[-*_]{3,}\s*$/gm, " ");
   text = text.replace(/^>\s+/gm, "");
-  text = text.replace(/^\s*[-*+]\s+/gm, "");
-  text = text.replace(/^\s*\d+\.\s+/gm, "");
-  text = text.replace(/<[^>]+>/g, " ");
+  text = text.replace(/^[ \t]*[-*+][ \t]+/gm, "");
+  text = text.replace(/^[ \t]*\d+\.[ \t]+/gm, "");
+  text = text.replace(/<[^>]{1,500}>/g, " ");
   text = text.replace(/\s+/g, " ").trim();
 
   return text;
