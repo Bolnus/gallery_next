@@ -8,6 +8,7 @@ import { BaseProvider } from "../../FSD/app/lib/baseProviders/baseProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { AuthProvider } from "../../FSD/app/lib/context/authContext";
 import { routing } from "../request";
+import { getMetadataBase } from "../../FSD/shared/lib/common/canonical";
 import { LocaleProps, ParamsProps } from "../../FSD/shared/lib/common/galleryTypes";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: ParamsProps<LocaleProps>): Pr
   const intl = await getTranslations({ locale, namespace: "LayoutMetadata" });
 
   return {
+    metadataBase: getMetadataBase(),
     title: intl("title"),
     description: intl("description"),
     keywords: intl("keywords"),

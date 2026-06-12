@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { routing } from "../../../request";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { canonicalPath } from "../../../../FSD/shared/lib/common/canonical";
 import { buildAlbumMetaDescription } from "../../../../FSD/shared/lib/common/metaDescription";
 
 export async function generateStaticParams(): Promise<AlbumParam[]> {
@@ -47,6 +48,9 @@ export async function generateMetadata({ params }: AlbumPageProps): Promise<Meta
     title,
     description,
     keywords: data?.tags?.map((tag) => tag.tagName),
+    alternates: {
+      canonical: canonicalPath(locale, `/album/${id}`)
+    },
     openGraph: {
       title,
       description,

@@ -14,6 +14,7 @@ import { AlbumsListPage } from "../../../../../FSD/pages/albumsList/ui/AlbumsLis
 import { routing } from "../../../../request";
 import { getCategoriesServerSide } from "../../../../../FSD/shared/api/tags/tagsApiServerside";
 import { Metadata } from "next";
+import { canonicalPath } from "../../../../../FSD/shared/lib/common/canonical";
 
 export async function generateStaticParams(): Promise<CategoryAlbumsParam[]> {
   const paths: CategoryAlbumsParam[] = [];
@@ -42,6 +43,9 @@ export async function generateMetadata({ params }: ParamsProps<CategoryAlbumsPar
     title,
     description,
     keywords: `${decodedCategory},${pageNumber},${intl("keywords")}`,
+    alternates: {
+      canonical: canonicalPath(locale, `/categories/${category}/${pageNumber}`)
+    },
     openGraph: {
       title,
       description
